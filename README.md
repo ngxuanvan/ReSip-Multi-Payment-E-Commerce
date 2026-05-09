@@ -25,8 +25,11 @@ Chào mừng bạn đến với **ReSip**, dự án website thương mại đi�
     git clone https://github.com/ngxuanvan/ReSip-Multi-Payment-E-Commerce.git
     ```
 2.  **Cấu hình Database**: 
-    - Sử dụng file backup tại `Database/ResipWebDb.bak` để phục hồi (Restore) vào SQL Server của bạn.
-    - Cập nhật chuỗi kết nối (ConnectionString) trong file `appsettings.json`.
+    - Mở SQL Server Management Studio (SSMS).
+    - Chuột phải vào thư mục **Databases** -> Chọn **Restore Database...**
+    - Tại mục **Source**, chọn **Device** và tìm đến file `Database/ResipWebDb.bak` trong thư mục dự án.
+    - Nhấn **OK** để phục hồi cơ sở dữ liệu.
+    - Sau khi Restore thành công, hãy cập nhật chuỗi kết nối (ConnectionString) trong file `appsettings.json` để ứng dụng kết nối được với Database.
 3.  **Cấu hình API Thanh toán**:
     Cập nhật các thông tin MerchantId, AccessKey, SecretKey của MoMo, VNPay, PayPal trong `appsettings.json`.
 4.  **Chạy dự án**:

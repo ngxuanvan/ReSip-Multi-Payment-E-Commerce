@@ -31,8 +31,3 @@ Chào mừng bạn đến với **ReSip**, dự án website thương mại đi�
 4.  **Chạy dự án**:
     Mở file `.sln` bằng Visual Studio và nhấn `F5` hoặc chạy lệnh `dotnet run`.
 
-## 📸 Ảnh chụp màn hình
-*(Bạn có thể bổ sung ảnh chụp giao diện vào đây sau)*
-
----
-Được phát triển bởi **Nguyễn Xuân Văn**

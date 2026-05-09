@@ -25,3 +25,4 @@ appsettings.Development.json
 # Temporary files
 *.tmp
 *.bak
+!Database/ResipWebDb.bak

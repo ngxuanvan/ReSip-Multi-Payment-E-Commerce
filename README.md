@@ -25,7 +25,8 @@ Chào mừng bạn đến với **ReSip**, dự án website thương mại đi�
     git clone https://github.com/ngxuanvan/ReSip-Multi-Payment-E-Commerce.git
     ```
 2.  **Cấu hình Database**: 
-    Cập nhật chuỗi kết nối (ConnectionString) trong file `appsettings.json`.
+    - Sử dụng file backup tại `Database/ResipWebDb.bak` để phục hồi (Restore) vào SQL Server của bạn.
+    - Cập nhật chuỗi kết nối (ConnectionString) trong file `appsettings.json`.
 3.  **Cấu hình API Thanh toán**:
     Cập nhật các thông tin MerchantId, AccessKey, SecretKey của MoMo, VNPay, PayPal trong `appsettings.json`.
 4.  **Chạy dự án**:

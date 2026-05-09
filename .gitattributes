@@ -1,0 +1,8 @@
+# Mark library and asset folders as vendored to ignore them in language statistics
+wwwroot/lib/** linguist-vendored
+wwwroot/assets/** linguist-vendored
+wwwroot/uploads/** linguist-vendored
+
+# Also ignore any generated or minified files if you have them
+*.min.js linguist-vendored
+*.min.css linguist-vendored

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giới thiệu ReSip</title>
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/main.css">
+
+
+<style>
+/* --- GLOBAL --- */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: #fafafa;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #2c7a3f;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.content-box {
+    max-width: 900px;
+    margin: auto;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* IMAGE FULL */
+.full-img {
+    width: 100%;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+/* SDG ICON ROW */
+.sdg-box {
+    text-align: center;
+    padding: 10px;
+}
+
+.sdg-box img {
+    width: 90%;
+    border-radius: 6px;
+}
+
+/* VALUE CARDS */
+.value-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+.value-card h4 {
+    color: #2c7a3f;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+/* 3 COLUMN SECTION */
+.three-col-section img {
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+        .menu-container {
+            text-align: right;
+            background-color: #026625;
+        }
+        .menu ul {
+            list-style: none;
+            padding-right: 0;
+            margin: 0;
+        }
+        .menu ul li {
+            display: inline-block;
+            margin-left: 30px;
+        }
+        .menu ul li a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+</style>
+</head>
+
+<body>
+<!-- top bar -->
+<div class="top" style="background-color: #28A745; color: #ffffff;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="left">
+					<ul>
+						<li><i class="fa fa-phone"></i>  0123 456 789</li>
+						<li><i class="fa fa-envelope-o"></i> hotro.resip@gmail.com</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="right">
+					<ul>
+						<li><a href="https://www.facebook.com/#"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="https://www.twitter.com/#"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="https://www.youtube.com/#"><i class="fa fa-youtube"></i></a></li>
+						<li><a href="https://www.instagram.com/#"><i class="fa fa-instagram"></i></a></li>
+						<li><a href="https://www.whatsapp.com/#"><i class="fa fa-whatsapp"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="header">
+	<div class="container">
+		<div class="row inner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;">
+
+		  <!-- Logo -->
+		  <div class="col-md-3 col-sm-12 logo" style="display:flex;align-items:center;">
+			<a href="index.html" style="display:inline-block;margin-left:14px;">
+			  <img src="assets/uploads/logo.png" alt="logo image" style="max-height:63px;">
+			</a>
+		  </div>
+
+		  <!-- Search -->
+		  <div class="col-md-6 col-sm-12" style="display:flex;justify-content:center;">
+			<form role="search" action="search-result.html" method="get" style="display:flex;align-items:center;width:100%;max-width:680px;">
+			  <input type="hidden" name="_csrf" value="85aae5772c7b407b301566e4e692abd9" />
+			  <input type="text"
+					 class="form-control"
+					 name="search_text"
+					 placeholder="Nhập sản phẩm cần tìm"
+					 style="flex:1;height:35px;font-size:16px;padding:10px 14px;border-radius:6px;">
+			  <button type="submit"
+					  class="btn"
+					  style="height:35px;margin-left:10px;padding:0 18px;border:none;border-radius:6px;
+							 background:#28A745;color:#fff;font-size:15px;">
+				Tìm kiếm
+			  </button>
+			</form>
+		  </div>
+
+		  <!-- Account + Cart -->
+		  <div class="col-md-3 col-sm-12" style="display:flex;justify-content:flex-start;align-items:center;padding-left:20px;">
+			<div style="white-space:nowrap;font-size:14px;margin-left:10px;">
+			  <a href="login.html"><i class="fa fa-sign-in"></i> Đăng nhập</a> |
+			  <a href="registration.html"><i class="fa fa-user-plus"></i> Đăng ký</a> |
+			  <a href="#">
+				<i class="fa fa-shopping-cart"></i> Giỏ hàng (0.00₫)
+			  </a>
+			</div>
+		  </div>
+
+		</div>
+	</div>
+</div>
+
+<div class="nav" style="background-color: #026625; color: #ffffff;">
+	<div class="container" style="background-color: #026625; color: #ffffff;">
+		<div class="row">
+			<div class="col-md-12 pl_0 pr_0">
+				<div class="menu-container" style="background-color: #026625; color: #ffffff;">
+					<div class="menu">
+						<ul> 
+							<li><a href="index.html">Trang chủ</a></li>
+							<li>
+								<a href="binhnuoc.html">BÌNH NƯỚC</a>
+								<ul></ul>
+							</li>
+							<li>
+								<a href="onghut.html">ỐNG HÚT</a>
+								<ul></ul>
+							</li>
+							<li><a href="about.html">Giới Thiệu</a></li>
+							<li><a href="faq.html">Câu Hỏi Thường Gặp</a></li>
+							<li><a href="contact.html">Liên Hệ</a></li>
+							<li><a href="blog.html">Blog</a></li>							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page-banner" style="background-color:#28A745">
+    <div class="inner text-center">
+        <h1>Giới Thiệu</h1>
+    </div>
+</div>
+<!-- BANNER TOP -->
+<img src="assets/uploads/resip-banner.jpg" class="full-img">
+
+<!-- INTRO -->
+<h2 class="section-title">Làm quen với ReSip</h2>
+<div class="content-box">
+    <p>
+        ReSip được hình thành từ một câu hỏi tưởng chừng như rất nhỏ: “Làm sao để mỗi ngụm nước mình uống hôm nay vẫn còn nguyên giá trị cho mai sau?”
+        Chúng mình tin rằng thay đổi bắt đầu từ những hành động giản dị nhất. Một chiếc bình gấp gọn, một ngụm nước tái sử dụng
+        chính là cách chúng ta cùng nhau giảm nhựa, giữ nguồn nước sạch và nuôi dưỡng hành tinh xanh.
+    </p>
+    <p>
+        ReSip ra đời không chỉ để mang đến một sản phẩm tiện ích, mà còn để đồng hành cùng bạn trong hành trình sống xanh.
+        Từ văn phòng đến phòng tập, từ những chuyến đi xa đến từng ngày bình thường nhất. Và hơn hết, với công nghệ in 3D cá nhân hóa,
+        mỗi chiếc bình ReSip có thể mang tên bạn, câu nói bạn yêu hoặc hình ảnh gắn liền với kỷ niệm của bạn.
+    </p>
+</div>
+
+<!-- BIG IMAGE -->
+<img src="assets/uploads/resip-1.jpg" class="full-img">
+
+
+<!-- BRAND STORY -->
+<h2 class="section-title">Câu chuyện thương hiệu</h2>
+<div class="content-box">
+    <p>
+        ReSip bắt đầu như một ý tưởng giản dị: tạo ra một chiếc bình nước vừa tiện lợi, vừa gọn gàng, vừa mang thông điệp giảm thiểu nhựa dùng một lần.
+        Nhưng chúng mình không chỉ muốn mang đến một sản phẩm, mà còn muốn được trao đi một lối sống.
+    </p>
+    <p>
+        Trong từng chiếc bình ReSip, có ba điều: sự tiện lợi mọi lúc, sự an toàn cho môi trường và dấu ấn riêng của mỗi bạn.
+    </p>
+</div>
+
+<img src="assets/uploads/resip-2.jpg" class="full-img">
+
+
+<!-- BEHIND THE NAME -->
+<h2 class="section-title">Phía sau cái tên ReSip</h2>
+<div class="content-box">
+    <p>
+        Trong hai chữ <b>ReSip</b>, chúng mình gửi gắm những thông điệp: Re của Reuse (tái sử dụng), Reduce (giảm rác thải), Respect (tôn trọng thiên nhiên)
+        và Refresh (tươi mới). Còn Sip là ngụm nước nhỏ bé nhưng chứa đầy năng lượng và sức sống. Khi ghép lại, ReSip trở thành lời nhắc:
+        hãy uống nước mỗi ngày như một thói quen nuôi dưỡng cơ thể và hành tinh này.
+    </p>
+</div>
+
+<!-- 6 IMAGES GRID -->
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4"><img src="assets/uploads/resip-3.jpg" class="full-img"></div>
+        <div class="col-md-4"><img src="assets/uploads/resip-4.jpg" class="full-img"></div>
+        <div class="col-md-4"><img src="assets/uploads/resip-5.jpg" class="full-img"></div>
+        <div class="col-md-4"><img src="assets/uploads/resip-6.jpg" class="full-img"></div>
+        <div class="col-md-4"><img src="assets/uploads/resip-7.jpg" class="full-img"></div>
+        <div class="col-md-4"><img src="assets/uploads/resip-8.jpg" class="full-img"></div>
+    </div>
+</div>
+
+<!-- MISSION -->
+<h2 class="section-title">Sứ mệnh</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 content-box">
+            <p>
+                ReSip được sinh ra với mong muốn: <b>“Cung cấp những sản phẩm gọn gàng, tiện ích và thân thiện môi trường.”</b>
+                Chúng mình tin rằng mỗi chiếc bình nước có thể là cây cầu nhỏ, đưa bạn đến sự thoải mái, tích cực và là thói quen sống xanh dễ duy trì.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <img src="assets/uploads/resip-mission.jpg" class="full-img">
+        </div>
+    </div>
+</div>
+
+<!-- SDG -->
+<h2 class="section-title">ReSip và Mục tiêu Phát triển Bền vững (SDGs)</h2>
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-3 sdg-box">
+            <img src="assets/uploads/sdg12.jpg">
+            <p><b>SDG 12</b>: Tiêu dùng bền vững</p>
+        </div>
+        <div class="col-md-3 sdg-box">
+            <img src="assets/uploads/sdg13.jpg">
+            <p><b>SDG 13</b>: Hành động vì khí hậu</p>
+        </div>
+        <div class="col-md-3 sdg-box">
+            <img src="assets/uploads/sdg14.jpg">
+            <p><b>SDG 14</b>: Bảo vệ đại dương</p>
+        </div>
+        <div class="col-md-3 sdg-box">
+            <img src="assets/uploads/sdg15.jpg">
+            <p><b>SDG 15</b>: Bảo vệ hệ sinh thái</p>
+        </div>
+    </div>
+</div>
+
+<!-- VALUES -->
+<h2 class="section-title">Giá trị cốt lõi</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"><div class="value-card"><h4>Bền vững</h4><p>Giảm rác thải nhựa.</p></div></div>
+        <div class="col-md-4"><div class="value-card"><h4>Tiện ích</h4><p>Gọn gàng, linh hoạt.</p></div></div>
+        <div class="col-md-4"><div class="value-card"><h4>Trách nhiệm</h4><p>An toàn & minh bạch.</p></div></div>
+
+        <div class="col-md-6"><div class="value-card"><h4>Cộng đồng</h4><p>Lan tỏa sống xanh.</p></div></div>
+        <div class="col-md-6"><div class="value-card"><h4>Cá nhân hóa</h4><p>Dấu ấn riêng của bạn.</p></div></div>
+    </div>
+</div>
+
+<!-- FINAL 3-COLUMN -->
+<h2 class="section-title">Hành trình đồng hành</h2>
+<div class="container three-col-section">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Hành trình & mục tiêu</h4>
+            <p>ReSip dần được khách hàng tin yêu...</p>
+            <img src="assets/uploads/resip-journey.jpg">
+        </div>
+        <div class="col-md-4">
+            <h4>Lời hứa ReSip</h4>
+            <p>Mỗi hành động của bạn góp phần xanh...</p>
+            <img src="assets/uploads/resip-promise.jpg">
+        </div>
+        <div class="col-md-4">
+            <h4>Tri ân đồng hành</h4>
+            <p>ReSip trân trọng từng khách hàng...</p>
+            <img src="assets/uploads/resip-thanks.jpg">
+        </div>
+    </div>
+</div>
+
+</body>
+<style>
+   .home-newsletter {
+   background-color: #f5f5f5; /* Thay đổi màu nền quanh phần đăng ký */
+   padding: 30px 0; /* Thêm khoảng cách trên dưới */
+}
+   /* Khung bên trong */
+   .home-newsletter .container {
+   background-color: #c18d8f;
+   border-radius: 10px;
+   padding: 20px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-static-block.footer-certificate {
+    display: block; /* Đảm bảo nội dung hiển thị dạng khối */
+    text-align: left; /* Canh trái nội dung */
+    padding-left: 30px; /* Cách lề trái 30px */
+}
+
+.footer-static-block.footer-certificate div {
+    margin-bottom: 10px; /* Tạo khoảng cách giữa các đoạn văn */
+    display: block; /* Đảm bảo nội dung không nằm ngang */
+}
+
+.footer-static-block.footer-certificate img {
+    max-width: 100%; /* Hình ảnh tự động điều chỉnh kích thước */
+    height: auto; /* Duy trì tỉ lệ hình ảnh */
+}
+
+
+
+
+
+
+
+
+.home-newsletter .single {
+   background-color: #ffffff; /* Màu nền trắng cho phần form */
+   padding: 20px; /* Khoảng cách trong form */
+   border-radius: 8px; /* Bo góc */
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng cho phần form */
+}
+
+
+
+
+/* Tiêu đề */
+.home-newsletter h2 {
+   color: #000000 !important;
+   font-size: 24px;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+
+
+
+
+.home-newsletter .input-group input {
+   border-radius: 4px; /* Bo góc cho ô nhập liệu */
+}
+
+
+
+
+.home-newsletter .btn-theme {
+   background-color: #026625; /* Màu nền cho nút đăng ký */
+   border: none;
+   color: #fff; /* Màu chữ nút */
+}
+/* Nút Subscribe */
+.home-newsletter .input-group-btn button {
+   background-color: #026625 !important;
+   color: #ffffff;
+   border: none;
+   border-radius: 5px;
+   padding: 10px 20px;
+}
+
+
+
+
+.home-newsletter .btn-theme:hover {
+   background-color: #006910ff; /* Màu nền khi hover nút đăng ký */
+}
+/* Nút Subscribe hover */
+.home-newsletter .input-group-btn button:hover {
+   background-color: #d8c7c3 !important; /* Màu sáng hơn khi hover */
+   color: #000;
+}
+
+
+/* Đối với chế độ mặc định (mobile-first) */
+.flex {
+   display: flex; /* Thiết lập flexbox */
+}
+
+
+.flex-col {
+   flex-direction: column; /* Đặt các phần tử trong container theo chiều dọc */
+}
+
+
+/* Đối với chế độ màn hình rộng hơn (đối với kích thước màn hình lớn hơn 'md') */
+@media (min-width: 768px) {
+   .md\:flex-row {
+       flex-direction: row; /* Đặt các phần tử trong container theo chiều ngang khi màn hình lớn hơn hoặc bằng 768px */
+   }
+}
+
+
+/* Căn chỉnh các phần tử theo chiều ngang với khoảng cách đều */
+.justify-between {
+   justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử trong container */
+}
+
+
+/* Khoảng cách giữa các phần tử */
+.gap-6 {
+   gap: 3.5rem; /* Khoảng cách giữa các phần tử trong container */
+}
+footer {
+   /* display: flex;  */
+   justify-content: space-between;
+   padding: 20px;
+   background-color: #f8f8f8;
+   width: 100%;
+}
+/* Các lớp của footer-static-block */
+.footer-static-block {
+   font-size: 13px;
+   overflow: hidden;
+   width: 100%;
+}
+
+
+.footer-static-block div {
+   display: flex;
+   justify-content: space-between;
+}
+
+
+.footer-static-block ul {
+   list-style: none;
+   padding: 0;
+}
+
+
+.footer-static-block ul li {
+   margin-bottom: 8px;
+}
+
+
+.footer-static-block ul li strong {
+   display: block;
+   margin-bottom: 16px;
+}
+
+
+.footer-static-block ul:nth-child(2) {
+   margin-bottom: 24px;
+}
+
+
+
+
+/* Các lớp của footer-menu */
+.footer-menu {
+   /* Cỡ chữ 13px */
+   font-size: 13px;
+   /* Thêm các thuộc tính khác nếu cần */
+}
+
+
+/* Các lớp của text-[13px] */
+.text-[13px] {
+   font-size: 13px; /* Cài đặt kích thước chữ 13px */
+}
+
+
+/* Các lớp của overflow-hidden */
+.overflow-hidden {
+   overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài container */
+}
+
+
+/* Các lớp của w-full */
+.w-full {
+   width: 100%; /* Đặt chiều rộng của phần tử chiếm 100% chiều rộng của phần tử cha */
+}
+
+
+/* Lớp undefined có thể bị loại bỏ vì nó không có tác dụng gì trong Tailwind CSS */
+.undefined {
+   /* Không cần phải khai báo gì nếu không có thuộc tính nào */
+}
+
+
+</style>
+<section class="home-newsletter">
+   <footer>
+       <div class="flex flex-col md:flex-row justify-between gap-6">
+       <!-- Logo and Certification Section -->
+           <div class="footer-logo-wrapper">
+               <div class="footer-static-block footer-logo text-[13px] overflow-hidden w-full mb-6 md:mb-12">
+               </div>
+               <div class="footer-static-block footer-certificate text-[13px] overflow-hidden w-full undefined">
+               <div style="flex: 1;">
+                   <img src="assets/uploads/logo.png" alt="Resip Logo" style="width: 200px; height: 200px;">
+               </div>
+               <div>
+                <p style="font-size: 16px; text-align: left;"><b>CÔNG TY TNHH RESIP VIỆT NAM</b></p>
+                <p style="font-size: 14px; text-align: left;">Địa chỉ: 279 Nguyễn Tri Phương, Phường Diên Hồng, TP. Hồ Chí Minh, Việt Nam
+</p>
+                </div>
+
+               </div>
+           </div>
+           <!-- Footer Menu Section -->
+           <div class="footer-static-block footer-menu text-[13px] overflow-hidden w-full undefined" style="justify-content: space-between;
+   padding: 20px; ">
+               <div style="font-size: 18px;">
+               <ul>
+                   <li style="color: #026625"><strong>Về RESIP</strong></li>
+                   <li><a title="Miju là gì?" href="#">Giới Thiệu Resip</a></li>
+                   <li><a href=#>Thông báo</a></li>
+                   <li><a title="Câu hỏi thường gặp" href="#">Câu hỏi thường gặp</a></li>
+               </ul>
+                  <ul style="margin-bottom: 24px;">
+                   <li style="color: #026625"><strong>Cửa hàng Bán lẻ</strong></li>
+                   <li><a title="Chính sách Đổi, Trả, Hoàn tiền" href=#>Chính sách Đổi, Trả, Hoàn tiền</a></li>
+                   <li><a title="Danh sách cửa hàng" href=#>Danh sách cửa hàng</a></li>
+               </ul>
+               <ul>
+                   <li style="color: #026625"><strong>Cửa hàng Trực tuyến</strong></li>
+                   <li><a title="Chính sách Bán hàng" href=#>Chính sách Bán hàng</a></li>
+                   <li><a title="Chính sách Giao hàng" href=#>Chính sách Giao hàng</a></li>
+                   <li><a title="Chính sách Trả hàng Hoàn tiền" href=#>Chính sách Trả hàng, Hoàn tiền</a></li>
+                   <li><a title="Chính sách Đổi hàng" href=#>Chính sách Đổi hàng</a></li>
+                   <li><a title="Chính sách Bảo hành" href=#>Chính sách Bảo hành</a></li>
+                   <li><a title="Chính sách Bảo mật" href=#>Chính sách Bảo mật</a></li>
+               </ul>
+               </div>
+           </div>
+           <!-- Subscribe Section -->
+           <div class="footer-subscribe-wrapper" style="padding-top: 20px; width: 40%; padding-right: 30px; ">
+                                  <form action="" method="post">
+                   <input type="hidden" name="_csrf" value="85aae5772c7b407b301566e4e692abd9" />                   <p style="color: #026625; font-size: 18px"><strong>Đăng ký nhận tin từ ReSip</strong></p>
+                   <div class="input-group">
+                       <input type="email" class="form-control" placeholder="Nhập Email của bạn vào" name="email_subscribe">
+                       <span class="input-group-btn">
+                       <button class="btn btn-theme" type="submit" name="form_subscribe" style="padding: 7px;">Đăng ký</button>
+                       </span>
+                   </div>
+               </div>
+               </form>
+           </div>
+       </div>
+   </div>
+           </div>
+       </div>
+   </footer>
+</html>

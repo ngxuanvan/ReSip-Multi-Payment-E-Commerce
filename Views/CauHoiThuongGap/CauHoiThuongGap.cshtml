@@ -1,0 +1,163 @@
+﻿@model IEnumerable<ResipWeb.Models.CauHoiThuongGap>
+
+@{
+    ViewData["Title"] = "Câu hỏi thường gặp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* 1. Banner hiện đại hơn với Gradient */
+    .page-banner {
+        background: linear-gradient(135deg, #28A745 0%, #218838 100%);
+        padding: 60px 0;
+        margin-bottom: 50px;
+        color: white;
+    }
+
+        .page-banner h1 {
+            font-weight: 700;
+            margin: 0;
+            font-size: 36px;
+            letter-spacing: 1px;
+        }
+
+    /* 2. Reset Panel của Bootstrap để custom lại */
+    .resip-faq .panel {
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Đổ bóng nhẹ */
+        border-radius: 12px;
+        margin-bottom: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+        /* Hiệu ứng khi di chuột vào câu hỏi */
+        .resip-faq .panel:hover {
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.15);
+            transform: translateY(-2px);
+        }
+
+    /* 3. Phần tiêu đề (Câu hỏi) */
+    .resip-faq .panel-heading {
+        background-color: #fff;
+        padding: 20px 25px;
+        cursor: pointer;
+        position: relative;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.3s;
+    }
+
+        /* Khi mở ra thì có đường kẻ mờ ngăn cách */
+        .resip-faq .panel-heading[aria-expanded="true"] {
+            border-bottom: 1px solid #eee;
+        }
+
+    .resip-faq .panel-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333; /* Màu chữ mặc định */
+        margin: 0;
+        padding-right: 30px; /* Chừa chỗ cho icon */
+        transition: color 0.3s;
+    }
+
+    /* Khi active (đang mở) thì chữ màu xanh */
+    .resip-faq .panel-heading:not(.collapsed) .panel-title {
+        color: #28A745;
+    }
+
+    /* 4. Tạo icon + và - bằng CSS thuần (Không cần FontAwesome) */
+    .resip-faq .panel-heading::after {
+        content: "+";
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+        font-weight: bold;
+        color: #28A745;
+        position: absolute;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-55%);
+        transition: transform 0.3s ease;
+    }
+
+    /* Khi mở ra (không có class collapsed) thì đổi thành dấu - */
+    .resip-faq .panel-heading:not(.collapsed)::after {
+        content: "-";
+        transform: translateY(-55%) rotate(180deg);
+        color: #218838;
+    }
+
+    /* 5. Phần nội dung (Câu trả lời) */
+    .resip-faq .panel-body {
+        font-size: 15px;
+        color: #555;
+        line-height: 1.6;
+        padding: 20px 25px;
+        background-color: #fff;
+    }
+
+        .resip-faq .panel-body b {
+            color: #28A745; /* Highlight các từ khóa quan trọng */
+        }
+
+    .intro-text {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+
+    .resip-faq .panel-collapse {
+        background-color: #fff !important;
+    }
+
+    .resip-faq .panel-body {
+        color: #333 !important; /* Đảm bảo chữ câu trả lời có màu đậm */
+        display: block !important;
+    }
+</style>
+
+<div class="page-banner">
+    <div class="container text-center">
+        <h1>Câu hỏi thường gặp</h1>
+    </div>
+</div>
+
+<div class="container my-5 resip-faq">
+    <div class="text-center intro-text">
+        <p>
+            Dưới đây là những thắc mắc phổ biến mà khách hàng ReSip thường hỏi.<br>
+            Nếu bạn cần thêm hỗ trợ, vui lòng liên hệ <b>Hotline</b> hoặc <b>Fanpage</b>.
+        </p>
+    </div>
+
+   
+
+    <div class="panel-group" id="faqAccordion">
+        @{
+            int i = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <div class="panel panel-default">
+                @* Thuộc tính data-target phải khớp với id của khối nội dung bên dưới *@
+                <div class="panel-heading accordion-toggle collapsed"
+                     data-toggle="collapse"
+                     data-parent="#faqAccordion"
+                     data-target="#faq-item-@i">
+                    <h4 class="panel-title">
+                        @item.CauHoi
+                    </h4>
+                </div>
+
+                @* id ở đây phải khớp hoàn toàn với data-target ở trên *@
+                <div id="faq-item-@i" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        @Html.Raw(item.CauTraLoi)
+                    </div>
+                </div>
+            </div>
+            i++;
+        }
+    </div>
+</div>

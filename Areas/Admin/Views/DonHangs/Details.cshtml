@@ -1,0 +1,290 @@
+﻿@model ResipWeb.Models.DonHang
+@using ResipWeb.Models.Payments
+
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng #" + Model.MaDonHang;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .admin-detail-wrapper {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .page-header {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .page-header h3 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+    /* Card Layout */
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: none;
+        margin-bottom: 24px;
+    }
+
+    .card-header-custom {
+        padding: 16px 24px;
+        border-bottom: 1px solid #f3f4f6;
+        background: transparent;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-title-custom {
+        font-size: 16px;
+        font-weight: 700;
+        color: #111827;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .card-body-custom {
+        padding: 24px;
+    }
+
+    /* Data List Styles */
+    .data-row {
+        display: flex;
+        margin-bottom: 12px;
+        border-bottom: 1px dashed #f3f4f6;
+        padding-bottom: 12px;
+    }
+
+        .data-row:last-child {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+
+    .data-label {
+        width: 180px;
+        font-weight: 600;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .data-value {
+        flex: 1;
+        color: #111827;
+        font-weight: 500;
+    }
+
+    /* Badge Trạng thái */
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-processing {
+        background: #ede9fe;
+        color: #5b21b6;
+    }
+
+    .status-shipping {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    .status-completed {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .status-cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* Action Buttons */
+    .btn-group-custom {
+        display: flex;
+        gap: 12px;
+    }
+
+    .btn-custom {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-edit {
+        background: #3b82f6;
+        color: white;
+    }
+
+        .btn-edit:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+    .btn-back {
+        background: #f3f4f6;
+        color: #4b5563;
+    }
+
+        .btn-back:hover {
+            background: #e5e7eb;
+        }
+</style>
+
+<div class="admin-detail-wrapper">
+    <div class="page-header">
+        <div class="d-flex align-items-center gap-3">
+            <h3>🔍 Chi tiết đơn hàng</h3>
+            <span class="order-id-tag" style="background: #eff6ff; color: #3b82f6; padding: 4px 12px; border-radius: 6px; font-family: monospace; font-weight: 700;">#@Model.MaDonHang</span>
+        </div>
+        <div class="btn-group-custom">
+            <a asp-action="Index" class="btn-custom btn-back">
+                <span>←</span> Quay lại danh sách
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-custom btn-edit">
+                <span>✏️</span> Chỉnh sửa đơn hàng
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="info-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title-custom">👤 Thông tin khách hàng</h5>
+                </div>
+                <div class="card-body-custom">
+                    <div class="data-row">
+                        <span class="data-label">Họ và tên:</span>
+                        <span class="data-value">@Model.HoTen</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Số điện thoại:</span>
+                        <span class="data-value">@Model.DienThoai</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Địa chỉ nhận hàng:</span>
+                        <span class="data-value">@Model.DiaChi</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">ID Người dùng:</span>
+                        <span class="data-value">#@Model.UserId</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="info-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title-custom">📦 Trạng thái đơn hàng</h5>
+                </div>
+                <div class="card-body-custom">
+                    <div class="data-row">
+                        <span class="data-label">Mã vận đơn:</span>
+                        <span class="data-value" style="font-family: monospace; font-weight: 700;">#@Model.MaDonHang</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Ngày đặt hàng:</span>
+                        <span class="data-value">@(Model.NgayTao.HasValue? Model.NgayTao.Value.ToString("dd/MM/yyyy HH:mm") : "")</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Trạng thái:</span>
+                        <span class="data-value">
+                            @{
+                                var statusClass = "status-pending";
+                                if (Model.TrangThai == "Đang xử lý") statusClass = "status-processing";
+                                else if (Model.TrangThai == "Đang giao") statusClass = "status-shipping";
+                                else if (Model.TrangThai == "Hoàn thành") statusClass = "status-completed";
+                                else if (Model.TrangThai == "Đã hủy") statusClass = "status-cancelled";
+                            }
+                            <span class="status-badge @statusClass">@Model.TrangThai</span>
+                        </span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Tổng tiền thanh toán:</span>
+                        <span class="data-value" style="font-size: 18px; color: #dc2626; font-weight: 800;">@(Model.TongTien.HasValue? Model.TongTien.Value.ToString("#,##0") : "0") đ</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Phương thức thanh toán:</span>
+                        <span class="data-value">
+                            @{
+                                var payClass = "status-processing"; // mặc định
+                                if (Model.PhuongThucThanhToan == PhuongThucThanhToanEnum.COD) payClass = "status-pending";
+                                else if (Model.PhuongThucThanhToan == PhuongThucThanhToanEnum.MOMO) payClass = "status-completed";
+                                else if (Model.PhuongThucThanhToan == PhuongThucThanhToanEnum.VNPAY) payClass = "status-shipping";
+                            }
+                            <span class="status-badge @payClass">@Model.TenPhuongThucThanhToan</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="info-card">
+                <div class="card-header-custom">
+                    <h5 class="card-title-custom">🛒 Sản phẩm trong đơn hàng</h5>
+                </div>
+                <div class="card-body-custom p-0">
+                    <div class="table-responsive">
+                        <table class="table mb-0" style="width: 100%; border-collapse: collapse;">
+                            <thead style="background: #f9fafb;">
+                                <tr>
+                                    <th style="padding: 16px; text-align: left; font-size: 12px; color: #6b7280; text-transform: uppercase;">Sản phẩm</th>
+                                    <th style="padding: 16px; text-align: center; font-size: 12px; color: #6b7280; text-transform: uppercase;">Số lượng</th>
+                                    <th style="padding: 16px; text-align: right; font-size: 12px; color: #6b7280; text-transform: uppercase;">Đơn giá</th>
+                                    <th style="padding: 16px; text-align: right; font-size: 12px; color: #6b7280; text-transform: uppercase;">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @* Nếu bạn có bảng ChiTietDonHang, hãy loop ở đây. 
+                                   Ví dụ: foreach (var item in Model.ChiTietDonHangs) 
+                                *@
+                                <tr>
+                                    <td colspan="4" style="padding: 24px; text-align: center; color: #9ca3af; font-style: italic;">
+                                        Xem chi tiết các mặt hàng thông qua mã đơn hàng trên hệ thống vận chuyển.
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot style="background: #fdfdfd; border-top: 2px solid #f3f4f6;">
+                                <tr>
+                                    <td colspan="3" style="padding: 16px; text-align: right; font-weight: 700; color: #4b5563;">Tổng giá trị hàng hóa:</td>
+                                    <td style="padding: 16px; text-align: right; font-weight: 800; color: #dc2626; font-size: 16px;">@(Model.TongTien.HasValue? Model.TongTien.Value.ToString("#,##0") : "0")("#,##0") đ</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

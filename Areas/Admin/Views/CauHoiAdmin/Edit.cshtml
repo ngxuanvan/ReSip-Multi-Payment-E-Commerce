@@ -1,0 +1,148 @@
+﻿@model ResipWeb.Models.CauHoiThuongGap
+
+@{
+    ViewData["Title"] = "Chỉnh sửa câu hỏi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .edit-container {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: none;
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: white;
+        border-bottom: 1px solid #eee;
+        padding: 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-body {
+        padding: 24px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 14px;
+        border: 1px solid #d1d5db;
+    }
+
+    /* CSS để chỉnh chiều cao cho khung soạn thảo CKEditor */
+    .ck-editor__editable {
+        min-height: 250px !important;
+    }
+
+    .btn-save {
+        background: #3b82f6;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s;
+        width: 100%;
+    }
+
+        .btn-save:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+    .btn-back {
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .btn-back:hover {
+            color: #1a1a1a;
+        }
+</style>
+
+<div class="edit-container">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn-back">← Quay lại danh sách</a>
+        <h3 class="mt-2" style="font-weight: 700;">✏️ Chỉnh sửa câu hỏi</h3>
+    </div>
+
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"><h4>Nội dung hiển thị</h4></div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label asp-for="CauHoi" class="form-label">Câu hỏi</label>
+                            <input asp-for="CauHoi" class="form-control" placeholder="Nhập tiêu đề câu hỏi..." />
+                            <span asp-validation-for="CauHoi" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-0">
+                            <label asp-for="CauTraLoi" class="form-label">Câu trả lời</label>
+                            <textarea asp-for="CauTraLoi" id="editor" class="form-control"></textarea>
+                            <span asp-validation-for="CauTraLoi" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header"><h4>Cấu hình hiển thị</h4></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="ThuTu" class="form-label">Thứ tự sắp xếp</label>
+                            <input asp-for="ThuTu" class="form-control" type="number" />
+                            <span asp-validation-for="ThuTu" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn-save">💾 Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+                placeholder: 'Nhập nội dung câu trả lời tại đây...'
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

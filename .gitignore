@@ -1,0 +1,27 @@
+# Visual Studio
+.vs/
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Logs
+Logs/
+*.log
+
+# Sensitive Info
+appsettings.json
+!appsettings.json.sample
+appsettings.Development.json
+
+# Migrations (optional, usually kept but sometimes ignored depending on team)
+# Migrations/
+
+# Temporary files
+*.tmp
+*.bak

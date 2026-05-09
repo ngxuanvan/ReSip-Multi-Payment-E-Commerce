@@ -1,0 +1,693 @@
+<!-- This is main configuration File -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/uploads/favicon.png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/css/jquery.bxslider.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/rating.css">
+    <link rel="stylesheet" href="assets/css/spacing.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-touch-slider.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/tree-menu.css">
+    <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <title>Câu hỏi thường gặp</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <style>
+        .menu-container {
+            text-align: right;
+            background-color: black;
+        }
+        .menu ul {
+            list-style: none;
+            padding-right: 0;
+        }
+        .menu ul li {
+            display: inline-block;
+            margin-left: 30px;
+        }
+        .menu ul li a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .page-banner {
+            background-color: #28A745;
+            text-align: center;
+            padding: 50px 0;
+            color: #fff;
+        }
+        .panel-title {
+            color: #026625;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .panel-heading {
+            border: 1px solid #026625;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 15px;
+        }
+        .panel-heading:hover {
+            background-color: #54d773;
+            color: #fff;
+        }
+        .panel-body {
+            border: 1px solid #026625;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fdf5f5;
+        }
+        .label-primary {
+            background-color: #026625;
+            color: #fff;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        .panel-group .panel {
+            margin-bottom: 15px;
+            border: none;
+        }
+
+        /* Footer nhỏ gọn giống index */
+        .footer-column-title {
+            color:#026625;
+            font-size:18px;
+            font-weight:700;
+            margin-bottom:10px;
+        }
+        .footer-links {
+            list-style:none;
+            padding:0;
+            margin:0 0 12px 0;
+            font-size:14px;
+        }
+        .footer-links li {
+            margin-bottom:6px;
+        }
+        .footer-links a {
+            color:#1a73e8;
+            text-decoration:none;
+        }
+        .footer-links a:hover {
+            text-decoration:underline;
+        }
+    </style>
+</head>
+<body>
+
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=323620764400430";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- top bar -->
+<div class="top" style="background-color: #28A745; color: #ffffff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="left">
+                    <ul>
+                        <li><i class="fa fa-phone"></i> 0123 456 789</li>
+                        <li><i class="fa fa-envelope-o"></i> hotro.resip@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="right">
+                    <ul>
+                        <li><a href="https://www.facebook.com/#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://www.twitter.com/#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://www.youtube.com/#"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.instagram.com/#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="https://www.whatsapp.com/#"><i class="fa fa-whatsapp"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- header -->
+<div class="header">
+    <div class="container">
+        <div class="row inner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;">
+            <!-- Logo -->
+            <div class="col-md-3 col-sm-12 logo" style="display:flex;align-items:center;">
+                <a href="index.html" style="display:inline-block;margin-left:14px;">
+                    <img src="assets/uploads/logo.png" alt="logo image" style="max-height:63px;">
+                </a>
+            </div>
+            <!-- Search -->
+            <div class="col-md-6 col-sm-12" style="display:flex;justify-content:center;">
+                <form role="search" action="search-result.html" method="get"
+                      style="display:flex;align-items:center;width:100%;max-width:680px;">
+                    <input type="hidden" name="_csrf" value="85aae5772c7b407b301566e4e692abd9" />
+                    <input type="text"
+                           class="form-control"
+                           name="search_text"
+                           placeholder="Nhập sản phẩm cần tìm"
+                           style="flex:1;height:35px;font-size:16px;padding:10px 14px;border-radius:6px;">
+                    <button type="submit"
+                            class="btn"
+                            style="height:35px;margin-left:10px;padding:0 18px;border:none;border-radius:6px;background:#28A745;color:#fff;font-size:15px;">
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
+            <!-- Account + Cart -->
+            <div class="col-md-3 col-sm-12" style="display:flex;justify-content:flex-start;align-items:center;padding-left:20px;">
+                <div style="white-space:nowrap;font-size:14px;margin-left:10px;">
+                    <a href="login.html"><i class="fa fa-sign-in"></i> Đăng nhập</a> |
+                    <a href="registration.html"><i class="fa fa-user-plus"></i> Đăng ký</a> |
+                    <a href="cart.html">
+                        <i class="fa fa-shopping-cart"></i> Giỏ hàng (0.00₫)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- nav -->
+<div class="nav" style="background-color: #026625; color: #ffffff;">
+    <div class="container" style="background-color: #026625; color: #ffffff;">
+        <div class="row">
+            <div class="col-md-12 pl_0 pr_0">
+                <div class="menu-container" style="background-color: #026625; color: #ffffff;">
+                    <div class="menu">
+                        <ul>
+                            <li><a href="index.html">Trang chủ</a></li>
+                            <li>
+                                <a href="binhnuoc.html">BÌNH NƯỚC</a>
+                            </li>
+                            <li>
+                                <a href="onghut.html">ỐNG HÚT</a>
+                            </li>
+                            <li><a href="about.html">Giới Thiệu</a></li>
+                            <li><a href="faq.html">Câu Hỏi Thường Gặp</a></li>
+                            <li><a href="contact.html">Liên Hệ</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- banner -->
+<div class="page-banner">
+    <div class="inner">
+        <h1>Câu Hỏi Thường Gặp</h1>
+    </div>
+</div>
+
+<!-- FAQ content -->
+<div class="page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel-group" id="faqAccordion">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question10">
+                            <h4 class="panel-title">
+                                Câu hỏi: Bình nước ReSip được làm từ chất liệu gì? Có an toàn không?
+                            </h4>
+                        </div>
+                        <div id="question10" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>
+                                    Bình nước ReSip được làm từ 100% Silicon thực phẩm (Food-grade Silicone)
+                                    kết hợp với nhựa PP an toàn. Sản phẩm hoàn toàn không chứa BPA (BPA-free)
+                                    và đạt các tiêu chuẩn quốc tế như FDA và LFGB. Bạn hoàn toàn yên tâm sử
+                                    dụng cho cả trẻ em và người lớn mà không lo thôi nhiễm vi hạt nhựa.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question11">
+                            <h4 class="panel-title">
+                                Câu hỏi: Bình silicon có chịu được nước sôi không?
+                            </h4>
+                        </div>
+                        <div id="question11" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>
+                                    Có. Nhờ đặc tính chịu nhiệt vượt trội của silicon cao cấp, bình ReSip có
+                                    thể chịu được nhiệt độ từ -50°C đến 200°C. Bạn có thể thoải mái đựng nước
+                                    sôi, trà nóng hoặc để bình vào ngăn đông tủ lạnh mà không lo biến dạng hay
+                                    nứt vỡ.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question12">
+                            <h4 class="panel-title">
+                                Câu hỏi: Bình mới mua về có mùi không? Làm sao để vệ sinh?
+                            </h4>
+                        </div>
+                        <div id="question12" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>
+                                    Sản phẩm silicon mới có thể có mùi nhẹ đặc trưng nhưng hoàn toàn vô hại.
+                                    Để khử mùi và vệ sinh, bạn có thể ngâm bình trong nước ấm pha chút chanh,
+                                    giấm hoặc baking soda, sau đó rửa sạch và để khô. Thiết kế cổ rộng và các
+                                    bộ phận tháo rời giúp việc vệ sinh rất dễ dàng.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question13">
+                            <h4 class="panel-title">
+                                Câu hỏi: Tuổi thọ của bình là bao lâu? Gấp nhiều lần có bị rách không?
+                            </h4>
+                        </div>
+                        <div id="question13" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>
+                                    Bình ReSip được thiết kế để tái sử dụng lâu dài với độ bền cơ học cao.
+                                    Sản phẩm đã qua kiểm định chịu được hơn 5.000 lần gấp mở mà không bị biến
+                                    dạng hay rò rỉ.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question14">
+                            <h4 class="panel-title">
+                                Câu hỏi: Thời gian giao hàng dự kiến là bao lâu?
+                            </h4>
+                        </div>
+                        <div id="question14" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>Thời gian giao hàng dự kiến trong khoảng từ 2-4 ngày được tính kể từ thời điểm đơn hàng được xác nhận thành công trên hệ thống.</p>
+                                <p>Vui lòng tham khảo thời gian cho từng khu vực theo thông tin bên dưới:</p>
+                                <p><strong>Đối với khu vực miền Nam:</strong></p>
+                                <p>- TP. Hồ Chí Minh: 02 ngày</p>
+                                <p>- Các tỉnh miền Nam khác: 03 ngày</p>
+                                <p><strong>Đối với khu vực miền Trung:</strong> 04 ngày</p>
+                                <p><strong>Đối với khu vực miền Bắc:</strong></p>
+                                <p>- Hà Nội: 03 ngày</p>
+                                <p>- Các tỉnh miền Bắc: 04 ngày</p>
+                                <p><strong><u>*Lưu ý:</u> Thời gian giao hàng dự kiến được tính dựa trên ngày làm việc và có thể thay đổi theo tình trạng giao hàng thực tế.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question15">
+                            <h4 class="panel-title">
+                                Câu hỏi: Nếu tôi có việc bận và không nhận được bưu kiện thì có giao lại được không?
+                            </h4>
+                        </div>
+                        <div id="question15" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>- Trong trường hợp không liên lạc được với khách hàng, đơn hàng sẽ được giao liên tục tối đa 3 lần trong vòng 3 ngày.</p>
+                                <p>- Nếu bưu kiện vẫn giao không thành công, đơn hàng sẽ được hoàn về kho của chúng tôi và quý khách sẽ được hoàn tiền toàn bộ (đối với phương thức thanh toán thẻ).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question16">
+                            <h4 class="panel-title">
+                                Câu hỏi: Tôi muốn thay đổi thông tin người nhận hàng/thay đổi địa chỉ giao hàng.
+                            </h4>
+                        </div>
+                        <div id="question16" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>- Nếu đơn hàng chưa được gửi đi: Bạn hãy liên hệ ngay với bộ phận CSKH của ReSip để được hỗ trợ thay đổi miễn phí.</p>
+                                <p>- Nếu đơn hàng đang trên đường vận chuyển: Việc thay đổi địa chỉ có thể không thực hiện được hoặc sẽ phát sinh thêm phí vận chuyển từ đơn vị giao hàng. ReSip sẽ cố gắng hỗ trợ tốt nhất có thể trong từng trường hợp cụ thể.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question17">
+                            <h4 class="panel-title">
+                                Câu hỏi: Chính sách đổi trả của ReSip như thế nào?
+                            </h4>
+                        </div>
+                        <div id="question17" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>Bạn có thể yêu cầu đổi/trả trong vòng 07 ngày kể từ khi nhận hàng nếu:</p>
+                                <p>- Sản phẩm lỗi kỹ thuật (rò rỉ, nắp hỏng...).</p>
+                                <p>- Hư hỏng do vận chuyển.</p>
+                                <p>- Giao sai mẫu/màu.</p>
+                                <p>ReSip sẽ chịu 100% phí vận chuyển đổi trả trong các trường hợp này.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading accordion-toggle question-toggle collapsed"
+                             data-toggle="collapse" data-parent="#faqAccordion" data-target="#question18">
+                            <h4 class="panel-title">
+                                Câu hỏi: Đơn hàng của tôi bị hư/thất lạc/thiếu sản phẩm.
+                            </h4>
+                        </div>
+                        <div id="question18" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <h5><span class="label label-primary">Câu trả lời</span></h5>
+                                <p>ReSip rất tiếc về sự cố này. Để được hỗ trợ nhanh nhất, bạn vui lòng thực hiện các bước sau:</p>
+                                <p>- Cung cấp video quay lại quá trình mở hàng để làm cơ sở xác minh.</p>
+                                <p>- Liên hệ ngay với ReSip qua Fanpage hoặc Hotline trong vòng 24h kể từ khi nhận hàng.</p>
+                                <p>- Sau khi xác minh lỗi do vận chuyển hoặc đóng gói, ReSip sẽ gửi sản phẩm thay thế hoặc hoàn tiền cho bạn trong vòng 5 -7 ngày làm việc.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- /panel-group -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+   .home-newsletter {
+   background-color: #f5f5f5; /* Thay đổi màu nền quanh phần đăng ký */
+   padding: 30px 0; /* Thêm khoảng cách trên dưới */
+}
+   /* Khung bên trong */
+   .home-newsletter .container {
+   background-color: #c18d8f;
+   border-radius: 10px;
+   padding: 20px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-static-block.footer-certificate {
+    display: block; /* Đảm bảo nội dung hiển thị dạng khối */
+    text-align: left; /* Canh trái nội dung */
+    padding-left: 30px; /* Cách lề trái 30px */
+}
+
+.footer-static-block.footer-certificate div {
+    margin-bottom: 10px; /* Tạo khoảng cách giữa các đoạn văn */
+    display: block; /* Đảm bảo nội dung không nằm ngang */
+}
+
+.footer-static-block.footer-certificate img {
+    max-width: 100%; /* Hình ảnh tự động điều chỉnh kích thước */
+    height: auto; /* Duy trì tỉ lệ hình ảnh */
+}
+
+
+
+
+
+
+
+
+.home-newsletter .single {
+   background-color: #ffffff; /* Màu nền trắng cho phần form */
+   padding: 20px; /* Khoảng cách trong form */
+   border-radius: 8px; /* Bo góc */
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng cho phần form */
+}
+
+
+
+
+/* Tiêu đề */
+.home-newsletter h2 {
+   color: #000000 !important;
+   font-size: 24px;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+
+
+
+
+.home-newsletter .input-group input {
+   border-radius: 4px; /* Bo góc cho ô nhập liệu */
+}
+
+
+
+
+.home-newsletter .btn-theme {
+   background-color: #026625; /* Màu nền cho nút đăng ký */
+   border: none;
+   color: #fff; /* Màu chữ nút */
+}
+/* Nút Subscribe */
+.home-newsletter .input-group-btn button {
+   background-color: #026625 !important;
+   color: #ffffff;
+   border: none;
+   border-radius: 5px;
+   padding: 10px 20px;
+}
+
+
+
+
+.home-newsletter .btn-theme:hover {
+   background-color: #006910ff; /* Màu nền khi hover nút đăng ký */
+}
+/* Nút Subscribe hover */
+.home-newsletter .input-group-btn button:hover {
+   background-color: #d8c7c3 !important; /* Màu sáng hơn khi hover */
+   color: #000;
+}
+
+
+/* Đối với chế độ mặc định (mobile-first) */
+.flex {
+   display: flex; /* Thiết lập flexbox */
+}
+
+
+.flex-col {
+   flex-direction: column; /* Đặt các phần tử trong container theo chiều dọc */
+}
+
+
+/* Đối với chế độ màn hình rộng hơn (đối với kích thước màn hình lớn hơn 'md') */
+@media (min-width: 768px) {
+   .md\:flex-row {
+       flex-direction: row; /* Đặt các phần tử trong container theo chiều ngang khi màn hình lớn hơn hoặc bằng 768px */
+   }
+}
+
+
+/* Căn chỉnh các phần tử theo chiều ngang với khoảng cách đều */
+.justify-between {
+   justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử trong container */
+}
+
+
+/* Khoảng cách giữa các phần tử */
+.gap-6 {
+   gap: 3.5rem; /* Khoảng cách giữa các phần tử trong container */
+}
+footer {
+   /* display: flex;  */
+   justify-content: space-between;
+   padding: 20px;
+   background-color: #f8f8f8;
+   width: 100%;
+}
+/* Các lớp của footer-static-block */
+.footer-static-block {
+   font-size: 13px;
+   overflow: hidden;
+   width: 100%;
+}
+
+
+.footer-static-block div {
+   display: flex;
+   justify-content: space-between;
+}
+
+
+.footer-static-block ul {
+   list-style: none;
+   padding: 0;
+}
+
+
+.footer-static-block ul li {
+   margin-bottom: 8px;
+}
+
+
+.footer-static-block ul li strong {
+   display: block;
+   margin-bottom: 16px;
+}
+
+
+.footer-static-block ul:nth-child(2) {
+   margin-bottom: 24px;
+}
+
+
+
+
+/* Các lớp của footer-menu */
+.footer-menu {
+   /* Cỡ chữ 13px */
+   font-size: 13px;
+   /* Thêm các thuộc tính khác nếu cần */
+}
+
+
+/* Các lớp của text-[13px] */
+.text-[13px] {
+   font-size: 13px; /* Cài đặt kích thước chữ 13px */
+}
+
+
+/* Các lớp của overflow-hidden */
+.overflow-hidden {
+   overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài container */
+}
+
+
+/* Các lớp của w-full */
+.w-full {
+   width: 100%; /* Đặt chiều rộng của phần tử chiếm 100% chiều rộng của phần tử cha */
+}
+
+
+/* Lớp undefined có thể bị loại bỏ vì nó không có tác dụng gì trong Tailwind CSS */
+.undefined {
+   /* Không cần phải khai báo gì nếu không có thuộc tính nào */
+}
+
+
+</style>
+<section class="home-newsletter">
+   <footer>
+       <div class="flex flex-col md:flex-row justify-between gap-6">
+       <!-- Logo and Certification Section -->
+           <div class="footer-logo-wrapper">
+               <div class="footer-static-block footer-logo text-[13px] overflow-hidden w-full mb-6 md:mb-12">
+               </div>
+               <div class="footer-static-block footer-certificate text-[13px] overflow-hidden w-full undefined">
+               <div style="flex: 1;">
+                   <img src="assets/uploads/logo.png" alt="Resip Logo" style="width: 200px; height: 200px;">
+               </div>
+               <div>
+                <p style="font-size: 16px; text-align: left;"><b>CÔNG TY TNHH RESIP VIỆT NAM</b></p>
+                <p style="font-size: 14px; text-align: left;">Địa chỉ: 279 Nguyễn Tri Phương, Phường Diên Hồng, TP. Hồ Chí Minh, Việt Nam
+</p>
+                </div>
+
+               </div>
+           </div>
+           <!-- Footer Menu Section -->
+           <div class="footer-static-block footer-menu text-[13px] overflow-hidden w-full undefined" style="justify-content: space-between;
+   padding: 20px; ">
+               <div style="font-size: 18px;">
+               <ul>
+                   <li style="color: #026625"><strong>Về RESIP</strong></li>
+                   <li><a title="Miju là gì?" href="#">Giới Thiệu Resip</a></li>
+                   <li><a href=#>Thông báo</a></li>
+                   <li><a title="Câu hỏi thường gặp" href="#">Câu hỏi thường gặp</a></li>
+               </ul>
+                  <ul style="margin-bottom: 24px;">
+                   <li style="color: #026625"><strong>Cửa hàng Bán lẻ</strong></li>
+                   <li><a title="Chính sách Đổi, Trả, Hoàn tiền" href=#>Chính sách Đổi, Trả, Hoàn tiền</a></li>
+                   <li><a title="Danh sách cửa hàng" href=#>Danh sách cửa hàng</a></li>
+               </ul>
+               <ul>
+                   <li style="color: #026625"><strong>Cửa hàng Trực tuyến</strong></li>
+                   <li><a title="Chính sách Bán hàng" href=#>Chính sách Bán hàng</a></li>
+                   <li><a title="Chính sách Giao hàng" href=#>Chính sách Giao hàng</a></li>
+                   <li><a title="Chính sách Trả hàng Hoàn tiền" href=#>Chính sách Trả hàng, Hoàn tiền</a></li>
+                   <li><a title="Chính sách Đổi hàng" href=#>Chính sách Đổi hàng</a></li>
+                   <li><a title="Chính sách Bảo hành" href=#>Chính sách Bảo hành</a></li>
+                   <li><a title="Chính sách Bảo mật" href=#>Chính sách Bảo mật</a></li>
+               </ul>
+               </div>
+           </div>
+           <!-- Subscribe Section -->
+           <div class="footer-subscribe-wrapper" style="padding-top: 20px; width: 40%; padding-right: 30px; ">
+                                  <form action="" method="post">
+                   <input type="hidden" name="_csrf" value="85aae5772c7b407b301566e4e692abd9" />                   <p style="color: #026625; font-size: 18px"><strong>Đăng ký nhận tin từ ReSip</strong></p>
+                   <div class="input-group">
+                       <input type="email" class="form-control" placeholder="Nhập Email của bạn vào" name="email_subscribe">
+                       <span class="input-group-btn">
+                       <button class="btn btn-theme" type="submit" name="form_subscribe" style="padding: 7px;">Đăng ký</button>
+                       </span>
+                   </div>
+               </div>
+               </form>
+           </div>
+       </div>
+   </div>
+           </div>
+       </div>
+   </footer>
+
+<!-- JS -->
+<script src="assets/js/jquery-2.2.4.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/megamenu.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/owl.animate.js"></script>
+<script src="assets/js/jquery.bxslider.min.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/rating.js"></script>
+<script src="assets/js/jquery.touchSwipe.min.js"></script>
+<script src="assets/js/bootstrap-touch-slider.js"></script>
+<script src="assets/js/select2.full.min.js"></script>
+<script src="assets/js/custom.js"></script>
+
+</body>
+</html>

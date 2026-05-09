@@ -1,0 +1,155 @@
+﻿@model ResipWeb.Models.User
+
+@{
+    ViewData["Title"] = "Xác nhận xóa người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .delete-container {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .delete-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 600px;
+        overflow: hidden;
+        border-top: 5px solid #ef4444;
+    }
+
+    .delete-header {
+        padding: 30px;
+        text-align: center;
+        background: #fff5f5;
+    }
+
+    .warning-icon {
+        font-size: 60px;
+        color: #ef4444;
+        margin-bottom: 16px;
+    }
+
+    .delete-body {
+        padding: 30px;
+    }
+
+    .user-summary {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 24px;
+        border: 1px solid #e5e7eb;
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px dashed #e5e7eb;
+    }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        color: #6b7280;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .info-value {
+        color: #1a1a1a;
+        font-weight: 700;
+    }
+
+    .action-group {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .btn-delete {
+        background: #ef4444;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.2s;
+        cursor: pointer;
+        flex: 1;
+    }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+    .btn-cancel {
+        background: #f3f4f6;
+        color: #374151;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        flex: 1;
+        transition: all 0.2s;
+    }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+</style>
+
+<div class="delete-container">
+    <div class="delete-card">
+        <div class="delete-header">
+            <div class="warning-icon">⚠️</div>
+            <h3 style="font-weight: 800; color: #111827; margin: 0;">Xác nhận xóa?</h3>
+            <p class="text-muted mt-2">Hành động này sẽ xóa vĩnh viễn tài khoản người dùng và không thể phục hồi.</p>
+        </div>
+
+        <div class="delete-body">
+            <div class="user-summary">
+                <div class="info-item">
+                    <span class="info-label">Tên người dùng:</span>
+                    <span class="info-value">@(Model.FullName ?? "N/A")</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tên đăng nhập:</span>
+                    <span class="info-value">@Model.Username</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">@Model.Email</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Ngày tham gia:</span>
+                    <span class="info-value">@Model.CreatedAt.ToString("dd/MM/yyyy")</span>
+                </div>
+            </div>
+
+            <form asp-action="DeleteConfirmed" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <div class="action-group">
+                    <a asp-action="Index" class="btn-cancel">Hủy bỏ</a>
+                    <button type="submit" class="btn-delete">Đồng ý xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

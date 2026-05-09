@@ -1,0 +1,237 @@
+﻿@model ResipWeb.Models.DonHang
+
+@{
+    ViewData["Title"] = "Chỉnh sửa đơn hàng";
+}
+
+<style>
+    /* --- HỆ THỐNG THIẾT KẾ (DESIGN SYSTEM) --- */
+    .dashboard-container {
+        padding: 60px 0; /* Tăng khoảng cách trên dưới cho thoáng */
+        background-color: #f9f9f9;
+        min-height: 85vh;
+    }
+
+    /* Sidebar Điều hướng */
+    .account-sidebar {
+        background: #fff;
+        border: 1px solid #e1e1e1;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .user-profile-header {
+        padding: 35px 20px;
+        text-align: center;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .user-avatar {
+        width: 75px;
+        height: 75px;
+        background-color: #026625;
+        color: #fff;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 10px rgba(2, 102, 37, 0.2);
+    }
+
+    .account-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .account-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 16px 25px;
+            color: #444;
+            border-bottom: 1px solid #f9f9f9;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+            .account-menu li a:hover, .account-menu li a.active {
+                background-color: #026625;
+                color: #fff !important;
+            }
+
+            .account-menu li a i {
+                margin-right: 15px;
+                width: 20px;
+                text-align: center;
+            }
+
+    /* --- FORM CHỈNH SỬA (FIX LỖI SÁT LỀ) --- */
+    .edit-card {
+        background: #fff;
+        border: 1px solid #e1e1e1;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+
+    .edit-header {
+        background: #026625;
+        color: #fff;
+        padding: 25px 35px; /* Tăng đệm tiêu đề */
+    }
+
+    /* Quan trọng: Tạo đệm lớn cho nội dung bên trong Card */
+    .edit-card-body {
+        padding: 40px; /* Chống sát lề tuyệt đối */
+    }
+
+    .form-label {
+        font-weight: 700;
+        color: #333;
+        font-size: 14px;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .form-control-custom {
+        width: 100%;
+        border-radius: 8px;
+        padding: 14px 18px;
+        border: 1px solid #dcdcdc;
+        transition: all 0.3s;
+        font-size: 15px;
+    }
+
+        .form-control-custom:focus {
+            outline: none;
+            border-color: #026625;
+            box-shadow: 0 0 0 4px rgba(2, 102, 37, 0.1);
+        }
+
+    .btn-save-custom {
+        background-color: #026625;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        padding: 14px 40px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+
+        .btn-save-custom:hover {
+            background-color: #014d1c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(2, 102, 37, 0.3);
+        }
+
+    .text-danger.small {
+        font-size: 12px;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h2 style="font-weight: 800; color: #1a1a1a; margin-bottom: 10px; border-left: 6px solid #026625; padding-left: 20px;">
+                    CẬP NHẬT THÔNG TIN NHẬN HÀNG
+                </h2>
+                <p class="text-muted ms-4">Thay đổi thông tin cho đơn hàng: <strong>#@Model.MaDonHang</strong></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-4 mb-4">
+                <div class="account-sidebar">
+                    <div class="user-profile-header">
+                        <div class="user-avatar">
+                            <span>@(User.Identity.Name?.Substring(0, 1).ToUpper() ?? "U")</span>
+                        </div>
+                        <h5 class="mb-1 fw-bold">@User.Identity.Name</h5>
+                        <small class="text-muted">Thành viên Resip</small>
+                    </div>
+                    <ul class="account-menu">
+                        <li><a href="/Account/Dashboard"><i class="fa fa-dashboard"></i> Trang tài khoản</a></li>
+                        <li><a href="/LichSuDonHang/Index" class="active"><i class="fa fa-shopping-bag"></i> Đơn hàng của tôi</a></li>
+                        <li><a href="#"><i class="fa fa-map-marker"></i> Địa chỉ nhận hàng</a></li>
+                        <li><a href="#"><i class="fa fa-user-circle"></i> Thông tin cá nhân</a></li>
+                        <li>
+                            <a asp-controller="Account" asp-action="Logout" style="color: #dc3545 !important;">
+                                <i class="fa fa-sign-out"></i> Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-8">
+                <div class="edit-card">
+                    <div class="edit-header">
+                        <h5 class="mb-0 fw-bold"><i class="fa fa-edit me-2"></i> Chỉnh sửa địa chỉ & Người nhận</h5>
+                    </div>
+
+                    <div class="edit-card-body">
+                        <form asp-action="Edit" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="MaDonHang" />
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label class="form-label">Tên người nhận hàng</label>
+                                    <input asp-for="HoTen" class="form-control-custom" placeholder="Nhập đầy đủ họ tên..." />
+                                    <span asp-validation-for="HoTen" class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Số điện thoại liên lạc</label>
+                                    <input asp-for="DienThoai" class="form-control-custom" placeholder="Số điện thoại shipper liên hệ..." />
+                                    <span asp-validation-for="DienThoai" class="text-danger small"></span>
+                                </div>
+                            </div>
+
+                            <div class="mb-5">
+                                <label class="form-label">Địa chỉ giao hàng chi tiết</label>
+                                <textarea asp-for="DiaChi" class="form-control-custom" rows="5" placeholder="Ghi rõ số nhà, tên đường, Phường/Xã, Quận/Huyện..."></textarea>
+                                <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                                <a asp-controller="LichSuDonHang" asp-action="Details" asp-route-id="@Model.Id" class="text-secondary text-decoration-none fw-bold">
+                                    <i class="fa fa-angle-left me-1"></i> Quay lại chi tiết đơn hàng
+                                </a>
+                                <button type="submit" class="btn-save-custom">
+                                    Lưu thay đổi ngay
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-4 rounded-3 d-flex align-items-start" style="background-color: #fff9e6; border: 1px solid #ffeeba;">
+                    <i class="fa fa-info-circle mt-1 me-3 text-warning" style="font-size: 20px;"></i>
+                    <div class="small">
+                        <strong class="text-dark">Lưu ý quan trọng:</strong>
+                        <span class="text-muted d-block">Hệ thống chỉ cho phép thay đổi thông tin khi đơn hàng ở trạng thái <strong>"Chờ xử lý"</strong>. Nếu đơn hàng đã chuyển sang trạng thái khác, vui lòng liên hệ bộ phận CSKH để được hỗ trợ thủ công.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,166 @@
+﻿@model ResipWeb.Models.CauHoiThuongGap
+
+@{
+    ViewData["Title"] = "Chi tiết câu hỏi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .details-container {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+
+    .card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        overflow: hidden;
+        border: none;
+        width: 100%;
+        max-width: 800px;
+        height: fit-content;
+    }
+
+    /* Header Header Gradient màu tím/indigo khác biệt với Users */
+    .card-header-custom {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        padding: 30px;
+        color: white;
+    }
+
+    .question-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .meta-info {
+        font-size: 13px;
+        opacity: 0.9;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .badge-order {
+        background: rgba(255,255,255,0.2);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 600;
+        font-family: monospace;
+    }
+
+    .card-body-custom {
+        padding: 30px;
+    }
+
+    .label-custom {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #6b7280;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    /* Box mô phỏng hiển thị thật */
+    .preview-box {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-left: 4px solid #10b981; /* Giả lập border xanh của web chính */
+        border-radius: 8px;
+        padding: 20px;
+        color: #374151;
+        line-height: 1.6;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+        /* Style giả lập giống Frontend của bạn để dễ hình dung */
+        .preview-box b, .preview-box strong {
+            color: #28A745;
+            font-weight: 700;
+        }
+
+    /* Box hiển thị Code */
+    .code-box {
+        background: #1f2937;
+        color: #e5e7eb;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 13px;
+        overflow-x: auto;
+        border: 1px solid #374151;
+    }
+
+    .btn-action {
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        display: inline-block;
+    }
+
+    .btn-edit {
+        background: #3b82f6;
+        color: white;
+        border: none;
+    }
+
+        .btn-edit:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+    .btn-back {
+        background: #f3f4f6;
+        color: #374151;
+        margin-left: 10px;
+    }
+
+        .btn-back:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+</style>
+
+<div class="details-container">
+    <div class="card">
+        <div class="card-header-custom">
+            <div class="meta-info">
+                <span class="badge-order">Thứ tự: #@Model.ThuTu</span>
+                <span>ID hệ thống: @Model.Id</span>
+            </div>
+            <h2 class="question-title">@Model.CauHoi</h2>
+        </div>
+
+        <div class="card-body-custom">
+            <span class="label-custom">👁️ Hiển thị trên Website (Mô phỏng)</span>
+            <div class="preview-box">
+                @Html.Raw(Model.CauTraLoi)
+            </div>
+
+            <div class="mt-4">
+                <span class="label-custom">💻 Mã nguồn HTML gốc</span>
+                <div class="code-box">
+                    @Model.CauTraLoi
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-top">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-action btn-edit">✏️ Chỉnh sửa nội dung</a>
+                <a asp-action="Index" class="btn-action btn-back">🔙 Quay lại</a>
+            </div>
+        </div>
+    </div>
+</div>

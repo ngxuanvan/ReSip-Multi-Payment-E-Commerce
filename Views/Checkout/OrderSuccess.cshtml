@@ -1,0 +1,161 @@
+﻿@{
+    ViewData["Title"] = "Đặt hàng thành công";
+}
+
+<style>
+    /* Nền xám bao quanh để làm nổi bật nội dung */
+    .success-wrapper {
+        background-color: #f8f9fa;
+        min-height: 80vh; /* Chiều cao bao phủ gần hết màn hình */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* Card trắng chứa nội dung */
+    .success-card {
+        background: white;
+        padding: 50px 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+        animation: slideUp 0.5s ease-out;
+    }
+
+    /* Icon check thành công */
+    .success-icon {
+        font-size: 80px;
+        color: #026625; /* Màu xanh Resip */
+        margin-bottom: 24px;
+        animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Tiêu đề */
+    .success-title {
+        color: #1a1a1a;
+        font-weight: 800;
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+
+    /* Nội dung mô tả */
+    .success-text {
+        color: #6c757d;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 32px;
+    }
+
+    /* Các nút bấm */
+    .btn-action {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        display: inline-block;
+        width: 100%; /* Trên mobile sẽ full width */
+        margin-bottom: 12px;
+    }
+
+    /* Nút chính: Tiếp tục mua sắm */
+    .btn-primary-custom {
+        background-color: #026625;
+        color: white;
+        border: 1px solid #026625;
+    }
+
+        .btn-primary-custom:hover {
+            background-color: #014d1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 102, 37, 0.2);
+            color: white;
+        }
+
+    /* Nút phụ: Xem đơn hàng */
+    .btn-secondary-custom {
+        background-color: white;
+        color: #495057;
+        border: 1px solid #dee2e6;
+    }
+
+        .btn-secondary-custom:hover {
+            background-color: #f8f9fa;
+            color: #026625;
+            border-color: #026625;
+        }
+
+    /* Hiệu ứng chuyển động */
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes scaleIn {
+        from {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Responsive cho màn hình lớn hơn mobile */
+    @@media (min-width: 576px) {
+        .btn-action {
+            width: auto; /* Để 2 nút nằm cạnh nhau */
+            min-width: 180px;
+        }
+
+        .btn-wrapper {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn-action {
+            margin-bottom: 0;
+        }
+    }
+</style>
+
+<div class="success-wrapper">
+    <div class="success-card">
+        <div class="mb-3">
+            <i class="bi bi-check-circle-fill success-icon"></i>
+        </div>
+
+        <h1 class="success-title">Đặt hàng thành công!</h1>
+        <p class="success-text">
+            Cảm ơn bạn đã tin tưởng và mua sắm tại ResipWeb.<br>
+            Đơn hàng của bạn đang được hệ thống xử lý và sẽ sớm được giao đến bạn.
+        </p>
+
+        <div class="btn-wrapper">
+            <a href="/" class="btn-action btn-primary-custom">
+                Tiếp tục mua sắm
+            </a>
+
+
+            <a asp-controller="LichSuDonHang"
+               asp-action="Index"
+               class="btn-action btn-secondary-custom"
+               style="text-decoration: none; display: inline-flex; align-items: center;">
+                <i class="fa fa-history" style="margin-right: 8px;"></i> Xem đơn hàng của tôi
+            </a>
+        </div>
+    </div>
+</div>

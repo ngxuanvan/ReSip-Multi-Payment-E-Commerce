@@ -1,0 +1,207 @@
+﻿@model ResipWeb.Models.DonHang
+
+@{
+    ViewData["Title"] = "Tạo đơn hàng mới";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .admin-create-wrapper {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .page-header {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .page-header h3 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: none;
+        padding: 32px;
+        max-width: 900px;
+    }
+
+    .info-section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 20px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #f3f4f6;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .form-control-custom {
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        padding: 12px 14px;
+        transition: all 0.2s;
+        font-size: 14px;
+        width: 100%;
+        background-color: #fff;
+    }
+
+        .form-control-custom:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+    .btn-submit {
+        background: #10b981;
+        color: white;
+        padding: 12px 32px;
+        border-radius: 8px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-submit:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+    .btn-back {
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-back:hover {
+            color: #111827;
+        }
+
+    .text-danger.small {
+        font-size: 12px;
+        margin-top: 4px;
+        display: block;
+    }
+</style>
+
+<div class="admin-create-wrapper">
+    <div class="page-header">
+        <h3>➕ Tạo đơn hàng mới</h3>
+        <a asp-action="Index" class="btn-back">
+            <span>←</span> Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="form-card">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <h5 class="info-section-title">📌 Thông tin cơ bản</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="MaDonHang" class="form-label">Mã đơn hàng</label>
+                            <input asp-for="MaDonHang" class="form-control-custom" placeholder="VD: DH20251223" />
+                            <span asp-validation-for="MaDonHang" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="NgayTao" class="form-label">Ngày tạo đơn</label>
+                            <input asp-for="NgayTao" type="datetime-local" class="form-control-custom" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="NgayTao" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <h5 class="info-section-title">👤 Thông tin khách nhận</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="HoTen" class="form-label">Họ tên người nhận</label>
+                            <input asp-for="HoTen" class="form-control-custom" placeholder="Nhập họ tên khách hàng..." />
+                            <span asp-validation-for="HoTen" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DienThoai" class="form-label">Số điện thoại</label>
+                            <input asp-for="DienThoai" class="form-control-custom" placeholder="VD: 0987654321" />
+                            <span asp-validation-for="DienThoai" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="DiaChi" class="form-label">Địa chỉ giao hàng</label>
+                            <textarea asp-for="DiaChi" class="form-control-custom" rows="2" placeholder="Số nhà, tên đường, phường/xã..."></textarea>
+                            <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-2">
+                    <h5 class="info-section-title">💰 Thanh toán & Phân loại</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="TongTien" class="form-label">Tổng tiền (VNĐ)</label>
+                            <input asp-for="TongTien" type="number" class="form-control-custom" placeholder="0" />
+                            <span asp-validation-for="TongTien" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="TrangThai" class="form-label">Trạng thái đơn hàng</label>
+                            <select asp-for="TrangThai" class="form-control-custom">
+                                <option value="Chờ xác nhận">Chờ xác nhận</option>
+                                <option value="Đang xử lý">Đang xử lý</option>
+                                <option value="Đang giao">Đang giao</option>
+                                <option value="Hoàn thành">Hoàn thành</option>
+                                <option value="Đã hủy">Đã hủy</option>
+                            </select>
+                            <span asp-validation-for="TrangThai" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="UserId" class="form-label">ID Người dùng (Nếu có)</label>
+                            <input asp-for="UserId" class="form-control-custom" placeholder="Bỏ trống nếu là khách vãng lai" />
+                            <span asp-validation-for="UserId" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 border-top pt-4 text-end">
+                <button type="submit" class="btn-submit">
+                    <i class="fa fa-plus-circle"></i> Xác nhận tạo đơn
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

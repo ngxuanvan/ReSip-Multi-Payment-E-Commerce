@@ -1,0 +1,331 @@
+﻿@model ResipWeb.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Đăng Ký Tài Khoản";
+}
+
+<style>
+    .register-card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .register-header {
+        background-color: #026625;
+        color: #ffffff;
+        padding: 20px 15px; /* Giảm padding header */
+        text-align: center;
+    }
+
+    .form-control-custom {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 10px 15px; /* Giảm padding input */
+        font-size: 14px;
+        background-color: #fcfcfc;
+        transition: all 0.3s;
+    }
+
+        .form-control-custom:focus {
+            background-color: #ffffff;
+            border-color: #026625;
+            box-shadow: 0 0 0 3px rgba(2, 102, 37, 0.15);
+        }
+
+    .form-label-custom {
+        font-weight: 600;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+        display: block;
+    }
+
+    .form-group-spacing {
+        margin-bottom: 12px; /* Giảm khoảng cách giữa các dòng */
+    }
+
+    .btn-custom {
+        background-color: #026625;
+        color: white;
+        font-weight: bold;
+        padding: 10px; /* Giảm độ cao nút */
+        border-radius: 8px;
+        border: none;
+        width: 100%;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        margin-top: 10px;
+    }
+
+        .btn-custom:hover {
+            background-color: #014519;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(2, 102, 37, 0.25);
+        }
+
+    .link-login {
+        color: #026625;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .link-login:hover {
+            text-decoration: underline;
+        }
+
+    .email-autocomplete {
+        position: relative;
+    }
+
+    .email-suggestions {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        margin-top: 6px;
+        background: #fff;
+        border: 1px solid #ddd;
+        z-index: 9999;
+        max-height: 220px;
+        overflow-y: auto;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .email-suggestion-item {
+        padding: 10px 12px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .email-suggestion-item:hover {
+            background: #f5f5f5;
+        }
+
+    .d-none {
+        display: none !important;
+    }
+
+    .email-suggestions {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+
+
+</style>
+
+<div class="container" style="min-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 40px 0;">
+    <div class="card register-card" style="width: 100%; max-width: 650px;">
+
+        <div class="register-header">
+            <h4 style="margin: 0; font-weight: 700; font-size: 22px;">ĐĂNG KÝ THÀNH VIÊN</h4>
+        </div>
+
+        <div class="card-body" style="padding: 25px;">
+            <form asp-controller="Account" asp-action="Register" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2 small text-center"></div>
+
+                <div class="form-group-spacing">
+                    <label asp-for="FullName" class="form-label-custom">Họ và Tên</label>
+                    <input asp-for="FullName" class="form-control form-control-custom" placeholder="Ví dụ: Nguyễn Văn A" />
+                    <span asp-validation-for="FullName" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-spacing">
+                            <label asp-for="Username" class="form-label-custom">Tên đăng nhập</label>
+                            <input asp-for="Username" class="form-control form-control-custom" placeholder="Username" />
+                            <span asp-validation-for="Username" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group-spacing email-autocomplete">
+                            <label asp-for="Email" class="form-label-custom">Email</label>
+
+                            <input asp-for="Email"
+                                   id="regEmailInput"
+                                   type="email"
+                                   class="form-control form-control-custom w-100"
+                                   placeholder="email@example.com"
+                                   autocomplete="off" />
+
+                            <div id="regEmailSuggestions" class="email-suggestions d-none"></div>
+
+                            <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-spacing">
+                            <label asp-for="Password" class="form-label-custom">Mật khẩu</label>
+                            <input asp-for="Password" type="password" class="form-control form-control-custom" placeholder="••••••" />
+                            <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-spacing">
+                            <label asp-for="ConfirmPassword" class="form-label-custom">Xác nhận mật khẩu</label>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control form-control-custom" placeholder="••••••" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small mt-1 d-block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group-spacing">
+                    <label asp-for="PhoneNumber" class="form-label-custom">Số điện thoại</label>
+                    <input asp-for="PhoneNumber" class="form-control form-control-custom" placeholder="09xx xxx xxx" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="form-group-spacing">
+                    <label asp-for="ShippingAddress" class="form-label-custom">Địa chỉ giao hàng</label>
+                    <input asp-for="ShippingAddress" class="form-control form-control-custom" placeholder="Số nhà, Đường, Phường/Xã..." />
+                    <span asp-validation-for="ShippingAddress" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn-custom">
+                        ĐĂNG KÝ NGAY
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer text-center" style="background-color: #f9f9f9; padding: 15px;">
+            <span style="color: #666; font-size: 13px;">Bạn đã có tài khoản?</span><br />
+            <a asp-controller="Account" asp-action="Login" class="link-login" style="font-size: 14px;">
+                ĐĂNG NHẬP TẠI ĐÂY
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        (function () {
+            const input = document.getElementById("regEmailInput");
+            if (!input) return;
+
+            const domains = ["gmail.com", "st.ueh.edu.vn", "hotmail.com", "outlook.com", "yahoo.com", "icloud.com"];
+
+            const box = document.createElement("div");
+
+            box.style.position = "fixed";
+            box.style.background = "#fff";
+            box.style.border = "1px solid #e5e7eb";
+            box.style.zIndex = "2147483647";
+            box.style.maxHeight = "240px";
+            box.style.overflowY = "auto";
+            box.style.borderRadius = "10px";
+            box.style.boxShadow = "0 10px 24px rgba(0,0,0,0.08)";
+            box.style.display = "none";
+
+            document.body.appendChild(box);
+
+            function placeBox() {
+                const r = input.getBoundingClientRect();
+                const gap = 6;
+                box.style.left = r.left + "px";
+                box.style.top = (r.bottom + gap) + "px";
+                box.style.width = r.width + "px";
+            }
+
+            function hide() {
+                box.style.display = "none";
+                box.innerHTML = "";
+            }
+
+            function build(value) {
+                const v = (value || "").trim();
+                if (!v) return [];
+
+                const at = v.indexOf("@@");
+                if (at < 0) {
+                    return domains.map(d => v + "@@" + d);
+                }
+
+                const local = v.slice(0, at);
+                const typed = v.slice(at + 1).toLowerCase();
+                if (!local) return [];
+
+                return domains
+                    .filter(d => d.toLowerCase().startsWith(typed))
+                    .map(d => local + "@@" + d);
+            }
+
+            function show(items) {
+                if (!items.length) {
+                    hide();
+                    return;
+                }
+
+                box.innerHTML = "";
+                items.forEach(text => {
+                    const row = document.createElement("div");
+                    row.textContent = text;
+
+                    row.style.padding = "10px 12px";
+                    row.style.cursor = "pointer";
+                    row.style.fontSize = "14px";
+
+                    row.addEventListener("mouseenter", function () {
+                        row.style.background = "#f5f5f5";
+                    });
+
+                    row.addEventListener("mouseleave", function () {
+                        row.style.background = "transparent";
+                    });
+
+                    row.addEventListener("mousedown", function (e) {
+                        e.preventDefault();
+                        input.value = text;
+                        hide();
+                    });
+
+                    box.appendChild(row);
+                });
+
+                placeBox();
+                box.style.display = "block";
+            }
+
+            function refresh() {
+                show(build(input.value));
+            }
+
+            input.addEventListener("input", refresh);
+            input.addEventListener("focus", refresh);
+
+            window.addEventListener("scroll", function () {
+                if (box.style.display === "block") placeBox();
+            }, true);
+
+            window.addEventListener("resize", function () {
+                if (box.style.display === "block") placeBox();
+            });
+
+            document.addEventListener("mousedown", function (e) {
+                if (e.target !== input && !box.contains(e.target)) hide();
+            });
+
+            input.addEventListener("blur", function () {
+                setTimeout(hide, 120);
+            });
+        })();
+    </script>
+}
+

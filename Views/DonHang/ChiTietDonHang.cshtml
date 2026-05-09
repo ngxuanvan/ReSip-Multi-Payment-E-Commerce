@@ -1,0 +1,163 @@
+﻿@*
+@model ResipWeb.Models.DonHang
+
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white py-3">
+            <h4 class="mb-0">CHI TIẾT ĐƠN HÀNG #@Model.MaDonHang</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p><strong>Người nhận:</strong> @Model.HoTen</p>
+                    <p><strong>Điện thoại:</strong> @Model.DienThoai</p>
+                    <p><strong>Địa chỉ:</strong> @Model.DiaChi</p>
+                </div>
+            </div>
+
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th class="text-center">Số lượng</th>
+                        <th class="text-end">Đơn giá</th>
+                        <th class="text-end">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ChiTietDonHangs != null && Model.ChiTietDonHangs.Any())
+                    {
+                        foreach (var item in Model.ChiTietDonHangs)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@(item.SanPham?.AnhChinh ?? "/images/no-image.png")"
+                                             style="width:50px;height:50px;object-fit:cover"
+                                             class="rounded me-3" />
+                                        <span class="fw-bold">
+                                            @(item.SanPham?.TenSanPham ?? "Sản phẩm")
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-center">x@item.SoLuong</td>
+                                <td class="text-end">
+                                    @item.GiaBan.ToString("#,##0", System.Globalization.CultureInfo.InvariantCulture) đ
+                                </td>
+                                <td class="text-end fw-bold text-success">
+                                    @((item.GiaBan * item.SoLuong)
+                                                                .ToString("#,##0", System.Globalization.CultureInfo.InvariantCulture)) đ
+                        </td>
+                    </tr>
+                                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end fw-bold fs-5">TỔNG CỘNG:</td>
+                        <td class="text-end fw-bold text-danger fs-5">
+                            @Model.TongTien.ToString("#,##0", System.Globalization.CultureInfo.InvariantCulture) đ
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </div>
+    </div>
+</div>
+*@
+
+@model ResipWeb.Models.DonHang
+
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white py-3">
+            <h4 class="mb-0">CHI TIẾT ĐƠN HÀNG #@Model.MaDonHang</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p><strong>Người nhận:</strong> @Model.HoTen</p>
+                    <p><strong>Điện thoại:</strong> @Model.DienThoai</p>
+                    <p><strong>Địa chỉ:</strong> @Model.DiaChi</p>
+
+                  
+                </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th class="text-center">Số lượng</th>
+                        <th class="text-end">Đơn giá</th>
+                        <th class="text-end">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ChiTietDonHangs != null && Model.ChiTietDonHangs.Any())
+                    {
+                        foreach (var item in Model.ChiTietDonHangs)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        @* Dùng Url.Content để đảm bảo đường dẫn ảnh đúng *@
+                                        <img src="@Url.Content(item.SanPham?.AnhChinh ?? "/images/no-image.png")"
+                                             style="width:50px;height:50px;object-fit:cover"
+                                             class="rounded me-3" />
+                                        <span class="fw-bold">
+                                            @(item.SanPham?.TenSanPham ?? "Sản phẩm")
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="text-center">x@item.SoLuong</td>
+                                <td class="text-end">
+                                    @((item.DonGia).ToString("N0")) đ
+                                </td>
+                                <td class="text-end fw-bold text-success">
+                                    @(((item.DonGia) * item.SoLuong).ToString("N0")) đ
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">Không có dữ liệu chi tiết.</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        @* colspan="3" để gộp 3 cột đầu lại làm nhãn TỔNG CỘNG *@
+                        <td colspan="3" class="text-end fw-bold fs-5">TỔNG CỘNG:</td>
+                        <td class="text-end fw-bold text-danger fs-5">
+                            @((Model.TongTien ?? 0).ToString("N0")) đ
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </div>
+    </div>
+</div>

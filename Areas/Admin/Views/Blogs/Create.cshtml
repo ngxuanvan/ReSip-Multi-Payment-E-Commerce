@@ -1,0 +1,350 @@
+﻿@model ResipWeb.Models.Blog
+
+@{
+    ViewData["Title"] = "Thêm tin tức mới";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml"; // Đảm bảo đúng layout admin chung
+}
+
+<style>
+    /* Kế thừa style chung */
+    .blog-editor-wrapper {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    /* Page Header */
+    .page-header {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .page-header h3 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+    /* Form Styles */
+    .custom-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: none;
+        margin-bottom: 24px;
+        overflow: hidden;
+    }
+
+    .card-header-custom {
+        padding: 16px 24px;
+        border-bottom: 1px solid #f0f0f0;
+        background: white;
+    }
+
+    .card-title-custom {
+        font-size: 16px;
+        font-weight: 700;
+        color: #374151;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .card-body-custom {
+        padding: 24px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 14px;
+    }
+
+    .form-control-custom {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.2s;
+        color: #1f2937;
+    }
+
+        .form-control-custom:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+    textarea.form-control-custom {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    /* Upload Area */
+    .upload-area {
+        border: 2px dashed #e5e7eb;
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: #f9fafb;
+    }
+
+        .upload-area:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+    /* Switch Toggle for IsActive */
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 26px;
+    }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+    input:checked + .slider {
+        background-color: #10b981;
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+    /* SEO Section small inputs */
+    .seo-input {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    .seo-label {
+        font-size: 12px;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Buttons */
+    .btn-submit {
+        background: #3b82f6;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-submit:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+    .btn-back {
+        background: white;
+        color: #6b7280;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: 1px solid #d1d5db;
+        text-decoration: none;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-back:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+</style>
+
+<div class="blog-editor-wrapper">
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div class="page-header">
+            <h3>📝 Thêm tin tức mới</h3>
+            <div style="display: flex; gap: 12px;">
+                <a asp-action="Index" class="btn-back">
+                    <span>←</span> Quay lại
+                </a>
+                <button type="submit" class="btn-submit">
+                    <span>💾</span> Đăng bài viết
+                </button>
+            </div>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3" style="background: #fee2e2; padding: 10px; border-radius: 8px;"></div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="custom-card">
+                    <div class="card-header-custom">
+                        <h4 class="card-title-custom">Nội dung bài viết</h4>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="form-group">
+                            <label asp-for="Title" class="form-label">Tiêu đề bài viết <span class="text-danger">*</span></label>
+                            <input asp-for="Title" class="form-control-custom" placeholder="Nhập tiêu đề hấp dẫn..." id="TitleInput" onkeyup="generateSlug()" />
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Description" class="form-label">Mô tả ngắn (Sapo)</label>
+                            <textarea asp-for="Description" class="form-control-custom" rows="3" placeholder="Tóm tắt nội dung chính..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <label asp-for="Detail" class="form-label">Nội dung chi tiết</label>
+                            <textarea asp-for="Detail" id="txtDetail" class="form-control-custom" rows="15"></textarea>
+                            <span asp-validation-for="Detail" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="custom-card">
+                    <div class="card-header-custom">
+                        <h4 class="card-title-custom">Thông tin xuất bản</h4>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded">
+                            <label class="form-label mb-0 cursor-pointer" for="IsActiveToggle">Hiển thị bài viết</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" asp-for="IsActive" id="IsActiveToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <label class="form-label">Ảnh đại diện</label>
+                            <div class="upload-area" onclick="document.getElementById('imageInput').click()">
+                                <input type="file" name="ImageUpload" id="imageInput" hidden accept="image/*" onchange="previewImage(this)" />
+                                <div id="imagePreview">
+                                    <span style="font-size: 32px; display: block; margin-bottom: 8px;">📷</span>
+                                    <span style="color: #6b7280; font-size: 13px;">Nhấn để tải ảnh lên</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-card">
+                    <div class="card-header-custom">
+                        <h4 class="card-title-custom">Tối ưu SEO</h4>
+                    </div>
+                    <div class="card-body-custom">
+                        <div class="form-group">
+                            <label asp-for="Alias" class="form-label seo-label">URL Slug (Tự động)</label>
+                            <input asp-for="Alias" id="AliasInput" class="form-control-custom seo-input" placeholder="tu-dong-tao-tu-tieu-de" readonly style="background-color: #f3f4f6;" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MetaTitle" class="form-label seo-label">Meta Title</label>
+                            <input asp-for="MetaTitle" class="form-control-custom seo-input" placeholder="Tiêu đề hiển thị trên Google" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MetaKeyword" class="form-label seo-label">Meta Keywords</label>
+                            <input asp-for="MetaKeyword" class="form-control-custom seo-input" placeholder="Từ khóa 1, từ khóa 2..." />
+                        </div>
+                        <div class="form-group mb-0">
+                            <label asp-for="MetaDescription" class="form-label seo-label">Meta Description</label>
+                            <textarea asp-for="MetaDescription" class="form-control-custom seo-input" rows="3" placeholder="Mô tả hiển thị trên Google..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        // Kích hoạt CKEditor cho textarea Detail
+        CKEDITOR.replace('txtDetail');
+
+        // Hàm xem trước ảnh
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').innerHTML =
+                        '<img src="' + e.target.result + '" style="max-width: 100%; max-height: 200px; border-radius: 4px;" />';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Hàm tạo Slug tự động từ Tiêu đề (Simple version)
+        function generateSlug() {
+            let title = document.getElementById('TitleInput').value;
+            let slug = title.toLowerCase().trim()
+                .replace(/[áàảãạăắằẳẵặâấầẩẫậ]/g, 'a')
+                .replace(/[óòỏõọôốồổỗộơớờởỡợ]/g, 'o')
+                .replace(/[éèẻẽẹêếềểễệ]/g, 'e')
+                .replace(/[uúùủũụưứừửữự]/g, 'u')
+                .replace(/[iíìỉĩị]/g, 'i')
+                .replace(/[ýỳỷỹỵ]/g, 'y')
+                .replace(/đ/g, 'd')
+                .replace(/[^a-z0-9- ]/g, '')
+                .replace(/\s+/g, '-');
+            document.getElementById('AliasInput').value = slug;
+        }
+    </script>
+}

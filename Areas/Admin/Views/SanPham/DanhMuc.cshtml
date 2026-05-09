@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ResipWeb.Models.SanPham>
+
+<div class="container mt-4">
+    <h2>@ViewBag.CategoryName</h2>
+
+    @if (!Model.Any())
+    {
+        <p>Không có sản phẩm nào.</p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3 mb-3">
+                    <div class="card h-100 p-2">
+                        <img src="@Url.Content(item.AnhChinh)" class="card-img-top" style="height:200px;object-fit:cover;" />
+                        <div class="card-body">
+                            <h5>@item.TenSanPham</h5>
+                            <strong class="text-danger">@String.Format("{0:N0}₫", item.GiaBan)</strong>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

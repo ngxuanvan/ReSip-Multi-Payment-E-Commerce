@@ -1,0 +1,1077 @@
+﻿@model ResipWeb.Models.SanPham
+
+@{
+    ViewData["Title"] = Model.TenSanPham;
+}
+
+<style>
+    :root {
+        --primary-color: #026625;
+        --secondary-color: #f8f9fa;
+        --text-dark: #2c3e50;
+        --border-color: #e0e0e0;
+        --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        --shadow-hover: 0 4px 16px rgba(0,0,0,0.15);
+    }
+
+    .product-detail-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Breadcrumb */
+    .custom-breadcrumb {
+        background: var(--secondary-color);
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        font-size: 14px;
+    }
+
+        .custom-breadcrumb a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .custom-breadcrumb a:hover {
+                color: var(--primary-color);
+            }
+
+        .custom-breadcrumb span {
+            color: #999;
+            margin: 0 8px;
+        }
+
+        .custom-breadcrumb .current {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+    /* Image Gallery */
+    .image-gallery {
+        position: sticky;
+        top: 20px;
+    }
+
+    .main-image-wrapper {
+        position: relative;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        margin-bottom: 15px;
+    }
+
+    .main-image {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        cursor: zoom-in;
+        transition: transform 0.3s;
+    }
+
+        .main-image:hover {
+            transform: scale(1.05);
+        }
+
+    .image-placeholder {
+        height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--secondary-color);
+        color: #999;
+        font-size: 16px;
+    }
+
+    .thumbnail-gallery {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding: 5px 0;
+    }
+
+    .thumbnail-item {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid transparent;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .thumbnail-item:hover,
+        .thumbnail-item.active {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .thumbnail-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    /* Product Info */
+    .product-info {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+    }
+
+    .product-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 15px;
+        line-height: 1.3;
+    }
+
+    .product-sku {
+        display: inline-block;
+        background: var(--secondary-color);
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .rating-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .stars {
+        color: #ffc107;
+        font-size: 18px;
+    }
+
+    .rating-text {
+        color: #666;
+        font-size: 14px;
+    }
+
+    /* Price Section */
+    .price-section {
+        background: linear-gradient(135deg, #f0f9f4 0%, #e8f5e9 100%);
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+    }
+
+    .price-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .current-price {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--primary-color);
+        line-height: 1;
+    }
+
+    .old-price {
+        font-size: 20px;
+        color: #999;
+        text-decoration: line-through;
+        margin-left: 12px;
+    }
+
+    .discount-badge {
+        display: inline-block;
+        background: #ff4444;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-left: 12px;
+    }
+
+    /* Short Description */
+    .short-description {
+        background: var(--secondary-color);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        font-size: 15px;
+        line-height: 1.7;
+        color: #555;
+    }
+
+        .short-description ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .short-description li {
+            margin-bottom: 8px;
+        }
+
+    /* Quantity Selector */
+    .quantity-section {
+        margin-bottom: 25px;
+    }
+
+    .quantity-label {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--text-dark);
+    }
+
+    .quantity-selector {
+        display: inline-flex;
+        align-items: center;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .quantity-btn {
+        background: var(--secondary-color);
+        border: none;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s;
+        color: var(--text-dark);
+    }
+
+        .quantity-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+    .quantity-input {
+        width: 60px;
+        height: 40px;
+        border: none;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .btn-add-cart {
+        flex: 1;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .btn-add-cart:hover {
+            background: #014d1c;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+    .btn-buy-now {
+        flex: 1;
+        background: white;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .btn-buy-now:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+    /* Features */
+    .product-features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 25px;
+        padding-top: 25px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        background: var(--secondary-color);
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .feature-icon {
+        width: 36px;
+        height: 36px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        font-size: 18px;
+    }
+
+    /* Tabs - IMPROVED */
+    .product-tabs {
+        margin-top: 50px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+    }
+
+    .tabs-header {
+        display: flex;
+        background: linear-gradient(to bottom, #fafafa 0%, #f5f5f5 100%);
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .tab-button {
+        flex: 1;
+        padding: 20px 30px;
+        background: transparent;
+        border: none;
+        color: #666;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        .tab-button:hover {
+            color: var(--primary-color);
+            background: rgba(2, 102, 37, 0.05);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            background: white;
+        }
+
+            .tab-button.active::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: var(--primary-color);
+            }
+
+    .tab-icon {
+        font-size: 20px;
+    }
+
+    .tab-content-wrapper {
+        padding: 40px;
+        min-height: 300px;
+    }
+
+    .tab-panel {
+        display: none;
+        animation: fadeInUp 0.4s ease;
+    }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+    @@keyframes fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .description-content {
+        line-height: 1.8;
+        color: #555;
+        font-size: 15px;
+    }
+
+        .description-content h2,
+        .description-content h3 {
+            color: var(--text-dark);
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .description-content p {
+            margin-bottom: 15px;
+        }
+
+        .description-content ul,
+        .description-content ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        .description-content li {
+            margin-bottom: 10px;
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+
+    .empty-state-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
+
+    /* Specifications Table - IMPROVED */
+    .specs-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .specs-table tr:nth-child(even) {
+            background: var(--secondary-color);
+        }
+
+        .specs-table th {
+            background: linear-gradient(to right, #f0f9f4 0%, #e8f5e9 100%);
+            padding: 18px 25px;
+            text-align: left;
+            font-weight: 600;
+            width: 35%;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+        }
+
+        .specs-table td {
+            padding: 18px 25px;
+            color: #555;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+        }
+
+        .specs-table tr:last-child th,
+        .specs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+    /* Related Products Section */
+    .related-products {
+        margin-top: 60px;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+    }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+    .section-subtitle {
+        color: #666;
+        font-size: 16px;
+        margin-top: 15px;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+    .product-card-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        background: var(--secondary-color);
+    }
+
+    .product-card-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #ff4444;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .product-card-content {
+        padding: 20px;
+    }
+
+    .product-card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.4;
+        height: 44px;
+    }
+
+    .product-card-price {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+    }
+
+    .product-card-current-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .product-card-old-price {
+        font-size: 14px;
+        color: #999;
+        text-decoration: line-through;
+    }
+
+    .product-card-rating {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 10px;
+        font-size: 13px;
+        color: #666;
+    }
+
+    .product-card-stars {
+        color: #ffc107;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .product-detail-container
+
+    {
+        padding: 15px;
+    }
+
+    .product-info {
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .product-title {
+        font-size: 22px;
+    }
+
+    .current-price {
+        font-size: 28px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .product-features {
+        grid-template-columns: 1fr;
+    }
+
+    .image-gallery {
+        position: static;
+    }
+
+    .main-image {
+        height: 300px;
+    }
+
+    .tabs-header {
+        flex-direction: column;
+    }
+
+    .tab-button {
+        padding: 15px 20px;
+    }
+
+    .tab-content-wrapper {
+        padding: 25px 20px;
+    }
+
+    .specs-table th,
+    .specs-table td {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .section-title {
+        font-size: 24px;
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .product-card-image {
+        height: 180px;
+    }
+
+    .product-card-content {
+        padding: 15px;
+    }
+
+    }
+</style>
+
+<div class="product-detail-container">
+
+    <!-- Breadcrumb -->
+    <nav class="custom-breadcrumb">
+        <a asp-controller="Home" asp-action="Index">Trang chủ</a>
+        <span>›</span>
+        @if (Model.Category != null)
+        {
+            <a asp-controller="SanPham" asp-action="DanhMuc" asp-route-slug="@Model.Category.Slug">
+                @Model.Category.Name
+            </a>
+            <span>›</span>
+        }
+        <span class="current">@Model.TenSanPham</span>
+    </nav>
+
+    <div class="row">
+        <!-- Image Gallery Column -->
+        <div class="col-lg-5 col-md-6">
+            <div class="image-gallery">
+                <div class="main-image-wrapper">
+                    @if (!string.IsNullOrEmpty(Model.AnhChinh))
+                    {
+                        <img src="@Url.Content(Model.AnhChinh)"
+                             alt="@Model.TenSanPham"
+                             class="main-image"
+                             id="mainProductImage" />
+                    }
+                    else
+                    {
+                        <div class="image-placeholder">
+                            <span>📷 Chưa có ảnh sản phẩm</span>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.SanPhamAnhs != null && Model.SanPhamAnhs.Any())
+                {
+                    <div class="thumbnail-gallery">
+                        @if (!string.IsNullOrEmpty(Model.AnhChinh))
+                        {
+                            <div class="thumbnail-item active" onclick="changeImage('@Url.Content(Model.AnhChinh)', this)">
+                                <img src="@Url.Content(Model.AnhChinh)" alt="Main" />
+                            </div>
+                        }
+                        @foreach (var anh in Model.SanPhamAnhs)
+                        {
+                            <div class="thumbnail-item" onclick="changeImage('@Url.Content(anh.Url)', this)">
+                                <img src="@Url.Content(anh.Url)" alt="Product image" />
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Product Info Column -->
+        <div class="col-lg-7 col-md-6">
+            <div class="product-info">
+
+                <h1 class="product-title">@Model.TenSanPham</h1>
+
+                @if (!string.IsNullOrWhiteSpace(Model.SKU))
+                {
+                    <span class="product-sku">
+                        <strong>SKU:</strong> @Model.SKU
+                    </span>
+                }
+
+                <div class="rating-section">
+                    <div class="stars">★★★★★</div>
+                    <span class="rating-text">(Đánh giá: 5.0)</span>
+                    <span class="rating-text">|</span>
+                    <span class="rating-text">Đã bán: 120+</span>
+                </div>
+
+                <!-- Price Section -->
+                <div class="price-section">
+                    <div class="price-label">Giá bán</div>
+                    <div>
+                        <span class="current-price">@Model.GiaBan.ToString("N0")₫</span>
+
+                        @if (Model.GiaCu.HasValue && Model.GiaCu.Value > Model.GiaBan)
+                        {
+                            <span class="old-price">@Model.GiaCu.Value.ToString("N0")₫</span>
+
+                            var discount = (int)Math.Round((Model.GiaCu.Value - Model.GiaBan) / Model.GiaCu.Value * 100);
+                            <span class="discount-badge">-@discount%</span>
+                        }
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.MoTaNgan))
+                {
+                    <div class="short-description">
+                        @Html.Raw(Model.MoTaNgan)
+                    </div>
+                }
+
+                <!-- Quantity Selector -->
+                <div class="quantity-section">
+                    <div class="quantity-label">Số lượng</div>
+                    <div class="quantity-selector">
+                        <button type="button" class="quantity-btn" onclick="decreaseQuantity()">−</button>
+                        <input type="number" id="quantityInput" class="quantity-input" value="1" min="1" max="999" />
+                        <button type="button" class="quantity-btn" onclick="increaseQuantity()">+</button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button type="button" class="btn-add-cart" disabled>
+                        🛒 Thêm vào giỏ hàng (Demo)
+                    </button>
+                    <button type="button" class="btn-buy-now" disabled>
+                        Mua ngay
+                    </button>
+                </div>
+
+                <!-- Features -->
+                <div class="product-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">🚚</div>
+                        <div>
+                            <strong>Giao hàng nhanh</strong><br>
+                            <small>Miễn phí vận chuyển</small>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div>
+                            <strong>Chính hãng 100%</strong><br>
+                            <small>Cam kết hàng thật</small>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">↻</div>
+                        <div>
+                            <strong>Đổi trả 7 ngày</strong><br>
+                            <small>Miễn phí đổi trả</small>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">☆</div>
+                        <div>
+                            <strong>Bảo hành chính hãng</strong><br>
+                            <small>Theo nhà sản xuất</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Tabs - IMPROVED -->
+    <div class="product-tabs">
+        <div class="tabs-header">
+            <button class="tab-button active" onclick="switchTab(event, 'description')">
+                <span class="tab-icon">📝</span>
+                <span>Mô tả chi tiết</span>
+            </button>
+            <button class="tab-button" onclick="switchTab(event, 'spec')">
+                <span class="tab-icon">⚙️</span>
+                <span>Thông số kỹ thuật</span>
+            </button>
+        </div>
+
+        <div class="tab-content-wrapper">
+            <!-- Description Tab -->
+            <div class="tab-panel active" id="description">
+                @if (!string.IsNullOrWhiteSpace(Model.MoTaChiTiet))
+                {
+                    <div class="description-content">
+                        @Html.Raw(Model.MoTaChiTiet)
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p style="font-size: 16px; color: #999;">Chưa có mô tả chi tiết cho sản phẩm này</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Specifications Tab -->
+            <div class="tab-panel" id="spec">
+                @if (Model.ThuocTinhs != null && Model.ThuocTinhs.Any())
+                {
+                    <table class="specs-table">
+                        @foreach (var item in Model.ThuocTinhs)
+                        {
+                            <tr>
+                                <th>@item.TenThuocTinh</th>
+                                <td>@item.GiaTri</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚙️</div>
+                        <p style="font-size: 16px; color: #999;">Chưa có thông số kỹ thuật cho sản phẩm này</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products Section -->
+    <div class="related-products">
+        <div class="section-header">
+            <h2 class="section-title">Sản phẩm liên quan</h2>
+            <p class="section-subtitle">Các sản phẩm tương tự bạn có thể quan tâm</p>
+        </div>
+
+        <div class="products-grid">
+            <!-- Product Card 1 (Demo) -->
+            <div class="product-card">
+                <div class="product-card-badge">-15%</div>
+                <img src="https://via.placeholder.com/300x300/e8f5e9/026625?text=Sản+phẩm+1"
+                     alt="Product"
+                     class="product-card-image" />
+                <div class="product-card-content">
+                    <h3 class="product-card-title">Tên sản phẩm liên quan số 1</h3>
+                    <div class="product-card-rating">
+                        <span class="product-card-stars">★★★★★</span>
+                        <span>(4.5)</span>
+                    </div>
+                    <div class="product-card-price">
+                        <span class="product-card-current-price">850,000₫</span>
+                        <span class="product-card-old-price">1,000,000₫</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 2 (Demo) -->
+            <div class="product-card">
+                <div class="product-card-badge">-20%</div>
+                <img src="https://via.placeholder.com/300x300/e8f5e9/026625?text=Sản+phẩm+2"
+                     alt="Product"
+                     class="product-card-image" />
+                <div class="product-card-content">
+                    <h3 class="product-card-title">Tên sản phẩm liên quan số 2</h3>
+                    <div class="product-card-rating">
+                        <span class="product-card-stars">★★★★★</span>
+                        <span>(4.8)</span>
+                    </div>
+                    <div class="product-card-price">
+                        <span class="product-card-current-price">720,000₫</span>
+                        <span class="product-card-old-price">900,000₫</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 3 (Demo) -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x300/e8f5e9/026625?text=Sản+phẩm+3"
+                     alt="Product"
+                     class="product-card-image" />
+                <div class="product-card-content">
+                    <h3 class="product-card-title">Tên sản phẩm liên quan số 3</h3>
+                    <div class="product-card-rating">
+                        <span class="product-card-stars">★★★★★</span>
+                        <span>(4.9)</span>
+                    </div>
+                    <div class="product-card-price">
+                        <span class="product-card-current-price">1,200,000₫</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Card 4 (Demo) -->
+            <div class="product-card">
+                <div class="product-card-badge">-10%</div>
+                <img src="https://via.placeholder.com/300x300/e8f5e9/026625?text=Sản+phẩm+4"
+                     alt="Product"
+                     class="product-card-image" />
+                <div class="product-card-content">
+                    <h3 class="product-card-title">Tên sản phẩm liên quan số 4</h3>
+                    <div class="product-card-rating">
+                        <span class="product-card-stars">★★★★★</span>
+                        <span>(4.7)</span>
+                    </div>
+                    <div class="product-card-price">
+                        <span class="product-card-current-price">990,000₫</span>
+                        <span class="product-card-old-price">1,100,000₫</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Change main image
+    function changeImage(imageUrl, element) {
+        const mainImage = document.getElementById('mainProductImage');
+        if (mainImage) {
+            mainImage.src = imageUrl;
+        }
+
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        element.classList.add('active');
+    }
+
+    // Quantity controls
+    function increaseQuantity() {
+        const input = document.getElementById('quantityInput');
+        const currentValue = parseInt(input.value) || 1;
+        if (currentValue < 999) {
+            input.value = currentValue + 1;
+        }
+    }
+
+    function decreaseQuantity() {
+        const input = document.getElementById('quantityInput');
+        const currentValue = parseInt(input.value) || 1;
+        if (currentValue > 1) {
+            input.value = currentValue - 1;
+        }
+    }
+
+    // Tab switching
+    function switchTab(event, tabId) {
+        event.preventDefault();
+
+        // Remove active class from all tabs and panels
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+
+        // Add active class to clicked tab and corresponding panel
+        event.currentTarget.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    // Validate quantity input
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantityInput = document.getElementById('quantityInput');
+        if (quantityInput) {
+            quantityInput.addEventListener('input', function() {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) {
+                    this.value = 1;
+                } else if (value > 999) {
+                    this.value = 999;
+                }
+            });
+        }
+    });
+</script>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+}

@@ -1,0 +1,177 @@
+﻿@model ResipWeb.Models.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Cập Nhật Hồ Sơ";
+}
+
+<style>
+    /* 1. KHUNG CARD */
+    .profile-card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    /* 2. HEADER */
+    .profile-header {
+        background-color: #026625;
+        color: #ffffff;
+        padding: 20px 15px; /* Giảm padding header */
+        text-align: center; /* Căn giữa nội dung trong header */
+        display: flex; /* Dùng Flexbox để căn chỉnh chắc chắn hơn */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 3. INPUT */
+    .form-control-custom {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 10px 15px; /* Giảm độ cao ô nhập liệu */
+        font-size: 14px;
+        background-color: #fcfcfc;
+        transition: all 0.3s;
+    }
+
+        .form-control-custom:focus {
+            background-color: #ffffff;
+            border-color: #026625;
+            box-shadow: 0 0 0 3px rgba(2, 102, 37, 0.15);
+        }
+
+    .form-control-readonly {
+        background-color: #e9ecef !important;
+        color: #6c757d;
+        border-color: #dee2e6;
+        cursor: not-allowed;
+    }
+
+    /* 4. LABEL */
+    .form-label-custom {
+        font-weight: 600;
+        margin-bottom: 5px; /* Giảm khoảng cách label với input */
+        font-size: 14px;
+        color: #333;
+        display: block;
+    }
+
+    /* 5. KHOẢNG CÁCH GIỮA CÁC Ô */
+    .form-group-spacing {
+        margin-bottom: 15px; /* Giảm khoảng cách giữa các dòng (trước là 20px) */
+    }
+
+    /* 6. BUTTON */
+    .btn-custom {
+        background-color: #026625;
+        color: white;
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        width: 100%;
+        font-size: 15px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        margin-top: 5px;
+    }
+
+        .btn-custom:hover {
+            background-color: #014519;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(2, 102, 37, 0.3);
+        }
+
+    .btn-back {
+        color: #666;
+        text-decoration: none;
+        font-size: 13px;
+        margin-top: 15px;
+        display: inline-block;
+        transition: 0.2s;
+    }
+
+        .btn-back:hover {
+            color: #026625;
+            text-decoration: underline;
+        }
+</style>
+
+<div class="container" style="min-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 40px 0;">
+    <div class="card profile-card" style="width: 100%; max-width: 650px;">
+
+        <div class="profile-header">
+            <h4 style="margin: 0; font-weight: 700; text-transform: uppercase; font-size: 20px;">Hồ Sơ Của Tôi</h4>
+            <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 13px; width: 100%; text-align: center;">
+                Quản lý thông tin tài khoản và giao hàng
+            </p>
+        </div>
+
+        <div class="card-body" style="padding: 30px;">
+
+            @if (ViewBag.SuccessMessage != null)
+            {
+                <div class="alert alert-success text-center mb-3 py-2 small" style="border-radius: 8px; background-color: #d4edda; color: #155724; border-color: #c3e6cb;">
+                    <i class="fa fa-check-circle"></i> @ViewBag.SuccessMessage
+                </div>
+            }
+
+            <form asp-action="Profile" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small text-center"></div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-spacing">
+                            <label class="form-label-custom">Tên đăng nhập</label>
+                            <input asp-for="Username" class="form-control form-control-custom form-control-readonly" readonly />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-spacing">
+                            <label class="form-label-custom">Email đăng ký</label>
+                            <input asp-for="Email" class="form-control form-control-custom form-control-readonly" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border-top: 1px dashed #ddd; margin: 5px 0 20px 0;" />
+
+                <div class="form-group-spacing">
+                    <label asp-for="FullName" class="form-label-custom">Họ và Tên <span class="text-danger">*</span></label>
+                    <input asp-for="FullName" class="form-control form-control-custom" placeholder="Nhập họ tên đầy đủ" />
+                    <span asp-validation-for="FullName" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="form-group-spacing">
+                    <label asp-for="PhoneNumber" class="form-label-custom">Số điện thoại</label>
+                    <input asp-for="PhoneNumber" class="form-control form-control-custom" placeholder="Nhập số điện thoại liên hệ" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="form-group-spacing">
+                    <label asp-for="ShippingAddress" class="form-label-custom">Địa chỉ giao hàng</label>
+                    <textarea asp-for="ShippingAddress" class="form-control form-control-custom" rows="2" placeholder="Số nhà, Tên đường, Phường/Xã..."></textarea>
+                    <span asp-validation-for="ShippingAddress" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn-custom">
+                        <i class="fa fa-save"></i> LƯU THAY ĐỔI
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <a asp-controller="Home" asp-action="Index" class="btn-back">
+                        <i class="fa fa-arrow-left"></i> Quay về trang chủ
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

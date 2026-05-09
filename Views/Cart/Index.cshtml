@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ResipWeb.Models.GioHang>
+
+<div class="container mt-5">
+    <h2>Giỏ hàng của bạn</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@Url.Content(item.SanPham.AnhChinh)" width="50" />
+                        @item.SanPham.TenSanPham
+                    </td>
+                    <td>@item.SanPham.GiaBan.ToString("N0")</td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post" class="d-flex">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <input type="number" name="quantity" value="@item.SoLuong" min="1" class="form-control w-50" onchange="this.form.submit()" />
+                        </form>
+                    </td>
+                    <td>@((item.SanPham.GiaBan * item.SoLuong).ToString("N0"))</td>
+                    <td>
+                        <a asp-action="Remove" asp-route-id="@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Xóa sản phẩm này?')">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-end">
+        <h4>Tổng cộng: @Model.Sum(x => x.SanPham.GiaBan * x.SoLuong).ToString("N0") VNĐ</h4>
+        <a href="/Checkout" class="btn btn-success btn-lg">THANH TOÁN NGAY</a>
+    </div>
+</div>

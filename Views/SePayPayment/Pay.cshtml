@@ -1,0 +1,473 @@
+@{
+    ViewData["Title"] = "Thanh toán SePay";
+    var orderCode = (string)ViewBag.OrderCode;
+    var amount = (decimal)ViewBag.Amount;
+    var qrUrl = (string)ViewBag.QrUrl;
+
+    string bankName = "MB Bank"; 
+    string accountNumber = "0343474272"; 
+    string accountName = "NGUYEN XUAN VAN";
+    
+    string amountDisplay = amount.ToString("N0");
+}
+@Html.AntiForgeryToken()
+
+
+
+<style>
+    :root {
+        --green:       #1a7c34;
+        --green-mid:   #218f3d;
+        --green-pale:  #f0f9f2;
+        --green-light: #e2f4e8;
+        --text-dark:   #0d200f;
+        --text-mid:    #3a5a40;
+        --text-soft:   #7aa085;
+        --border:      #b8ddc2;
+        --success:     #059669;
+        --danger:      #dc2626;
+        --warn-bg:     #fffbeb;
+        --warn-border: #fcd34d;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: inherit;
+        background: linear-gradient(145deg, #d8ede0 0%, #f4faf6 60%, #e5f3ea 100%);
+        min-height: 100vh;
+    }
+
+    .pay-wrap {
+        max-width: 960px;
+        margin: 2.5rem auto;
+        padding: 0 1rem;
+    }
+
+    .pay-card {
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(26,124,52,0.12), 0 4px 16px rgba(0,0,0,.06);
+        background: #fff;
+        position: relative;
+    }
+
+    /* HEADER */
+    .pay-header {
+        background: linear-gradient(120deg, #166d2c 0%, #1a7c34 50%, #239842 100%);
+        color: #fff;
+        padding: 30px 36px 28px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .pay-header::before {
+        content: '';
+        position: absolute;
+        top: -40px; right: -40px;
+        width: 220px; height: 220px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.07);
+        pointer-events: none;
+    }
+    .pay-header::after {
+        content: '';
+        position: absolute;
+        bottom: -60px; left: -20px;
+        width: 180px; height: 180px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.05);
+        pointer-events: none;
+    }
+    .pay-header h4 {
+        font-size: 1.9rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+        position: relative;
+    }
+    .pay-header p {
+    font-size: 1.1rem;
+    opacity: 0.92;
+    font-weight: 500;
+    margin: 0 auto; /* Đảm bảo margin auto hai bên */
+    position: relative;
+    text-align: center; /* Thêm dòng này để cưỡng bức căn giữa */
+    display: block; /* Đảm bảo nó chiếm hết chiều ngang để căn giữa nội dung bên trong */
+}
+
+    /* BODY */
+    .pay-body {
+        padding: 36px;
+        transition: opacity 0.3s;
+    }
+
+    /* QR BOX */
+    .qr-box {
+        background: var(--green-pale);
+        border: 2px dashed var(--border);
+        border-radius: 20px;
+        padding: 28px 20px 22px;
+        text-align: center;
+    }
+    .qr-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--green);
+        margin-bottom: 14px;
+    }
+    .qr-box img {
+        max-width: 260px;
+        width: 100%;
+        border-radius: 14px;
+        border: 5px solid #fff;
+        box-shadow: 0 6px 24px rgba(26,124,52,0.15);
+    }
+
+    /* STATUS PILL */
+    .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 26px;
+        border-radius: 99px;
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin-top: 18px;
+    }
+    .status-wait { background: #fff7ed; color: #c2410c; border: 1.5px solid #fde68a; }
+    .status-fail  { background: #fef2f2; color: var(--danger); border: 1.5px solid #fecaca; }
+    .status-paid  { background: #ecfdf5; color: var(--success); border: 1.5px solid #a7f3d0; }
+
+    /* SECTION TITLE */
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 16px;
+    }
+
+    /* INFO TABLE */
+    .info-section {
+        background: #fff;
+        border: 1.5px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+    }
+    .info-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px 22px;
+        border-bottom: 1px solid #eaf3ed;
+        transition: background 0.15s;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row:hover { background: var(--green-pale); }
+    .info-row.highlight {
+        background: var(--warn-bg);
+        border-top: 1px solid var(--warn-border);
+        border-bottom: 1px solid var(--warn-border);
+    }
+    .info-row.highlight:hover { background: #fff9e0; }
+
+    .info-label {
+        color: var(--text-mid);
+        font-size: 1.1rem;
+        font-weight: 600;
+        white-space: nowrap;
+        min-width: 140px;
+    }
+    .info-value {
+        font-weight: 700;
+        color: var(--text-dark);
+        font-size: 1.2rem;
+        text-align: right;
+    }
+    .info-value.amount {
+        color: var(--danger);
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+    .info-value.highlight-text {
+        color: var(--green);
+        font-size: 1.2rem;
+        word-break: break-all;
+        text-align: right;
+        font-weight: 800;
+    }
+
+    /* COPY BUTTON */
+    .copy-btn {
+        border: 1.5px solid var(--border);
+        background: #fff;
+        border-radius: 8px;
+        padding: 5px 14px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        color: var(--green);
+        transition: all 0.15s;
+        white-space: nowrap;
+        font-family: inherit;
+    }
+    .copy-btn:hover { background: var(--green); color: #fff; border-color: var(--green); }
+
+    /* STEPS */
+    .steps { margin-top: 20px; }
+    .step-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .step-badge {
+        width: 28px; height: 28px; min-width: 28px;
+        border-radius: 50%; background: var(--green); color: #fff;
+        font-size: 0.85rem; font-weight: 800;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .step-text { font-size: 1.05rem; color: var(--text-mid); line-height: 1.6; padding-top: 3px; }
+    .step-note { font-size: 0.95rem; color: var(--text-soft); font-style: italic; margin-top: 4px; padding-left: 40px; }
+
+    /* ACTION BAR */
+    .action-bar {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 22px;
+        border-top: 1.5px solid #eaf3ed;
+        align-items: stretch;
+    }
+    .auto-notice {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--green-pale);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 13px 18px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--green);
+    }
+    .auto-icon { font-size: 1.2rem; animation: spin 2.5s linear infinite; display: inline-block; }
+    @@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .btn-back {
+        padding: 13px 24px;
+        border: 1.5px solid var(--border);
+        background: #fff;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-mid);
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.15s;
+        font-family: inherit;
+        white-space: nowrap;
+    }
+    .btn-back:hover { background: var(--green-pale); border-color: var(--green); color: var(--green); }
+
+    /* EXPIRED OVERLAY */
+    .expired-overlay {
+        display: none;
+        position: absolute; top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(255,255,255,0.93);
+        z-index: 10;
+        align-items: center; justify-content: center;
+        flex-direction: column; border-radius: 24px;
+        text-align: center; gap: 14px;
+    }
+    .expired-overlay h3 { font-size: 1.5rem; font-weight: 800; color: var(--danger); }
+    .expired-overlay p  { color: var(--text-mid); font-size: 1rem; }
+    .btn-reload {
+        padding: 12px 32px; background: var(--green); color: #fff;
+        border: none; border-radius: 12px; font-size: 1rem; font-weight: 700;
+        cursor: pointer; text-decoration: none;
+        font-family: inherit; display: inline-block;
+    }
+
+    /* TOAST */
+    #toast {
+        visibility: hidden; min-width: 180px; background: var(--green); color: #fff;
+        text-align: center; border-radius: 12px; padding: 12px 20px;
+        position: fixed; z-index: 9999; left: 50%; bottom: 30px;
+        transform: translateX(-50%); font-size: 0.95rem; font-weight: 600;
+        box-shadow: 0 8px 24px rgba(26,124,52,0.3);
+    }
+    #toast.show { visibility: visible; animation: fadein 0.4s, fadeout 0.4s 1.6s; }
+    @@keyframes fadein { from { bottom: 10px; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+    @@keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 10px; opacity: 0; } }
+
+    @@media (max-width: 768px) {
+        .pay-body { padding: 22px 18px; }
+        .pay-header { padding: 22px 20px; }
+        .info-label { min-width: 100px; font-size: 1rem; }
+        .info-value { font-size: 1.05rem; }
+        .action-bar { flex-direction: column; }
+    }
+</style>
+
+<div class="pay-wrap">
+    <div class="pay-card" id="mainCard">
+        <div id="expiredOverlay" class="expired-overlay">
+            <h3>⏰ Giao dịch đã hết hạn</h3>
+            <p>Phiên thanh toán đã kết thúc. Vui lòng tạo đơn hàng mới.</p>
+            <a href="/Checkout" class="btn-reload">↩ Quay lại thanh toán</a>
+        </div>
+
+        <div class="pay-header">
+            <h4>💳 Thanh toán đơn hàng</h4>
+            <p>Vui lòng chuyển khoản thủ công và bấm xác nhận sau khi thanh toán</p>
+        </div>
+
+        <div class="pay-body" id="payBody">
+            <div class="row g-4 align-items-start">
+
+                <div class="col-lg-5">
+                    <div class="qr-box">
+                        <div class="qr-label">📱 Quét mã VietQR để thanh toán</div>
+                        <img src="@qrUrl" alt="QR Code" id="qrImage" />
+                        <div id="statusWrap">
+                            <div id="statusPill" class="status-pill status-wait">
+                                <span id="statusIcon">⏳</span>
+                                <span id="statusText">Đang tải...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="section-title">Thông tin chuyển khoản</div>
+                    <div class="info-section">
+                        <div class="info-row">
+                            <span class="info-label">Ngân hàng</span>
+                            <span class="info-value">@bankName</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Chủ tài khoản</span>
+                            <span class="info-value">@accountName</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Số tài khoản</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="info-value">@accountNumber</span>
+                                <button class="copy-btn" onclick="copyText('@accountNumber', 'số tài khoản')">Copy</button>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Số tiền</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="info-value amount">@amountDisplay ₫</span>
+                                <button class="copy-btn" onclick="copyText('@amount', 'số tiền')">Copy</button>
+                            </div>
+                        </div>
+                        <div class="info-row highlight">
+                            <span class="info-label" style="color:#92400e;">⚡ Nội dung CK</span>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="info-value highlight-text">@orderCode</span>
+                                <button class="copy-btn" onclick="copyText('@orderCode', 'nội dung')">Copy</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step-item">
+                            <div class="step-badge">1</div>
+                            <div class="step-text">Mở App Ngân hàng, chọn <strong>Quét mã QR</strong> hoặc <strong>Chuyển khoản</strong>.</div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-badge">2</div>
+                            <div class="step-text">Kiểm tra đúng <strong>Số tiền</strong> và <strong>Nội dung chuyển khoản</strong> rồi xác nhận.</div>
+                        </div>
+                        <div class="step-note">Sau khi chuyển khoản xong, bấm <strong>Xác nhận đã thanh toán</strong> để hoàn tất đơn.</div>
+                    </div>
+
+                    <div class="action-bar">
+                        <button type="button" class="btn-back" onclick="openCancelModal()">← Quay lại</button>
+                        <form method="post" action="/sepay/confirm" style="flex:1; display:flex;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderCode" value="@orderCode" />
+                            <button type="submit" class="btn-reload" style="width:100%;" onclick="return confirm('Bạn đã chuyển khoản thành công cho đơn ' + ORDER_CODE + ' chưa?');">
+                                Xác nhận đã thanh toán
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="toast"></div>
+
+<div id="cancelModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:99999; align-items:center; justify-content:center; padding:16px;">
+  <div style="width:min(520px, 100%); background:#fff; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.2); overflow:hidden;">
+    <div style="padding:16px 18px; background:#f8fafc; border-bottom:1px solid #e5e7eb;">
+      <div style="font-weight:800; font-size:18px;">Huỷ giao dịch?</div>
+      <div style="color:#64748b; margin-top:4px; font-size:14px;">
+        Bạn sắp huỷ đơn <b>@orderCode</b>. Nếu đã chuyển khoản, vui lòng không huỷ.
+      </div>
+    </div>
+
+    <div style="padding:16px 18px;">
+      <div style="display:flex; gap:10px; justify-content:flex-end;">
+        <button type="button" class="copy-btn" style="border-color:#cbd5e1; color:#334155;" onclick="closeCancelModal()">Không</button>
+        <button type="button" class="btn-reload" style="background:#dc2626;" onclick="confirmCancel()">Xác nhận huỷ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    // ====== CONSTS ======
+    const ORDER_CODE = '@orderCode';
+
+    // ====== TOAST / COPY ======
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerText = message;
+        toast.className = "show";
+        setTimeout(() => { toast.className = ""; }, 2000);
+    }
+
+    function copyText(text, label) {
+        navigator.clipboard.writeText(text).then(() => showToast("✅ Đã sao chép " + label));
+    }
+
+    // ====== CANCEL MODAL ======
+    function openCancelModal() {
+        document.getElementById("cancelModal").style.display = "flex";
+    }
+
+    function closeCancelModal() {
+        document.getElementById("cancelModal").style.display = "none";
+    }
+
+    function confirmCancel() {
+    document.getElementById("cancelForm").submit();
+}
+
+
+    // ====== INIT ======
+    // Không hiển thị đếm ngược; trạng thái là text tĩnh
+    document.getElementById("statusText").innerText = "Chờ thanh toán";
+
+    // expose functions for onclick in html
+    window.openCancelModal = openCancelModal;
+    window.closeCancelModal = closeCancelModal;
+    window.confirmCancel = confirmCancel;
+    window.copyText = copyText;
+
+
+
+</script>
+<form id="cancelForm" method="post" action="/sepay/cancel" style="display:none;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="orderCode" value="@orderCode" />
+</form>

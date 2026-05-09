@@ -1,0 +1,180 @@
+﻿@model ResipWeb.Models.CauHoiThuongGap
+
+@{
+    ViewData["Title"] = "Xác nhận xóa câu hỏi";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .delete-container {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .delete-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 600px;
+        overflow: hidden;
+        border-top: 5px solid #ef4444;
+    }
+
+    .delete-header {
+        padding: 30px;
+        text-align: center;
+        background: #fff5f5;
+    }
+
+    .warning-icon {
+        font-size: 60px;
+        color: #ef4444;
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    .warning-title {
+        font-weight: 800;
+        color: #111827;
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .delete-body {
+        padding: 30px;
+    }
+
+    .item-summary {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 24px;
+        border: 1px solid #e5e7eb;
+    }
+
+    .info-row {
+        margin-bottom: 12px;
+    }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .info-label {
+        color: #6b7280;
+        font-weight: 700;
+        font-size: 13px;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    .info-value {
+        color: #1f2937;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .answer-preview {
+        background: white;
+        padding: 10px;
+        border: 1px dashed #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #4b5563;
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
+    .action-group {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+    }
+
+    .btn-delete {
+        background: #ef4444;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.2s;
+        cursor: pointer;
+        flex: 1;
+    }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+    .btn-cancel {
+        background: #f3f4f6;
+        color: #374151;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        text-align: center;
+        flex: 1;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+</style>
+
+<div class="delete-container">
+    <div class="delete-card">
+        <div class="delete-header">
+            <span class="warning-icon">⚠️</span>
+            <h3 class="warning-title">Xóa câu hỏi này?</h3>
+            <p class="text-muted mt-2 mb-0">Hành động này sẽ xóa câu hỏi khỏi danh sách FAQ vĩnh viễn.</p>
+        </div>
+
+        <div class="delete-body">
+            <div class="item-summary">
+                <div class="info-row">
+                    <span class="info-label">Câu hỏi</span>
+                    <div class="info-value">@Model.CauHoi</div>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Thứ tự hiển thị</span>
+                    <div class="info-value">
+                        <span style="background: #e5e7eb; padding: 2px 8px; border-radius: 4px; font-family: monospace;">#@Model.ThuTu</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">Nội dung câu trả lời (Xem trước)</span>
+                    <div class="answer-preview">
+                        @* Lọc bỏ thẻ HTML để chỉ hiện text thuần cho gọn *@
+                        @System.Text.RegularExpressions.Regex.Replace(Model.CauTraLoi ?? "", "<.*?>", String.Empty)
+                    </div>
+                </div>
+            </div>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="action-group">
+                    <a asp-action="Index" class="btn-cancel">Hủy bỏ</a>
+                    <button type="submit" class="btn-delete">Đồng ý xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

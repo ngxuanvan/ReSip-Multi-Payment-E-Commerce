@@ -1,0 +1,152 @@
+﻿@model ResipWeb.Models.CauHoiThuongGap
+
+@{
+    ViewData["Title"] = "Thêm câu hỏi mới";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .create-container {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: none;
+        margin-bottom: 24px;
+    }
+
+    .card-header {
+        background: white;
+        border-bottom: 1px solid #eee;
+        padding: 20px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .card-body {
+        padding: 24px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 14px;
+        border: 1px solid #d1d5db;
+    }
+
+    /* Chỉnh chiều cao cho khung soạn thảo CKEditor */
+    .ck-editor__editable {
+        min-height: 250px !important;
+    }
+
+    /* Nút Create màu xanh lá */
+    .btn-create {
+        background: #10b981;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s;
+        width: 100%;
+    }
+
+        .btn-create:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+    .btn-back {
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .btn-back:hover {
+            color: #1a1a1a;
+        }
+</style>
+
+<div class="create-container">
+    <div class="mb-4">
+        <a asp-action="Index" class="btn-back">← Quay lại danh sách</a>
+        <h3 class="mt-2" style="font-weight: 700;">➕ Thêm câu hỏi mới</h3>
+    </div>
+
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"><h4>Nội dung hiển thị</h4></div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <label asp-for="CauHoi" class="form-label">Câu hỏi</label>
+                            <input asp-for="CauHoi" class="form-control" placeholder="Nhập tiêu đề câu hỏi..." />
+                            <span asp-validation-for="CauHoi" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-0">
+                            <label asp-for="CauTraLoi" class="form-label">Câu trả lời</label>
+                            <textarea asp-for="CauTraLoi" id="editor" class="form-control" placeholder="Nhập nội dung câu trả lời..."></textarea>
+                            <span asp-validation-for="CauTraLoi" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header"><h4>Cấu hình hiển thị</h4></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="ThuTu" class="form-label">Thứ tự sắp xếp</label>
+                            <input asp-for="ThuTu" class="form-control" type="number" value="1" />
+                            <span asp-validation-for="ThuTu" class="text-danger"></span>
+                            <p class="text-muted mt-2" style="font-size: 12px;">
+                                Mẹo: Nhập số thứ tự để kiểm soát vị trí hiển thị (1 là đầu tiên).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn-create">✅ Tạo câu hỏi</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+                placeholder: 'Nhập câu trả lời chi tiết tại đây...'
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

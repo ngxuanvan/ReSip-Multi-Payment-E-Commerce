@@ -1,0 +1,16 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER;Database=ResipWebDb;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "Smtp": {
+    "Host": "smtp.example.com",
+    "Port": 587,
+    "User": "your-smtp-username",
+    "Pass": "your-smtp-password",
+    "From": "no-reply@example.com",
+    "EnableSsl": true
+  },
+  "Features": {
+    "UseEmailToken": true
+  }
+}

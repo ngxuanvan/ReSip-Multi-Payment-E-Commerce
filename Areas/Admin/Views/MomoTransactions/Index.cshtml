@@ -1,0 +1,176 @@
+﻿@model List<ResipWeb.Models.Payments.MomoTransaction>
+
+@{
+    ViewData["Title"] = "Lịch sử thanh toán MoMo";
+    var keyword = (string?)ViewBag.Keyword;
+    int? resultCode = (int?)ViewBag.ResultCode;
+    var source = (string?)ViewBag.Source;
+
+    int page = (int)ViewBag.Page;
+    int pageSize = (int)ViewBag.PageSize;
+    int total = (int)ViewBag.Total;
+    int totalPages = (int)Math.Ceiling(total / (double)pageSize);
+    
+    // Màu chủ đạo 
+    string mainColor = "#28a745"; 
+}
+
+<style>
+    :root { --momo-green: @mainColor; }
+    .bg-momo { background-color: var(--momo-green) !important; color: white; }
+    .btn-momo { background-color: var(--momo-green); border-color: var(--momo-green); color: white; }
+    .btn-momo:hover { background-color: #218838; color: white; }
+    .text-momo { color: var(--momo-green); }
+    .card { border: none; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); border-radius: 0.75rem; }
+    .table thead { background-color: #f8f9fa; }
+    .badge-pill { padding: 0.5em 1em; border-radius: 50rem; font-weight: 500; }
+    .form-control:focus, .form-select:focus { border-color: var(--momo-green); box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); }
+</style>
+
+<div class="container-fluid py-4">
+    <div class="d-flex align-items-center mb-4">
+        <div class="bg-momo p-2 rounded-3 me-3">
+            <i class="bi bi-wallet2 fs-3"></i> </div>
+        <div>
+            <h3 class="fw-bold mb-0">Quản lý giao dịch MoMo</h3>
+            <p class="text-muted mb-0">Theo dõi và kiểm tra lịch sử thanh toán hệ thống</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body p-4">
+            <form method="get" class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Tìm kiếm</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-search"></i></span>
+                        <input class="form-control bg-light border-start-0" name="keyword" value="@keyword" placeholder="Mã đơn, tin nhắn..." />
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Trạng thái</label>
+                    <select class="form-select bg-light" name="resultCode">
+                        <option value="">Tất cả</option>
+                        <option value="0" selected="@(resultCode==0)">Thành công</option>
+                        <option value="1006" selected="@(resultCode==1006)">Thất bại</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-2 col-md-3">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Nguồn dữ liệu</label>
+                    <select class="form-select bg-light" name="source">
+                        <option value="">Tất cả</option>
+                        <option value="IPN" selected="@(source=="IPN")">Webhook (IPN)</option>
+                        <option value="RETURN" selected="@(source=="RETURN")">Trình duyệt (Return)</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-1 col-md-2">
+                    <label class="form-label small fw-bold text-uppercase text-muted">Hiển thị</label>
+                    <select class="form-select bg-light" name="pageSize">
+                        <option value="20" selected="@(pageSize==20)">20</option>
+                        <option value="50" selected="@(pageSize==50)">50</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-4 d-flex align-items-end gap-2">
+                    <button class="btn btn-momo flex-grow-1" type="submit">
+                        <i class="bi bi-filter me-1"></i> Lọc kết quả
+                    </button>
+                    <a class="btn btn-outline-secondary" href="/Admin/MomoTransactions">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">ID</th>
+                            <th>Thời gian</th>
+                            <th>Mã đơn hàng (OrderId)</th>
+                            <th>Số tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Nguồn</th>
+                            <th class="text-end pe-4">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var t in Model)
+                    {
+                        <tr>
+                            <td class="ps-4 text-muted small">#@t.Id</td>
+                            <td>
+                                <div class="fw-bold">@t.CreatedAt.ToString("dd/MM/yyyy")</div>
+                                <div class="small text-muted">@t.CreatedAt.ToString("HH:mm:ss")</div>
+                            </td>
+                            <td>
+                                <span class="badge bg-light text-dark border font-monospace">@t.OrderId</span>
+                            </td>
+                            <td>
+                                <span class="fw-bold text-momo">@t.Amount.ToString("#,##0") đ</span>
+                            </td>
+                            <td>
+                                @if (t.ResultCode == 0)
+                                {
+                                    <span class="badge badge-pill bg-success-subtle text-success border border-success">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Thành công
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-pill bg-danger-subtle text-danger border border-danger">
+                                        <i class="bi bi-x-circle-fill me-1"></i> Lỗi (@t.ResultCode)
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <small class="badge bg-secondary">@t.Source</small>
+                            </td>
+                            <td class="text-end pe-4">
+                                <a class="btn btn-sm btn-outline-primary rounded-pill" 
+                                   href="/Admin/MomoTransactions/Details/@t.Id">
+                                    Chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card-footer bg-white py-3">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-muted small">
+                    Hiển thị từ <b>@(((page-1)*pageSize)+1)</b> đến <b>@(Math.Min(page*pageSize, total))</b> trong tổng số <b>@total</b> giao dịch
+                </div>
+                <div class="col-md-6">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm justify-content-end mb-0">
+                            @if (page > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="?keyword=@keyword&resultCode=@resultCode&source=@source&page=@(page-1)&pageSize=@pageSize">Trước</a>
+                                </li>
+                            }
+                            <li class="page-item active"><a class="page-link bg-momo border-momo">@(page)</a></li>
+                            @if (page < totalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link text-momo" href="?keyword=@keyword&resultCode=@resultCode&source=@source&page=@(page+1)&pageSize=@pageSize">Tiếp theo</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

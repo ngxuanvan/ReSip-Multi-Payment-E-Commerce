@@ -1,0 +1,200 @@
+﻿@model IEnumerable<ResipWeb.Models.CauHoiThuongGap>
+
+@{
+    ViewData["Title"] = "Quản lý FAQ";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .page-container {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    /* Header */
+    .page-header {
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #111827;
+        margin: 0;
+    }
+
+    .page-subtitle {
+        color: #6b7280;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    /* Card & Table */
+    .table-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        overflow: hidden;
+        border: none;
+    }
+
+    .table thead th {
+        background: #f9fafb;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 12px;
+        color: #6b7280;
+        padding: 16px;
+        border-bottom: 2px solid #e5e7eb;
+        letter-spacing: 0.5px;
+    }
+
+    .table tbody td {
+        padding: 16px;
+        vertical-align: middle;
+        color: #1f2937;
+        font-size: 14px;
+        border-bottom: 1px solid #f3f4f6;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f0f9ff;
+    }
+
+    /* Answer Column - Xử lý văn bản dài */
+    .answer-preview {
+        max-width: 400px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #6b7280;
+    }
+
+    /* Buttons */
+    .btn-create {
+        background: #10b981;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s;
+    }
+
+        .btn-create:hover {
+            background: #059669;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+    .action-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: all 0.2s;
+        border: none;
+        margin-right: 4px;
+    }
+
+    .btn-edit {
+        background: #eff6ff;
+        color: #3b82f6;
+    }
+
+        .btn-edit:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+    .btn-delete {
+        background: #fef2f2;
+        color: #ef4444;
+    }
+
+        .btn-delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+    .badge-order {
+        background: #f3f4f6;
+        color: #374151;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-family: monospace;
+    }
+</style>
+
+<div class="page-container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">❓ Câu hỏi thường gặp</h1>
+            <p class="page-subtitle">Quản lý danh sách câu hỏi hiển thị trên trang hỗ trợ khách hàng</p>
+        </div>
+        <a asp-action="Create" class="btn-create">
+            ➕ Thêm câu hỏi mới
+        </a>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 80px; text-align: center;">Thứ tự</th>
+                        <th style="width: 30%;">Câu hỏi</th>
+                        <th>Câu trả lời (Xem trước)</th>
+                        <th style="width: 120px; text-align: center;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="text-align: center;">
+                                    <span class="badge-order">@item.ThuTu</span>
+                                </td>
+                                <td>
+                                    <div style="font-weight: 600;">@item.CauHoi</div>
+                                </td>
+                                <td>
+                                    <div class="answer-preview" title="@System.Text.RegularExpressions.Regex.Replace(item.CauTraLoi ?? "", "<.*?>", String.Empty)">
+                                        @* Loại bỏ thẻ HTML để hiển thị text thuần trong bảng *@
+                                        @System.Text.RegularExpressions.Regex.Replace(item.CauTraLoi ?? "", "<.*?>", String.Empty)
+                                    </div>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="action-btn btn-edit" title="Sửa">✏️</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="action-btn btn-delete" title="Xóa">🗑️</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted">
+                                📭 Chưa có câu hỏi nào. Hãy thêm câu hỏi đầu tiên!
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ResipWeb.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container pt_70 pb_30">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <a asp-action="ChiTiet" asp-route-id="@item.Id">
+                        <img src="@Url.Content(item.AnhChinh ?? "/images/no-image.png")"
+                             class="card-img-top"
+                             style="height: 200px; object-fit: contain; padding: 10px;" />
+                    </a>
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-truncate">@item.TenSanPham</h5>
+                        <p class="text-danger fw-bold">@item.GiaBan.ToString("N0") VNĐ</p>
+                        <p class="card-text">
+                            @Html.Raw(item.MoTaNgan)
+                        </p>
+
+                        <div class="d-grid gap-2">
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                                <input type="hidden" name="SanPhamId" value="@item.Id" />
+                                <input type="hidden" name="SoLuong" value="1" />
+                                <button type="submit" class="btn btn-primary btn-sm w-100">
+                                    <i class="fa fa-shopping-cart"></i> THÊM VÀO GIỎ
+                                </button>
+                            </form>
+
+                            <a asp-action="ChiTiet" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">
+                                XEM CHI TIẾT
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

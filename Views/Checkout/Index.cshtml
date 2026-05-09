@@ -1,0 +1,562 @@
+@model ResipWeb.Models.ViewModels.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<style>
+    /* Tạo nền xám nhẹ và khoảng cách rộng cho toàn trang */
+    .checkout-wrapper {
+        background-color: #f8f9fa;
+        min-height: 100vh; /* Đảm bảo chiều cao tối thiểu full màn hình */
+        padding: 60px 0 100px 0; /* Cách trên 60px, cách dưới 100px */
+    }
+
+    /* Style cho Card trắng */
+    .checkout-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        border: none;
+        padding: 30px;
+        margin-bottom: 20px;
+    }
+
+    /* Input đẹp hơn */
+    .form-control-lg-custom {
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+        transition: all 0.2s;
+    }
+
+        .form-control-lg-custom:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+    /* Label đậm */
+    .form-label {
+        font-weight: 600;
+        font-size: 14px;
+        color: #343a40;
+        margin-bottom: 8px;
+    }
+
+    /* Sticky Sidebar cho phần đơn hàng */
+    .order-summary-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 24px; /* Cách mép trên khi cuộn */
+    }
+
+    /* Button đặt hàng */
+    /* Button đặt hàng */
+    .btn-checkout {
+        background-color: #026625; /* Màu xanh Resip */
+        color: white;
+        padding: 10px 20px; /* Giảm độ cao xuống (trước là 14px) */
+        border-radius: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+        border: none;
+        margin-top: 15px; /* Tăng khoảng cách phía trên (trước là bị sát) */
+        width: 100%;
+    }
+
+        .btn-checkout:hover {
+            background-color: #014d1c; /* Màu xanh đậm hơn khi rê chuột vào */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 102, 37, 0.25); /* Bóng màu xanh nhẹ */
+            color: white;
+        }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f1f3f5;
+        color: #1a1a1a;
+    }
+
+    .pay-item {
+        display: flex;
+        align-items: center; /* căn giữa radio + logo + chữ */
+        gap: 15px;
+    }
+
+    .radio-wrap {
+        display: flex;
+        align-items: center;
+        height: 48px; /* bằng chiều cao logo */
+    }
+
+        .radio-wrap input {
+            margin: 0 !important; /* bỏ lệch mặc định */
+        }
+
+    .pay-logo {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 30px;
+    }
+
+        .pay-logo img {
+            max-width: 30px;
+            max-height: 30px;
+            object-fit: contain;
+            display: block;
+        }
+
+        #emailSuggestions {
+            display: none;
+            border: 0;
+            box-shadow: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #emailSuggestions.show {
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            margin-top: 6px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            z-index: 9999;
+            max-height: 220px;
+            overflow-y: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+        }
+
+        #emailSuggestions .email-suggestion-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #emailSuggestions .email-suggestion-item:hover {
+            background: #f5f5f5;
+        }
+
+    .email-float-suggestions {
+        position: fixed;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        z-index: 2147483647;
+        max-height: 240px;
+        overflow-y: auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+
+        .email-float-suggestions .email-suggestion-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+            .email-float-suggestions .email-suggestion-item:hover {
+                background: #f5f5f5;
+            }
+
+
+</style>
+
+<div class="checkout-wrapper">
+    <div class="container">
+        <div class="mb-4">
+            <h2 class="fw-bold text-dark">Thanh toán & Đặt hàng</h2>
+            <p class="text-muted">Vui lòng kiểm tra kỹ thông tin trước khi xác nhận.</p>
+        </div>
+
+        <form asp-controller="Checkout" asp-action="PlaceOrder" method="post" id="checkoutForm">
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="checkout-card">
+                        <h4 class="section-title">1. Thông tin người nhận</h4>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                <input asp-for="HoTen" class="form-control form-control-lg-custom" placeholder="Nhập họ tên đầy đủ" />
+                                <span asp-validation-for="HoTen" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                                <input asp-for="SoDienThoai" class="form-control form-control-lg-custom" placeholder="Nhập số điện thoại" />
+                                <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email nhận thông báo</label>
+
+                            <input asp-for="Email" id="emailInput"
+                                   class="form-control form-control-lg-custom"
+                                   placeholder="email@example.com"
+                                   autocomplete="off" />
+
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="checkout-card">
+                        <h4 class="section-title">2. Địa chỉ giao hàng</h4>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Tỉnh / Thành phố <span class="text-danger">*</span></label>
+                                <input asp-for="TinhThanh" class="form-control form-control-lg-custom" placeholder="Ví dụ: TP. Hồ Chí Minh" />
+                                <span asp-validation-for="TinhThanh" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phường / Xã <span class="text-danger">*</span></label>
+                                <input asp-for="PhuongXa" class="form-control form-control-lg-custom" placeholder="Ví dụ: Phường Đa Kao" />
+                                <span asp-validation-for="PhuongXa" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Địa chỉ chi tiết <span class="text-danger">*</span></label>
+                            <input asp-for="DiaChiCuThe" class="form-control form-control-lg-custom" placeholder="Số nhà, tên đường, tòa nhà..." />
+                            <span asp-validation-for="DiaChiCuThe" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú cho đơn hàng</label>
+                            <textarea asp-for="GhiChu" class="form-control form-control-lg-custom" rows="3" placeholder="Ví dụ: Giao hàng giờ hành chính, gọi trước khi giao..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="order-summary-sticky">
+                        <div class="checkout-card">
+                            <h4 class="section-title">Đơn hàng của bạn</h4>
+
+                            @if (Model.CartItems != null && Model.CartItems.Any())
+                            {
+                                <div style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                                    <ul class="list-group list-group-flush">
+                                        @foreach (var item in Model.CartItems)
+                                        {
+                                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3 border-bottom">
+                                                <div class="d-flex align-items-center">
+                                                    <div style="position: relative;">
+                                                        <img src="@item.HinhAnh" alt="@item.TenSanPham" style="width: 60px; height: 60px; object-fit: cover;" class="rounded border">
+                                                        <span class="badge rounded-pill bg-secondary" style="position: absolute; top: -5px; right: -5px;">@item.SoLuong</span>
+                                                    </div>
+                                                    <div class="ms-3">
+                                                        <h6 class="my-0 small fw-bold" style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">@item.TenSanPham</h6>
+                                                        <small class="text-muted">Phân loại: Mặc định</small>
+                                                    </div>
+                                                </div>
+                                                <span class="fw-bold small">@item.ThanhTien.ToString("#,##0") đ</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+
+                                <div class="mt-4">
+                                    <div class="d-flex justify-content-between mb-2 small text-muted">
+                                        <span>Tạm tính</span>
+                                        <span>@Model.TongTienHang.ToString("#,##0") đ</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-3 small text-muted">
+                                        <span>Phí vận chuyển</span>
+                                        <span>@Model.PhiVanChuyen.ToString("#,##0") đ</span>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="fw-bold fs-5 text-dark">Tổng cộng</span>
+                                        <span class="fw-bold fs-4 text-primary">@Model.TongThanhToan.ToString("#,##0") đ</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center py-4 text-muted">Giỏ hàng trống</div>
+                            }
+                        </div>
+
+                        <div class="checkout-card">
+                            <h4 class="section-title">3. Thanh toán</h4>
+
+                            
+                            <!-- COD -->
+                            <div class="form-check p-3 border rounded mb-2 bg-light pay-item">
+                                <div class="radio-wrap">
+                                    <input class="form-check-input" type="radio"
+                                           asp-for="PhuongThucThanhToan"
+                                           value="COD" id="paymentCOD" checked>
+                                </div>
+
+                                <div class="pay-logo">
+                                    <img src="~/assets/logopay/cod.png" alt="COD">
+                                </div>
+
+                                <label for="paymentCOD" class="mb-0 flex-grow-1" style="cursor:pointer;">
+                                    <div class="fw-bold text-dark">Thanh toán khi nhận hàng (COD)</div>
+                                    <small class="text-muted d-block">Bạn chỉ phải thanh toán khi đã nhận được kiện hàng.</small>
+                                </label>
+                            </div>
+
+                            <!-- MOMO -->
+                            <div class="form-check p-3 border rounded mb-2 pay-item">
+                                <div class="radio-wrap">
+                                    <input class="form-check-input" type="radio"
+                                           asp-for="PhuongThucThanhToan"
+                                           value="MOMO" id="paymentMomo">
+                                </div>
+
+                                <div class="pay-logo">
+                                    <img src="~/assets/logopay/logomomo.png" alt="MoMo">
+                                </div>
+
+                                <label for="paymentMomo" class="mb-0 flex-grow-1" style="cursor:pointer;">
+                                    <div class="fw-bold text-dark">Thanh toán MoMo (ATM/Internet Banking)</div>
+                                    <small class="text-muted d-block">Bạn sẽ được chuyển sang trang MoMo để thanh toán.</small>
+                                </label>
+                            </div>
+
+                             <!-- VNPAY -->
+                             <div class="form-check p-3 border rounded mb-3 pay-item d-flex align-items-center gap-3">
+                                <div class="radio-wrap">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           asp-for="PhuongThucThanhToan"
+                                           value="VNPAY"
+                                           id="paymentVnpay" />
+                                </div>
+
+                                <div class="pay-logo">
+                                    <img src="~/assets/logopay/logovnpay.png" alt="VNPAY" style="height:28px;" />
+                                </div>
+
+                                <label for="paymentVnpay" class="mb-0 flex-grow-1" style="cursor:pointer;">
+                                    <div class="fw-bold text-dark">Thanh toán qua VNPAY</div>
+                                    <small class="text-muted d-block">Hỗ trợ ATM, Internet Banking, QR Code.</small>
+                                </label>
+                            </div> 
+
+                            <!-- PAYPAL -->
+                            <div class="form-check p-3 border rounded mb-2 pay-item">
+                                <div class="radio-wrap">
+                                    <input class="form-check-input" type="radio"
+                                           asp-for="PhuongThucThanhToan"
+                                           value="PAYPAL" id="paymentPayPal">
+                                </div>
+
+                                <div class="pay-logo">
+                                    <img src="~/assets/Logopay/logopaypal.png" alt="PayPal">
+                                </div>
+
+                                <label for="paymentPayPal" class="mb-0 flex-grow-1" style="cursor:pointer;">
+                                    <div class="fw-bold text-dark">Thanh toán qua PayPal</div>
+                                    <small class="text-muted d-block">Thanh toán an toàn bằng tài khoản PayPal hoặc thẻ quốc tế.</small>
+                                </label>
+                            </div>
+
+                           
+
+                            <!-- SEPAY -->
+                            <div class="form-check p-3 border rounded mb-3 pay-item d-flex align-items-center gap-3">
+                                <div class="radio-wrap">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           asp-for="PhuongThucThanhToan"
+                                           value="SEPAY"
+                                           id="paymentSePay" />
+                                </div>
+
+                                <div class="pay-logo">
+                                    <img src="~/assets/logopay/VietQR_Logo.png"
+                                         alt="SePay"
+                                         style="height:28px;" />
+                                </div>
+
+                                <label for="paymentSePay"
+                                       class="mb-0 flex-grow-1"
+                                       style="cursor:pointer;">
+                                    <div class="fw-bold text-dark">
+                                        Chuyển khoản QR Code
+                                    </div>
+                                    <small class="text-muted d-block">
+                                        Quét QR và nhập đúng số tiền đơn hàng.
+                                    </small>
+                                </label>
+                            </div> 
+
+
+
+                            <button type="submit" class="btn btn-checkout" id="btnPlaceOrder">
+                                XÁC NHẬN ĐẶT HÀNG
+                            </button>
+                            <div class="text-center mt-3">
+                                <small class="text-muted">Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý với <a href="#" class="text-decoration-none">điều khoản dịch vụ</a>.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+(function () {
+    const input = document.getElementById("emailInput");
+    if (!input) return;
+
+    const domains = ["gmail.com", "st.ueh.edu.vn", "hotmail.com", "outlook.com", "yahoo.com", "icloud.com"];
+
+    const box = document.createElement("div");
+    box.className = "email-float-suggestions";
+    box.style.display = "none";
+    document.body.appendChild(box);
+
+    function placeBox() {
+        const r = input.getBoundingClientRect();
+        const gap = 6;
+        box.style.left = r.left + "px";
+        box.style.top = (r.bottom + gap) + "px";
+        box.style.width = r.width + "px";
+    }
+
+    function hide() {
+        box.style.display = "none";
+        box.innerHTML = "";
+    }
+
+    function show(items) {
+        if (!items.length) {
+            hide();
+            return;
+        }
+        box.innerHTML = "";
+        items.forEach(text => {
+            const row = document.createElement("div");
+            row.className = "email-suggestion-item";
+            row.textContent = text;
+            row.addEventListener("mousedown", function (e) {
+                e.preventDefault();
+                input.value = text;
+                hide();
+            });
+            box.appendChild(row);
+        });
+        placeBox();
+        box.style.display = "block";
+    }
+
+    function build(value) {
+        const v = (value || "").trim();
+        if (!v) return [];
+
+        const at = v.indexOf("@@");
+        if (at < 0) {
+            return domains.map(d => v + "@@" + d);
+        }
+
+        const local = v.slice(0, at);
+        const typed = v.slice(at + 1).toLowerCase();
+        if (!local) return [];
+
+        return domains
+            .filter(d => d.toLowerCase().startsWith(typed))
+            .map(d => local + "@@" + d);
+    }
+
+    input.addEventListener("input", function () {
+        show(build(this.value));
+    });
+
+    input.addEventListener("focus", function () {
+        show(build(this.value));
+    });
+
+    window.addEventListener("scroll", function () {
+        if (box.style.display === "block") placeBox();
+    }, true);
+
+    window.addEventListener("resize", function () {
+        if (box.style.display === "block") placeBox();
+    });
+
+    document.addEventListener("mousedown", function (e) {
+        if (e.target !== input && !box.contains(e.target)) hide();
+    });
+
+    input.addEventListener("blur", function () {
+        setTimeout(hide, 120);
+    });
+})();
+</script>
+
+    <script>
+        (function () {
+            const form = document.getElementById('checkoutForm');
+            const btn = document.getElementById('btnPlaceOrder');
+            if (!form || !btn) return;
+
+            const originalLabel = 'XÁC NHẬN ĐẶT HÀNG';
+            let submitted = false;
+
+            function resetBtn() {
+                submitted = false;
+                btn.disabled = false;
+                btn.innerText = originalLabel;
+            }
+
+            form.addEventListener('submit', function (e) {
+                // Kiểm tra jQuery Unobtrusive Validation (data-val-*)
+                if (window.jQuery && $(form).data('validator')) {
+                    if (!$(form).valid()) {
+                        resetBtn();
+                        return; // jQuery sẽ hiện lỗi, không submit
+                    }
+                } else if (!form.checkValidity()) {
+                    // Fallback: HTML5 native validation
+                    resetBtn();
+                    return;
+                }
+
+                // Chặn double-click sau khi đã submit hợp lệ
+                if (submitted) {
+                    e.preventDefault();
+                    return;
+                }
+
+                submitted = true;
+                btn.disabled = true;
+                btn.innerText = 'ĐANG XỬ LÝ...';
+            });
+
+            // Safety-net: jQuery Unobtrusive Validation báo form lỗi → reset button
+            if (window.jQuery) {
+                $(form).on('invalid-form.validate', function () {
+                    resetBtn();
+                });
+            }
+        })();
+    </script>
+
+
+}

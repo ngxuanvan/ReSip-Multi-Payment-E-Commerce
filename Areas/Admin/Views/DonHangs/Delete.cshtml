@@ -1,0 +1,173 @@
+﻿@model ResipWeb.Models.DonHang
+
+@{
+    ViewData["Title"] = "Xác nhận xóa đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .admin-delete-wrapper {
+        padding: 40px 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .delete-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        border: 1px solid #fee2e2;
+        padding: 40px;
+        max-width: 650px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .warning-icon {
+        width: 80px;
+        height: 80px;
+        background: #fef2f2;
+        color: #ef4444;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        margin: 0 auto 24px;
+    }
+
+    .delete-title {
+        font-size: 24px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .delete-subtitle {
+        color: #6b7280;
+        margin-bottom: 32px;
+        font-size: 15px;
+    }
+
+    /* Summary Info Table */
+    .info-summary {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 32px;
+        text-align: left;
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        color: #6b7280;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .info-value {
+        color: #111827;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    /* Action Buttons */
+    .action-group {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+    }
+
+    .btn-action {
+        padding: 12px 32px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-confirm {
+        background: #ef4444;
+        color: white;
+    }
+
+        .btn-confirm:hover {
+            background: #dc2626;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            transform: translateY(-1px);
+        }
+
+    .btn-cancel {
+        background: #f3f4f6;
+        color: #4b5563;
+    }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+</style>
+
+<div class="admin-delete-wrapper">
+    <div class="delete-card">
+        <div class="warning-icon">⚠️</div>
+
+        <h3 class="delete-title">Xác nhận xóa dữ liệu?</h3>
+        <p class="delete-subtitle">Bạn có chắc chắn muốn xóa đơn hàng này? Hành động này sẽ xóa vĩnh viễn dữ liệu và không thể khôi phục.</p>
+
+        <div class="info-summary">
+            <div class="info-item">
+                <span class="info-label">Mã đơn hàng:</span>
+                <span class="info-value" style="font-family: monospace; color: #3b82f6;">#@Model.MaDonHang</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Khách hàng:</span>
+                <span class="info-value">@Model.HoTen</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Tổng tiền:</span>
+                <span class="info-value text-danger">@(Model.TongTien.HasValue? Model.TongTien.Value.ToString("#,##0") : "0") đ</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Ngày đặt:</span>
+                <span class="info-value">@(Model.NgayTao.HasValue? Model.NgayTao.Value.ToString("dd/MM/yyyy HH:mm") : "N/A")</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Trạng thái hiện tại:</span>
+                <span class="info-value">@Model.TrangThai</span>
+            </div>
+        </div>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <div class="action-group">
+                <a asp-action="Index" class="btn-action btn-cancel">
+                    Hủy bỏ
+                </a>
+                <button type="submit" class="btn-action btn-confirm">
+                    Xác nhận xóa ngay
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="text-muted small text-decoration-none">
+            <i class="fa fa-arrow-left"></i> Quay lại danh sách quản lý
+        </a>
+    </div>
+</div>

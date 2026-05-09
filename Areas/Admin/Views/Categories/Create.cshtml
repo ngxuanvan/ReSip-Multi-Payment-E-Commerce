@@ -1,0 +1,241 @@
+﻿@model ResipWeb.Models.Category
+
+@{
+    ViewData["Title"] = "Thêm mới Danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    /* Hệ thống khung Admin đồng bộ */
+    .admin-wrapper {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .page-header {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .page-header h3 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+    /* Card Form Styles */
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: none;
+        padding: 30px;
+        max-width: 900px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .form-control-custom {
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        padding: 12px 14px;
+        transition: all 0.2s;
+        font-size: 14px;
+        width: 100%;
+    }
+
+        .form-control-custom:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+    /* Custom Switch cho IsActive */
+    .switch-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f9fafb;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+    input:checked + .slider {
+        background-color: #10b981;
+    }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+    /* Buttons */
+    .btn-submit {
+        background: #026625; /* Đồng bộ màu Resip */
+        color: white;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-submit:hover {
+            background: #014d1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(2, 102, 37, 0.2);
+        }
+
+    .btn-back {
+        color: #6b7280;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s;
+    }
+
+        .btn-back:hover {
+            color: #111827;
+        }
+</style>
+
+<div class="admin-wrapper">
+    <div class="page-header">
+        <h3>📂 Tạo Danh mục mới</h3>
+        <a asp-action="Index" class="btn-back">
+            <span>←</span> Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="form-card">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Name" class="form-label">Tên danh mục <span class="text-danger">*</span></label>
+                    <input asp-for="Name" class="form-control-custom" id="NameInput" placeholder="VD: Trái cây nhập khẩu" />
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Slug" class="form-label">Slug (Đường dẫn tự động)</label>
+                    <input asp-for="Slug" class="form-control-custom" id="SlugInput" placeholder="trai-cay-nhap-khau" />
+                    <span asp-validation-for="Slug" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="ParentId" class="form-label">Phân cấp (ID danh mục cha)</label>
+                    <input asp-for="ParentId" class="form-control-custom" placeholder="Nhập ID nếu là danh mục con" />
+                    <span asp-validation-for="ParentId" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label class="form-label">Trạng thái hiển thị</label>
+                    <div class="switch-container">
+                        <label class="switch">
+                            <input type="checkbox" asp-for="IsActive" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="text-muted small">Cho phép hiển thị trên cửa hàng</span>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-4">
+                    <label asp-for="Description" class="form-label">Mô tả chi tiết</label>
+                    <textarea asp-for="Description" class="form-control-custom" rows="4" placeholder="Viết mô tả ngắn về nhóm sản phẩm này..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="mt-4 border-top pt-4">
+                <button type="submit" class="btn-submit">
+                    <span>➕</span> Tạo danh mục ngay
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Logic tự động tạo Slug khi người dùng gõ tên
+        const nameInput = document.getElementById('NameInput');
+        const slugInput = document.getElementById('SlugInput');
+
+        nameInput.addEventListener('input', function() {
+            let title = this.value;
+            let slug = title.toLowerCase().trim()
+                .replace(/[áàảãạăắằẳẵặâấầẩẫậ]/g, 'a')
+                .replace(/[óòỏõọôốồổỗộơớờởỡợ]/g, 'o')
+                .replace(/[éèẻẽẹêếềểễệ]/g, 'e')
+                .replace(/[uúùủũụưứừửữự]/g, 'u')
+                .replace(/[iíìỉĩị]/g, 'i')
+                .replace(/[ýỳỷỹỵ]/g, 'y')
+                .replace(/đ/g, 'd')
+                .replace(/[^a-z0-9- ]/g, '') // Xóa ký tự đặc biệt
+                .replace(/\s+/g, '-');       // Thay khoảng trắng bằng gạch nối
+
+            slugInput.value = slug;
+        });
+    </script>
+}

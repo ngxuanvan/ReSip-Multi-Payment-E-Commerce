@@ -1,0 +1,281 @@
+﻿@model ResipWeb.Areas.Admin.Models.WebsiteSettingViewModel
+
+@{
+    ViewData["Title"] = "Cài đặt Website";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    /* Hệ thống khung chuyên nghiệp */
+    .setting-wrapper {
+        padding: 24px;
+        background: #f8f9fa;
+        min-height: 100vh;
+    }
+
+    .page-header {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+        .page-header h3 {
+            margin: 0 0 8px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+    /* Tab navigation tinh tế */
+    .custom-tabs {
+        border-bottom: 2px solid #e5e7eb;
+        gap: 8px;
+    }
+
+        .custom-tabs .nav-link {
+            border: none;
+            color: #6b7280;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+            .custom-tabs .nav-link.active {
+                color: #3b82f6;
+                background: transparent;
+            }
+
+                .custom-tabs .nav-link.active::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    right: 0;
+                    height: 2px;
+                    background: #3b82f6;
+                }
+
+            .custom-tabs .nav-link:hover:not(.active) {
+                background: #f3f4f6;
+                color: #374151;
+            }
+
+    /* Card Content */
+    .setting-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border: none;
+        padding: 24px;
+    }
+
+    .form-section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #374151;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .preview-box {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        display: inline-block;
+        margin-bottom: 12px;
+    }
+
+    /* Input & Textarea */
+    .form-control-custom {
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        padding: 10px 14px;
+        transition: all 0.2s;
+    }
+
+        .form-control-custom:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+    .code-editor {
+        font-family: 'Courier New', Courier, monospace;
+        background: #1e293b;
+        color: #e2e8f0;
+        border: none;
+    }
+
+    /* Button */
+    .btn-update {
+        background: #10b981;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 700;
+        border: none;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .btn-update:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+</style>
+
+<div class="setting-wrapper">
+    <div class="page-header">
+        <h3>⚙️ Cài đặt Website</h3>
+        <p class="text-muted m-0">Quản lý giao diện, Logo, Favicon và các mã tích hợp hệ thống</p>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success border-0 shadow-sm mb-4" style="border-radius: 8px;">
+            <i class="fa fa-check-circle me-2"></i> @TempData["Success"]
+        </div>
+    }
+
+    <div class="setting-card">
+        <form asp-action="Index" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <ul class="nav nav-tabs custom-tabs" id="settingTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="logo-tab" data-bs-toggle="tab" data-toggle="tab" data-bs-target="#logo" data-target="#logo" type="button" role="tab" aria-controls="logo" aria-selected="true">
+                        🖼️ Logo & Favicon
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="footer-tab" data-bs-toggle="tab" data-toggle="tab" data-bs-target="#footer" data-target="#footer" type="button" role="tab" aria-controls="footer" aria-selected="false">
+                        📑 Footer & Liên Hệ
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="code-tab" data-bs-toggle="tab" data-toggle="tab" data-bs-target="#code" data-target="#code" type="button" role="tab" aria-controls="code" aria-selected="false">
+                        💻 Tracking Code
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-4">
+                <div class="tab-pane fade show active" id="logo" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="form-section-title">Cấu hình Logo</h5>
+                            <div class="preview-box">
+                                @if (!string.IsNullOrEmpty(Model.CurrentLogo))
+                                {
+                                    <img src="@Model.CurrentLogo" style="max-height: 80px;" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Chưa có logo</span>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label class="small fw-bold text-muted d-block mb-2">Thay đổi Logo mới</label>
+                                <input asp-for="LogoUpload" type="file" class="form-control" accept="image/*" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="form-section-title">Cấu hình Favicon</h5>
+                            <div class="preview-box">
+                                @if (!string.IsNullOrEmpty(Model.CurrentFavicon))
+                                {
+                                    <img src="@Model.CurrentFavicon" style="width: 32px; height: 32px;" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Chưa có favicon</span>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label class="small fw-bold text-muted d-block mb-2">Thay đổi Favicon mới</label>
+                                <input asp-for="FaviconUpload" type="file" class="form-control" accept="image/*" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="footer" role="tabpanel">
+                    <h5 class="form-section-title">Nội dung chân trang</h5>
+                    <div class="form-group">
+                        <label class="form-label">Thông tin Footer (Hỗ trợ mã HTML)</label>
+                        <textarea asp-for="FooterContent" class="form-control form-control-custom" rows="8" placeholder="Nhập địa chỉ, bản quyền, số điện thoại..."></textarea>
+                        <div class="mt-2 small text-muted">
+                            <i class="fa fa-info-circle"></i> Bạn có thể sử dụng các thẻ HTML như &lt;strong&gt;, &lt;br&gt;, &lt;a&gt; để định dạng.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="code" role="tabpanel">
+                    <div class="alert shadow-sm mb-4" style="background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 8px;">
+                        <i class="fa fa-exclamation-triangle me-2"></i> <strong>Thận trọng:</strong> Chỉ chèn mã từ các nguồn tin cậy (Google Analytics, Facebook Pixel, Chatbot). Mã sai có thể làm hỏng giao diện Website.
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Mã chèn vào trước thẻ &lt;/head&gt;</label>
+                        <textarea asp-for="HeadCode" class="form-control form-control-custom code-editor" rows="6" placeholder=""></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Mã chèn vào trước thẻ &lt;/body&gt;</label>
+                        <textarea asp-for="BodyCode" class="form-control form-control-custom code-editor" rows="6" placeholder=""></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 border-top pt-4">
+                <button type="submit" class="btn-update">
+                    <i class="fa fa-save"></i> Lưu tất cả thay đổi
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy tất cả các nút tab
+            var triggerTabList = [].slice.call(document.querySelectorAll('#settingTab button, #settingTab a'))
+
+            triggerTabList.forEach(function (triggerEl) {
+                triggerEl.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    // 1. Xóa class active ở tất cả các tab button
+                    triggerTabList.forEach(t => t.classList.remove('active'));
+                    // 2. Thêm class active cho tab vừa click
+                    this.classList.add('active');
+
+                    // 3. Ẩn tất cả các nội dung tab
+                    document.querySelectorAll('.tab-pane').forEach(p => {
+                        p.classList.remove('show', 'active');
+                    });
+
+                    // 4. Hiển thị nội dung tab tương ứng
+                    // Lấy id từ data-bs-target hoặc href
+                    var targetId = this.getAttribute('data-bs-target') || this.getAttribute('data-target') || this.getAttribute('href');
+                    if(targetId && targetId.startsWith('#')) {
+                        var targetPane = document.querySelector(targetId);
+                        if(targetPane) {
+                            targetPane.classList.add('show', 'active');
+                        }
+                    }
+                })
+            })
+        });
+    </script>
+}

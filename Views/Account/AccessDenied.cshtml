@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Truy c?p b? t? ch?i";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" style="min-height:60vh; display:flex; align-items:center; justify-content:center; padding:40px 0;">
+    <div class="card" style="max-width:720px; width:100%; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+        <div class="card-header" style="background-color:#026625; color:#fff; text-align:center; padding:18px 20px; border-top-left-radius:12px; border-top-right-radius:12px;">
+            <h4 style="margin:0;">KHÔNG ?? QUY?N TRUY C?P</h4>
+        </div>
+        <div class="card-body" style="padding:28px;">
+            <p class="lead">B?n không có quy?n truy c?p trang này. N?u b?n là qu?n tr? viên, hãy ??ng nh?p b?ng tài kho?n có quy?n.</p>
+
+            <div style="display:flex; gap:12px; margin-top:18px;">
+                <a asp-controller="Account" asp-action="Login" class="btn btn-success">??ng nh?p</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">V? trang ch?</a>
+            </div>
+        </div>
+    </div>
+</div>

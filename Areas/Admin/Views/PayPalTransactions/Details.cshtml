@@ -1,0 +1,115 @@
+@model ResipWeb.Models.Payments.PayPalTransaction
+
+@{
+    ViewData["Title"] = "Chi tiết giao dịch PayPal";
+    string paypalBlue = "#003087";
+    bool isSuccess = Model.Status == "COMPLETED";
+}
+
+<style>
+    :root { --paypal-blue: @paypalBlue; }
+    .bg-paypal { background-color: var(--paypal-blue) !important; color: #fff; }
+    .text-paypal { color: var(--paypal-blue) !important; }
+    .card-detail { border: none; box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05); border-radius: 1rem; overflow: hidden; }
+    .detail-header { border-bottom: 1px solid #eee; padding: 1.5rem; background: #fbfbfb; }
+    .detail-body { padding: 2rem; }
+    .detail-item { margin-bottom: 1.5rem; border-bottom: 1px dashed #eee; pb-3; }
+    .detail-label { color: #6c757d; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; display: block; }
+    .detail-value { font-weight: 600; color: #2d3436; font-size: 1.1rem; word-break: break-all; }
+    .font-monospace { font-family: SFMono-Regular, Consolas, monospace; }
+</style>
+
+<div class="container-fluid py-4">
+
+    <!-- Breadcrumb & Back -->
+    <nav aria-label="breadcrumb" class="mb-4 d-flex justify-content-between align-items-center">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-paypal">PayPal Transactions</a></li>
+            <li class="breadcrumb-item active">Details</li>
+        </ol>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+            <i class="bi bi-arrow-left me-1"></i> Quay lại danh sách
+        </a>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card card-detail">
+                <div class="detail-header d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-paypal p-2 rounded-3 me-3">
+                            <i class="bi bi-paypal text-white fs-4"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Giao dịch #@Model.Id</h5>
+                            <small class="text-muted">Khởi tạo lúc: @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</small>
+                        </div>
+                    </div>
+                    @if (isSuccess)
+                    {
+                        <span class="badge bg-success-subtle text-success border border-success px-3 py-2 rounded-pill">
+                            <i class="bi bi-check-circle-fill me-1"></i> @Model.Status
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger-subtle text-danger border border-danger px-3 py-2 rounded-pill">
+                            <i class="bi bi-x-circle-fill me-1"></i> @Model.Status
+                        </span>
+                    }
+                </div>
+
+                <div class="detail-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <span class="detail-label">Mã đơn hàng (Hệ thống)</span>
+                                <div class="detail-value text-primary font-monospace">@Model.OrderId</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <span class="detail-label">Mã giao dịch PayPal (Capture ID)</span>
+                                <div class="detail-value font-monospace">@Model.PayPalOrderId</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <span class="detail-label">Số tiền thực thanh toán</span>
+                                <div class="detail-value text-paypal fs-3 fw-bold">$@Model.AmountUsd</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="detail-item">
+                                <span class="detail-label">Email tài khoản PayPal</span>
+                                <div class="detail-value text-dark">@Model.PayerEmail</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <span class="detail-label">PayerID (PayPal)</span>
+                                <div class="detail-value font-monospace small">@Model.PayerID</div>
+                            </div>
+
+                            <div class="detail-item">
+                                <span class="detail-label">PayPal Token</span>
+                                <div class="detail-value font-monospace small">@Model.Token</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-light rounded-3 border">
+                        <div class="d-flex align-items-center text-muted small">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Dữ liệu này được lưu tự động từ phản hồi của PayPal API (Capture v2). Dùng cho mục đích đối soát và hỗ trợ khách hàng.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-top-0 p-4 text-center">
+                    <a href="/Admin/DonHangs/Index?MaDonHang=@Model.OrderId" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-receipt me-1"></i> Xem đơn hàng gốc
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

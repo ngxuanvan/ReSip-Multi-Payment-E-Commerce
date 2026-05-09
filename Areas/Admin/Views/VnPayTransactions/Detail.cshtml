@@ -1,0 +1,183 @@
+﻿@model ResipWeb.Models.Payments.VnPayTransaction
+@{
+    ViewData["Title"] = "Chi tiết giao dịch VNPAY";
+    var isSuccess = Model.ResponseCode == "00" && Model.TransactionStatus == "00";
+    string vnpayBlue = "#005baa";
+}
+
+<style>
+    :root {
+        --vnpay-blue: @vnpayBlue;
+    }
+
+    .text-vnpay {
+        color: var(--vnpay-blue);
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+        border-radius: 0.75rem;
+    }
+
+    .info-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        text-uppercase;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: #212529;
+    }
+
+    .status-banner {
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+        .status-banner.success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            border: 1px solid #badbcc;
+        }
+
+        .status-banner.danger {
+            background-color: #f8d7da;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+        }
+
+    code {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        display: block;
+        border: 1px solid #dee2e6;
+        color: #d63384;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="mb-4">
+        <a class="text-decoration-none text-muted small fw-bold" asp-area="Admin" asp-controller="VnPayTransactions" asp-action="Index">
+            <i class="bi bi-arrow-left me-1"></i> QUAY LẠI DANH SÁCH
+        </a>
+        <h3 class="fw-bold mt-2">Chi tiết giao dịch VNPAY</h3>
+    </div>
+
+    <div class="status-banner @(isSuccess ? "success" : "danger")">
+        <div class="me-3">
+            @if (isSuccess)
+            {
+                <i class="bi bi-check-circle-fill fs-1"></i>
+            }
+            else
+            {
+                <i class="bi bi-exclamation-octagon-fill fs-1"></i>
+            }
+        </div>
+        <div>
+            <h4 class="mb-1 fw-bold">@(isSuccess ? "Thanh toán thành công" : "Giao dịch thất bại/Lỗi")</h4>
+            <p class="mb-0 op-75">Mã phản hồi: @Model.ResponseCode - @Model.TransactionStatus</p>
+        </div>
+        <div class="ms-auto text-end">
+            <div class="small text-uppercase opacity-75">Số tiền giao dịch</div>
+            <h2 class="mb-0 fw-bold">@string.Format("{0:N0}", Model.Amount / 100) ₫</h2>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-info-circle me-2 text-vnpay"></i>Thông tin đơn hàng</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="info-label">Mã đơn hàng (TxnRef)</div>
+                            <div class="info-value font-monospace text-primary">@Model.MaDonHang</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-label">Mã giao dịch VNPAY</div>
+                            <div class="info-value font-monospace">@Model.TransactionNo</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-label">Mã Website (TmnCode)</div>
+                            <div class="info-value">@Model.TmnCode</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-label">Thời gian khởi tạo</div>
+                            <div class="info-value">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</div>
+                        </div>
+                        <div class="col-12">
+                            <hr />
+                            <div class="info-label">Nguồn dữ liệu nhận được</div>
+                            <div>
+                                <span class="badge @(Model.Source == "IPN" ? "bg-info" : "bg-warning text-dark")">
+                                    @Model.Source
+                                </span>
+                                <small class="text-muted ms-2">
+                                    @(Model.Source == "IPN" ? "(Server-to-Server)" : "(User Redirect)")
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-shield-lock me-2 text-vnpay"></i>Bảo mật</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="mb-4 text-center">
+                        <div class="info-label">Kiểm tra chữ ký (Signature)</div>
+                        @if (Model.IsValidSignature)
+                        {
+                            <div class="text-success fw-bold fs-5">
+                                <i class="bi bi-shield-check me-1"></i> HỢP LỆ
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-danger fw-bold fs-5">
+                                <i class="bi bi-shield-x me-1"></i> KHÔNG HỢP LỆ
+                            </div>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="info-label">Loại mã hóa</div>
+                        <div class="badge bg-light text-dark border">@Model.SecureHashType</div>
+                    </div>
+
+                    <div class="mb-0">
+                        <div class="info-label">Chuỗi Hash</div>
+                        <code class="small text-break">@Model.SecureHash</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card bg-light border-0">
+                <div class="card-body d-flex justify-content-between align-items-center py-3">
+                    <span class="text-muted small">Cần hỗ trợ về giao dịch này? Hãy sao chép <b>TransactionNo</b> để tra soát trên portal VNPAY.</span>
+                    <button class="btn btn-sm btn-vnpay" onclick="window.print()">
+                        <i class="bi bi-printer me-1"></i> In chi tiết
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

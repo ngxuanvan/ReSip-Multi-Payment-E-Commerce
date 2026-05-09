@@ -1,0 +1,247 @@
+﻿@{
+    ViewData["Title"] = "Giao dịch đã bị huỷ";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Đã thêm Layout theo yêu cầu
+
+    var orderCode = (string)ViewBag.OrderCode;
+    var amount = (decimal)(ViewBag.Amount ?? 0);
+    string amountDisplay = amount.ToString("N0");
+}
+
+<style>
+    /* Reset nhẹ để đảm bảo không bị ghi đè bởi Layout quá nhiều */
+    .cancel-page-wrapper {
+        padding: 40px 15px;
+        background-color: #f8f9fa;
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Sử dụng font-family kế thừa từ Layout của bạn */
+        font-family: inherit;
+    }
+
+    .cancel-card {
+        background: #fff;
+        max-width: 550px;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+
+    /* HEADER: Gradient đỏ và căn giữa như ảnh 2 */
+    .cancel-header {
+        background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+        color: #fff;
+        padding: 45px 25px;
+        text-align: center;
+    }
+
+    .cancel-icon-circle {
+        width: 85px;
+        height: 85px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 45px;
+        color: #d32f2f;
+        font-weight: bold;
+    }
+
+    .cancel-header h4 {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #fff;
+    }
+
+    .cancel-header p {
+        font-size: 15px;
+        opacity: 0.95;
+        line-height: 1.5;
+        max-width: 320px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    /* BODY: Bảng chi tiết đơn hàng */
+    .cancel-body {
+        padding: 30px;
+    }
+
+    .info-group {
+        border: 1px solid #eeeeee;
+        border-radius: 12px;
+        padding: 8px 20px;
+        margin-bottom: 20px;
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 0;
+        border-bottom: 1px solid #f5f5f5;
+    }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        color: #888888;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .info-value {
+        color: #006688; /* Màu xanh đậm giống ảnh */
+        font-weight: 700;
+        font-size: 15px;
+        text-align: right;
+    }
+
+        .info-value.price {
+            color: #026625; /* Màu hồng/đỏ cho số tiền */
+        }
+
+    .status-badge {
+        background: #b1efbe;
+        color: #026625;
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .cancel-note {
+        font-size: 13px;
+        color: #555;
+        text-align: center;
+        margin-bottom: 25px;
+        padding: 0 10px;
+    }
+
+    /* NÚT BẤM: Đúng màu ảnh số 2 */
+    .cancel-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .btn-cancel-custom {
+        flex: 1;
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none !important;
+        text-align: center;
+        transition: all 0.2s;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    /* Nút Về trang chủ màu xanh lá */
+    .btn-go-home {
+        background-color: #28a745;
+        color: #fff !important;
+        border: none;
+    }
+
+        .btn-go-home:hover {
+            background-color: #218838;
+        }
+
+    /* Nút Thử lại màu trắng viền xanh dương */
+    .btn-try-again {
+        background-color: #fff;
+        color: #007bff !important;
+        border: 2px solid #007bff;
+    }
+
+        .btn-try-again:hover {
+            background-color: #007bff;
+            color: #fff !important;
+        }
+
+    /* FOOTER HỖ TRỢ */
+    .support-box {
+        margin-top: 25px;
+        width: 100%;
+        max-width: 550px;
+        background: #f1f3f5;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+        border: 1px solid #e9ecef;
+    }
+
+    /* Reponsive cho mobile giống ảnh 2 */
+    @@media (max-width: 480px) {
+        .cancel-actions {
+            flex-direction: column;
+        }
+
+        .btn-cancel-custom {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="cancel-page-wrapper">
+    <div class="cancel-card">
+        <div class="cancel-header">
+            <div class="cancel-icon-circle">✕</div>
+            <h4>Giao dịch đã huỷ</h4>
+            <p>Thanh toán của bạn chưa được hoàn tất. Vui lòng hoàn tất lại.</p>
+        </div>
+
+        <div class="cancel-body">
+            <div class="info-group">
+                <div class="info-item">
+                    <span class="info-label">Mã đơn hàng</span>
+                    <span class="info-value">#@orderCode</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Số tiền</span>
+                    <span class="info-value price">@amountDisplay ₫</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Nội dung</span>
+                    <span class="info-value">Huỷ đơn hàng #@orderCode</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Trạng thái</span>
+                    <span class="status-badge">✕ ĐÃ HUỶ</span>
+                </div>
+            </div>
+
+            <p class="cancel-note">
+                <strong>Lưu ý:</strong> Nếu tài khoản của bạn bị trừ tiền, hãy liên hệ hotline để được xử lý nhanh nhất.
+            </p>
+
+            <div class="cancel-actions">
+                <a href="/" class="btn-cancel-custom btn-go-home">
+                    🏠 Về trang chủ
+                </a>
+                <a href="/Checkout" class="btn-cancel-custom btn-try-again">
+                    Thử thanh toán lại 🛒
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="support-box">
+        Hỗ trợ kỹ thuật: <strong>0123 456 789 (24/7)</strong>
+    </div>
+</div>

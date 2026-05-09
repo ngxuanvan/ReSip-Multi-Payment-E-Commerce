@@ -1,0 +1,276 @@
+@model IEnumerable<ResipWeb.Models.DonHang>
+
+@{
+    ViewData["Title"] = "Lịch sử mua hàng";
+}
+
+<style>
+    /* --- CSS dùng chung cho khu vực Tài khoản (Copy từ Dashboard) --- */
+    .dashboard-container {
+        padding: 50px 0;
+        background-color: #f9f9f9;
+        min-height: 80vh;
+    }
+
+    /* Sidebar */
+    .account-sidebar {
+        background: #fff;
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .user-profile-header {
+        padding: 30px 20px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        background-color: #fff;
+    }
+
+    .user-avatar {
+        width: 70px;
+        height: 70px;
+        background-color: #026625;
+        color: #fff;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+
+    .account-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .account-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: #555;
+            border-bottom: 1px solid #f8f8f8;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+            .account-menu li a:hover, .account-menu li a.active {
+                background-color: #026625;
+                color: #fff;
+            }
+
+            .account-menu li a i {
+                margin-right: 15px;
+                width: 20px;
+                text-align: center;
+            }
+
+    /* --- CSS Riêng cho bảng đơn hàng --- */
+    .order-card {
+        background: #fff;
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+        padding: 0; /* Table full width */
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    }
+
+    .custom-table thead {
+        background-color: #f1f1f1;
+    }
+
+    .custom-table th {
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #666;
+        font-weight: 700;
+        padding: 15px;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .custom-table td {
+        padding: 15px;
+        vertical-align: middle;
+        font-size: 14px;
+        color: #333;
+        border-bottom: 1px solid #eee;
+    }
+
+    .custom-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .custom-table tr:hover {
+        background-color: #f9fdfa;
+    }
+
+    /* Badge trạng thái */
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .status-shipping {
+        background: #cff4fc;
+        color: #055160;
+    }
+
+    .status-success {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .status-cancel {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .status-default {
+        background: #e2e3e5;
+        color: #383d41;
+    }
+
+    /* Nút xem chi tiết */
+    .btn-view-detail {
+        border: 1px solid #026625;
+        color: #026625;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+        .btn-view-detail:hover {
+            background-color: #026625;
+            color: white;
+        }
+
+    .empty-order-state {
+        padding: 60px 20px;
+        text-align: center;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid #e1e1e1;
+    }
+</style>
+
+<div class="dashboard-container">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h2 style="font-weight: 800; color: #1a1a1a; margin-bottom: 20px; border-left: 5px solid #026625; padding-left: 15px;">
+                    LỊCH SỬ ĐƠN HÀNG
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-4 mb-4">
+                <div class="account-sidebar">
+                    <div class="user-profile-header">
+                        <div class="user-avatar">
+                            <span>@(User.Identity.Name?.Substring(0, 1).ToUpper() ?? "U")</span>
+                        </div>
+                        <h5 class="mb-1 fw-bold">@User.Identity.Name</h5>
+                        <small class="text-muted">Thành viên</small>
+                    </div>
+                    <ul class="account-menu">
+                        <li><a href="/Account/Dashboard"><i class="fa fa-dashboard"></i> Trang tài khoản</a></li>
+                        <li><a href="#" class="active"><i class="fa fa-shopping-bag"></i> Đơn hàng</a></li>
+                        <li><a href="#"><i class="fa fa-download"></i> Tải xuống</a></li>
+                        <li><a href="#"><i class="fa fa-map-marker"></i> Sổ địa chỉ</a></li>
+                        <li><a href="#"><i class="fa fa-user-circle"></i> Thông tin cá nhân</a></li>
+                        <li>
+                            <a asp-controller="Account" asp-action="Logout" style="color: #dc3545;">
+                                <i class="fa fa-sign-out"></i> Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-md-8">
+                @if (!Model.Any())
+                {
+                    <div class="empty-order-state">
+                        <i class="fa fa-shopping-basket mb-3" style="font-size: 50px; color: #dee2e6;"></i>
+                        <h5 class="text-muted mb-3">Bạn chưa có đơn hàng nào</h5>
+                        <a asp-controller="Home" asp-action="Index" class="btn" style="background: #026625; color: white; padding: 10px 24px; border-radius: 6px;">
+                            Mua sắm ngay
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="order-card">
+                        <div class="table-responsive">
+                            <table class="table custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th class="text-end">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span style="font-family: monospace; font-weight: 700; color: #026625;">#@item.MaDonHang</span>
+                                            </td>
+                                            <td>
+                                                <div>@(item.NgayTao.HasValue? item.NgayTao.Value.ToString("dd/MM/yyyy") : "")</div>
+                                                <small class="text-muted">@(item.NgayTao.HasValue? item.NgayTao.Value.ToString("HH:mm") : "")</small>
+                                            </td>
+                                            <td>
+                                                <span style="font-weight: 700;">@(item.TongTien.HasValue? item.TongTien.Value.ToString("#,##0") : "0") đ</span>
+                                            </td>
+                                            <td>
+                                                @{
+                                                    var statusClass = "status-default";
+                                                    var statusText = item.TrangThai;
+
+                                                    if (item.TrangThai == "ChoXuLy") { statusClass = "status-pending"; statusText = "Chờ xử lý"; }
+                                                    else if (item.TrangThai == "DaThanhToanChoXacNhan" || item.TrangThai == "DaThanhToanChoAdminXacNhan") { statusClass = "status-pending"; statusText = "Đã thanh toán - chờ xác nhận"; }
+                                                    else if (item.TrangThai == "DaXacNhanThanhToan") { statusClass = "status-success"; statusText = "Đã xác nhận thanh toán"; }
+                                                    else if (item.TrangThai == "DangGiao") { statusClass = "status-shipping"; statusText = "Đang giao"; }
+                                                    else if (item.TrangThai == "ThanhCong") { statusClass = "status-success"; statusText = "Thành công"; }
+                                                    else if (item.TrangThai == "DaHuy") { statusClass = "status-cancel"; statusText = "Đã hủy"; }
+                                                }
+                                                <span class="status-badge @statusClass">
+                                                    @statusText
+                                                </span>
+                                            </td>
+                                            <td class="text-end">
+                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn-view-detail">
+                                                    Chi tiết
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,647 @@
+<!-- This is main configuration File -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+
+    <!-- Meta Tags -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/uploads/favicon.png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/spacing.css">
+    <link rel="stylesheet" href="assets/css/tree-menu.css">
+    <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+
+    <title>Bình Nước Silicon ReSip</title>
+    <meta name="keywords" content="binhnuoc, resip, binhnuocresip">
+    <meta name="description" content="ReSip mang đến giải pháp bình nước silicon gấp gọn, an toàn và thân thiện với môi trường. Chúng tôi cam kết đem lại trải nghiệm tiện lợi, bền vững và đồng hành cùng bạn.">
+
+
+    <style>
+        .menu-container {
+            text-align: right;
+            background-color: #026625;
+        }
+        .menu ul {
+            list-style: none;
+            padding-right: 0;
+            margin: 0;
+        }
+        .menu ul li {
+            display: inline-block;
+            margin-left: 30px;
+        }
+        .menu ul li a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+
+        /* Banner đăng ký */
+        .page-banner {
+            background-color: #28A745;
+            color: #fff;
+            padding: 25px 0;
+            text-align: center;
+        }
+        .page-banner h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        /* Khung form đăng ký */
+        .user-content {
+            padding: 20px;
+            background: #fdfdfd;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .user-content label {
+            font-weight: 600;
+        }
+        .user-content .form-control {
+            border: 2px solid #026625;
+        }
+
+        /* FOOTER MỚI */
+        .resip-footer {
+            background: #f8f8f8;
+            padding: 50px 0;
+            color: #333;
+            font-size: 14px;
+            margin-top: 40px;
+        }
+        .resip-footer .footer-logo {
+            width: 160px;
+            margin-bottom: 15px;
+        }
+        .resip-footer .footer-company {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        .resip-footer .footer-address {
+            color: #555;
+            line-height: 1.5;
+        }
+        .resip-footer .footer-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: #026625;
+            margin-bottom: 12px;
+        }
+        .resip-footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .resip-footer ul li {
+            margin-bottom: 7px;
+        }
+        .resip-footer ul li a {
+            color: #333;
+            text-decoration: none;
+        }
+        .resip-footer ul li a:hover {
+            text-decoration: underline;
+            color: #026625;
+        }
+        .resip-footer .footer-subscribe {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .resip-footer .btn-subscribe {
+            background: #026625;
+            border: none;
+            padding: 8px 16px;
+            color: #fff;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .resip-footer .btn-subscribe:hover {
+            background: #018137;
+        }
+
+        @media (max-width: 767px) {
+            .resip-footer .footer-subscribe {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <style>
+   .home-newsletter {
+   background-color: #f5f5f5; /* Thay đổi màu nền quanh phần đăng ký */
+   padding: 30px 0; /* Thêm khoảng cách trên dưới */
+}
+   /* Khung bên trong */
+   .home-newsletter .container {
+   background-color: #c18d8f;
+   border-radius: 10px;
+   padding: 20px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-static-block.footer-certificate {
+    display: block; /* Đảm bảo nội dung hiển thị dạng khối */
+    text-align: left; /* Canh trái nội dung */
+    padding-left: 30px; /* Cách lề trái 30px */
+}
+
+.footer-static-block.footer-certificate div {
+    margin-bottom: 10px; /* Tạo khoảng cách giữa các đoạn văn */
+    display: block; /* Đảm bảo nội dung không nằm ngang */
+}
+
+.footer-static-block.footer-certificate img {
+    max-width: 100%; /* Hình ảnh tự động điều chỉnh kích thước */
+    height: auto; /* Duy trì tỉ lệ hình ảnh */
+}
+
+
+
+
+
+
+
+
+.home-newsletter .single {
+   background-color: #ffffff; /* Màu nền trắng cho phần form */
+   padding: 20px; /* Khoảng cách trong form */
+   border-radius: 8px; /* Bo góc */
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng cho phần form */
+}
+
+
+
+
+/* Tiêu đề */
+.home-newsletter h2 {
+   color: #000000 !important;
+   font-size: 24px;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+
+
+
+
+.home-newsletter .input-group input {
+   border-radius: 4px; /* Bo góc cho ô nhập liệu */
+}
+
+
+
+
+.home-newsletter .btn-theme {
+   background-color: #026625; /* Màu nền cho nút đăng ký */
+   border: none;
+   color: #fff; /* Màu chữ nút */
+}
+/* Nút Subscribe */
+.home-newsletter .input-group-btn button {
+   background-color: #026625 !important;
+   color: #ffffff;
+   border: none;
+   border-radius: 5px;
+   padding: 10px 20px;
+}
+
+
+
+
+.home-newsletter .btn-theme:hover {
+   background-color: #006910ff; /* Màu nền khi hover nút đăng ký */
+}
+/* Nút Subscribe hover */
+.home-newsletter .input-group-btn button:hover {
+   background-color: #d8c7c3 !important; /* Màu sáng hơn khi hover */
+   color: #000;
+}
+
+
+/* Đối với chế độ mặc định (mobile-first) */
+.flex {
+   display: flex; /* Thiết lập flexbox */
+}
+
+
+.flex-col {
+   flex-direction: column; /* Đặt các phần tử trong container theo chiều dọc */
+}
+
+
+/* Đối với chế độ màn hình rộng hơn (đối với kích thước màn hình lớn hơn 'md') */
+@media (min-width: 768px) {
+   .md\:flex-row {
+       flex-direction: row; /* Đặt các phần tử trong container theo chiều ngang khi màn hình lớn hơn hoặc bằng 768px */
+   }
+}
+
+
+/* Căn chỉnh các phần tử theo chiều ngang với khoảng cách đều */
+.justify-between {
+   justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử trong container */
+}
+
+
+/* Khoảng cách giữa các phần tử */
+.gap-6 {
+   gap: 3.5rem; /* Khoảng cách giữa các phần tử trong container */
+}
+footer {
+   /* display: flex;  */
+   justify-content: space-between;
+   padding: 20px;
+   background-color: #f8f8f8;
+   width: 100%;
+}
+/* Các lớp của footer-static-block */
+.footer-static-block {
+   font-size: 13px;
+   overflow: hidden;
+   width: 100%;
+}
+
+
+.footer-static-block div {
+   display: flex;
+   justify-content: space-between;
+}
+
+
+.footer-static-block ul {
+   list-style: none;
+   padding: 0;
+}
+
+
+.footer-static-block ul li {
+   margin-bottom: 8px;
+}
+
+
+.footer-static-block ul li strong {
+   display: block;
+   margin-bottom: 16px;
+}
+
+
+.footer-static-block ul:nth-child(2) {
+   margin-bottom: 24px;
+}
+
+
+
+
+/* Các lớp của footer-menu */
+.footer-menu {
+   /* Cỡ chữ 13px */
+   font-size: 13px;
+   /* Thêm các thuộc tính khác nếu cần */
+}
+
+
+/* Các lớp của text-[13px] */
+.text-[13px] {
+   font-size: 13px; /* Cài đặt kích thước chữ 13px */
+}
+
+
+/* Các lớp của overflow-hidden */
+.overflow-hidden {
+   overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài container */
+}
+
+
+/* Các lớp của w-full */
+.w-full {
+   width: 100%; /* Đặt chiều rộng của phần tử chiếm 100% chiều rộng của phần tử cha */
+}
+
+
+/* Lớp undefined có thể bị loại bỏ vì nó không có tác dụng gì trong Tailwind CSS */
+.undefined {
+   /* Không cần phải khai báo gì nếu không có thuộc tính nào */
+}
+
+
+</style>
+</head>
+<body>
+
+<div id="fb-root"></div>
+
+<!-- top bar -->
+<div class="top" style="background-color: #28A745; color: #ffffff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="left">
+                    <ul>
+                        <li><i class="fa fa-phone"></i> 0123 456 789</li>
+                        <li><i class="fa fa-envelope-o"></i> hotro.resip@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="right">
+                    <ul>
+                        <li><a href="https://www.facebook.com/#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://www.twitter.com/#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="https://www.youtube.com/#"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.instagram.com/#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="https://www.whatsapp.com/#"><i class="fa fa-whatsapp"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- header -->
+<div class="header">
+    <div class="container">
+        <div class="row inner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;">
+
+            <!-- Logo -->
+            <div class="col-md-3 col-sm-12 logo" style="display:flex;align-items:center;">
+                <a href="index.html" style="display:inline-block;margin-left:14px;">
+                    <img src="assets/uploads/logo.png" alt="logo image" style="max-height:63px;">
+                </a>
+            </div>
+
+            <!-- Search -->
+            <div class="col-md-6 col-sm-12" style="display:flex;justify-content:center;">
+                <form role="search" action="search-result.html" method="get" style="display:flex;align-items:center;width:100%;max-width:680px;">
+                    <input type="hidden" name="_csrf" value="3a9bebfd41936b2a7f3bdae844446a8a" />
+                    <input type="text"
+                           class="form-control"
+                           name="search_text"
+                           placeholder="Nhập sản phẩm cần tìm"
+                           style="flex:1;height:35px;font-size:16px;padding:10px 14px;border-radius:6px;">
+                    <button type="submit"
+                            class="btn"
+                            style="height:35px;margin-left:10px;padding:0 18px;border:none;border-radius:6px;background:#28A745;color:#fff;font-size:15px;">
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tài khoản + Giỏ hàng -->
+            <div class="col-md-3 col-sm-12" style="display:flex;justify-content:flex-start;align-items:center;padding-left:20px;">
+                <div style="white-space:nowrap;font-size:14px;margin-left:10px;">
+                    <a href="login.html"><i class="fa fa-sign-in"></i> Đăng nhập</a> |
+                    <a href="registration.html"><i class="fa fa-user-plus"></i> Đăng ký</a> |
+                    <a href="#">
+                        <i class="fa fa-shopping-cart"></i> Giỏ hàng (0.00₫)
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- nav -->
+<div class="nav" style="background-color: #026625; color: #ffffff;">
+    <div class="container" style="background-color: #026625; color: #ffffff;">
+        <div class="row">
+            <div class="col-md-12 pl_0 pr_0">
+                <div class="menu-container" style="background-color: #026625; color: #ffffff;">
+                    <div class="menu">
+                        <ul>
+                            <li><a href="index.html">Trang chủ</a></li>
+                            <li><a href="product-category.html?id=1&type=top-category">BÌNH NƯỚC</a></li>
+                            <li><a href="product-category.html?id=2&type=top-category">ỐNG HÚT</a></li>
+                            <li><a href="about.html">Giới Thiệu</a></li>
+                            <li><a href="faq.html">Câu Hỏi Thường Gặp</a></li>
+                            <li><a href="contact.html">Liên Hệ</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- banner -->
+<div class="page-banner">
+    <div class="inner">
+        <h1>Đăng ký tài khoản</h1>
+    </div>
+</div>
+
+<!-- content -->
+<div class="page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="user-content">
+                    <form action="" method="post">
+                        <input type="hidden" name="_csrf" value="3a9bebfd41936b2a7f3bdae844446a8a" />
+                        <div class="row">
+                            <div class="col-md-2"></div>
+
+                            <div class="col-md-8">
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Tên khách hàng *</label>
+                                    <input type="text" class="form-control" name="cust_name" value="">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Tên công ty</label>
+                                    <input type="text" class="form-control" name="cust_cname" value="">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Email *</label>
+                                    <input type="email" class="form-control" name="cust_email" value="">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Số điện thoại *</label>
+                                    <input type="text" class="form-control" name="cust_phone" value="">
+                                </div>
+
+                                <div class="col-md-12 form-group">
+                                    <label for="">Địa chỉ *</label>
+                                    <textarea name="cust_address" class="form-control" cols="30" rows="10" style="height:70px;"></textarea>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Tỉnh/*</label>
+                                    <select name="cust_country" class="form-control select2">
+                                        <option value="">Chọn tỉnh/thành phố</option>
+                                        <option value="1">Hà Nội</option>
+                                    <option value="2">Hồ Chí Minh</option>
+                                    <option value="3">Hải Phòng</option>
+                                    <option value="4">Đà Nẵng</option>
+                                    <option value="5">Huế</option>
+                                    <option value="6">Cần Thơ</option>
+
+                                    <option value="7">Tuyên Quang</option>
+                                    <option value="8">Cao Bằng</option>
+                                    <option value="9">Lai Châu</option>
+                                    <option value="10">Lào Cai</option>
+                                    <option value="11">Thái Nguyên</option>
+                                    <option value="12">Điện Biên</option>
+                                    <option value="13">Lạng Sơn</option>
+                                    <option value="14">Sơn La</option>
+                                    <option value="15">Phú Thọ</option>
+                                    <option value="16">Bắc Ninh</option>
+                                    <option value="17">Quảng Ninh</option>
+                                    <option value="18">Hưng Yên</option>
+                                    <option value="19">Ninh Bình</option>
+                                    <option value="20">Thanh Hóa</option>
+                                    <option value="21">Nghệ An</option>
+                                    <option value="22">Hà Tĩnh</option>
+                                    <option value="23">Quảng Trị</option>
+                                    <option value="24">Quảng Ngãi</option>
+                                    <option value="25">Gia Lai</option>
+                                    <option value="26">Đắk Lắk</option>
+                                    <option value="27">Khánh Hòa</option>
+                                    <option value="28">Lâm Đồng</option>
+                                    <option value="29">Đồng Nai</option>
+                                    <option value="30">Tây Ninh</option>
+                                    <option value="31">Đồng Tháp</option>
+                                    <option value="32">An Giang</option>
+                                    <option value="33">Vĩnh Long</option>
+                                    <option value="34">Cà Mau</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Phường/Xã *</label>
+                                    <input type="text" class="form-control" name="cust_city" value="">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Quận/Huyện *</label>
+                                    <input type="text" class="form-control" name="cust_state" value="">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Mã bưu điện *</label>
+                                    <input type="text" class="form-control" name="cust_zip" value="">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Mật khẩu *</label>
+                                    <input type="password" class="form-control" name="cust_password">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label for="">Xác nhận mật khẩu *</label>
+                                    <input type="password" class="form-control" name="cust_re_password">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>&nbsp;</label>
+                                    <input type="submit" class="btn btn-danger" value="Đăng ký" name="form1" style="background-color:#026625;border:none;">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER MỚI -->
+<section class="home-newsletter">
+   <footer>
+       <div class="flex flex-col md:flex-row justify-between gap-6">
+       <!-- Logo and Certification Section -->
+           <div class="footer-logo-wrapper">
+               <div class="footer-static-block footer-logo text-[13px] overflow-hidden w-full mb-6 md:mb-12">
+               </div>
+               <div class="footer-static-block footer-certificate text-[13px] overflow-hidden w-full undefined">
+               <div style="flex: 1;">
+                   <img src="assets/uploads/logo.png" alt="Resip Logo" style="width: 200px; height: 200px;">
+               </div>
+               <div>
+                <p style="font-size: 16px; text-align: left;"><b>CÔNG TY TNHH RESIP VIỆT NAM</b></p>
+                <p style="font-size: 14px; text-align: left;">Địa chỉ: 279 Nguyễn Tri Phương, Phường Diên Hồng, TP. Hồ Chí Minh, Việt Nam
+</p>
+                </div>
+
+               </div>
+           </div>
+           <!-- Footer Menu Section -->
+           <div class="footer-static-block footer-menu text-[13px] overflow-hidden w-full undefined" style="justify-content: space-between;
+   padding: 20px; ">
+               <div style="font-size: 18px;">
+               <ul>
+                   <li style="color: #026625"><strong>Về RESIP</strong></li>
+                   <li><a title="Miju là gì?" href="#">Giới Thiệu Resip</a></li>
+                   <li><a href=#>Thông báo</a></li>
+                   <li><a title="Câu hỏi thường gặp" href="#">Câu hỏi thường gặp</a></li>
+               </ul>
+                  <ul style="margin-bottom: 24px;">
+                   <li style="color: #026625"><strong>Cửa hàng Bán lẻ</strong></li>
+                   <li><a title="Chính sách Đổi, Trả, Hoàn tiền" href=#>Chính sách Đổi, Trả, Hoàn tiền</a></li>
+                   <li><a title="Danh sách cửa hàng" href=#>Danh sách cửa hàng</a></li>
+               </ul>
+               <ul>
+                   <li style="color: #026625"><strong>Cửa hàng Trực tuyến</strong></li>
+                   <li><a title="Chính sách Bán hàng" href=#>Chính sách Bán hàng</a></li>
+                   <li><a title="Chính sách Giao hàng" href=#>Chính sách Giao hàng</a></li>
+                   <li><a title="Chính sách Trả hàng Hoàn tiền" href=#>Chính sách Trả hàng, Hoàn tiền</a></li>
+                   <li><a title="Chính sách Đổi hàng" href=#>Chính sách Đổi hàng</a></li>
+                   <li><a title="Chính sách Bảo hành" href=#>Chính sách Bảo hành</a></li>
+                   <li><a title="Chính sách Bảo mật" href=#>Chính sách Bảo mật</a></li>
+               </ul>
+               </div>
+           </div>
+           <!-- Subscribe Section -->
+           <div class="footer-subscribe-wrapper" style="padding-top: 20px; width: 40%; padding-right: 30px; ">
+                                  <form action="" method="post">
+                   <input type="hidden" name="_csrf" value="85aae5772c7b407b301566e4e692abd9" />                   <p style="color: #026625; font-size: 18px"><strong>Đăng ký nhận tin từ ReSip</strong></p>
+                   <div class="input-group">
+                       <input type="email" class="form-control" placeholder="Nhập Email của bạn vào" name="email_subscribe">
+                       <span class="input-group-btn">
+                       <button class="btn btn-theme" type="submit" name="form_subscribe" style="padding: 7px;">Đăng ký</button>
+                       </span>
+                   </div>
+               </div>
+               </form>
+           </div>
+       </div>
+   </div>
+           </div>
+       </div>
+   </footer>
+</section>
+
+<!-- JS -->
+<script src="assets/js/jquery-2.2.4.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="https://js.stripe.com/v2/"></script>
+<script src="assets/js/megamenu.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/owl.animate.js"></script>
+<script src="assets/js/jquery.bxslider.min.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/rating.js"></script>
+<script src="assets/js/jquery.touchSwipe.min.js"></script>
+<script src="assets/js/bootstrap-touch-slider.js"></script>
+<script src="assets/js/select2.full.min.js"></script>
+<script src="assets/js/custom.js"></script>
+
+
+</body>
+</html>

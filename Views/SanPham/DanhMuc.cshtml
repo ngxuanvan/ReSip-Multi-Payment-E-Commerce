@@ -1,0 +1,607 @@
+﻿@model IEnumerable<ResipWeb.Models.SanPham>
+
+<style>
+    .page-banner {
+        background: linear-gradient(135deg, #28A745 0%, #026625 100%);
+        padding: 60px 0;
+        text-align: center;
+        color: #fff;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+        .page-banner h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+    .sidebar-category {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+        .sidebar-category h3 {
+            color: #026625;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #28A745;
+        }
+
+    .category-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .category-nav li {
+            margin-bottom: 8px;
+        }
+
+        .category-nav a {
+            display: block;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+            .category-nav a:hover {
+                background: #026625;
+                color: #fff;
+                transform: translateX(5px);
+            }
+
+            .category-nav a i {
+                margin-right: 10px;
+                color: #28A745;
+                transition: color 0.3s ease;
+            }
+
+            .category-nav a:hover i {
+                color: #fff;
+            }
+
+    .price-filter-box {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 25px;
+    }
+
+        .price-filter-box h4 {
+            color: #026625;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #28A745;
+        }
+
+        .price-filter-box .form-group {
+            margin-bottom: 25px;
+        }
+
+        .price-filter-box label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+    /* Range Slider Style */
+    .price-range-container {
+        padding: 10px 0;
+    }
+
+    .price-range-slider {
+        position: relative;
+        height: 6px;
+        background: #e0e0e0;
+        border-radius: 3px;
+        margin: 10px 0 20px 0;
+    }
+
+        .price-range-slider .range-track {
+            position: absolute;
+            height: 100%;
+            background: #026625;
+            border-radius: 3px;
+        }
+
+    .price-range-inputs {
+        position: relative;
+    }
+
+        .price-range-inputs input[type="range"] {
+            position: absolute;
+            width: 100%;
+            height: 6px;
+            background: none;
+            pointer-events: none;
+            -webkit-appearance: none;
+            appearance: none;
+            top: 0;
+        }
+
+            .price-range-inputs input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                background: #026625;
+                border: 3px solid #fff;
+                border-radius: 50%;
+                cursor: pointer;
+                pointer-events: auto;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                transition: all 0.2s ease;
+            }
+
+                .price-range-inputs input[type="range"]::-webkit-slider-thumb:hover {
+                    transform: scale(1.2);
+                    box-shadow: 0 3px 8px rgba(2,102,37,0.4);
+                }
+
+            .price-range-inputs input[type="range"]::-moz-range-thumb {
+                width: 18px;
+                height: 18px;
+                background: #026625;
+                border: 3px solid #fff;
+                border-radius: 50%;
+                cursor: pointer;
+                pointer-events: auto;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+                transition: all 0.2s ease;
+            }
+
+                .price-range-inputs input[type="range"]::-moz-range-thumb:hover {
+                    transform: scale(1.2);
+                    box-shadow: 0 3px 8px rgba(2,102,37,0.4);
+                }
+
+    .price-values {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 50px;
+        gap: 10px;
+    }
+
+    .price-value-box {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        background: #f8f9fa;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-weight: 600;
+        color: #026625;
+        font-size: 0.95rem;
+    }
+
+    .price-value-label {
+        font-size: 0.75rem;
+        color: #666;
+        margin-bottom: 3px;
+        font-weight: 500;
+    }
+
+    .filter-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .btn-apply {
+        flex: 1;
+        background: #026625;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-apply:hover {
+            background: #014d1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(2,102,37,0.3);
+        }
+
+    .btn-reset {
+        flex: 1;
+        background: #6c757d;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-reset:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .product-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+    .product-image {
+        position: relative;
+        padding-top: 100%;
+        overflow: hidden;
+        border-bottom: 3px solid #026625;
+    }
+
+        .product-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.08);
+    }
+
+    .product-info {
+        padding: 20px;
+        text-align: center;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-name {
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+        min-height: 48px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.5;
+    }
+
+        .product-name a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .product-name a:hover {
+                color: #026625;
+            }
+
+    .product-price {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #026625;
+        margin-bottom: 15px;
+    }
+
+    .add-to-cart-btn {
+        background: #026625;
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        display: flex; /* Chuyển từ inline-flex sang flex để chiếm toàn bộ chiều ngang nếu cần */
+        align-items: center; /* Canh giữa theo chiều dọc */
+        justify-content: center; /* THÊM DÒNG NÀY: Canh giữa theo chiều ngang */
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: auto;
+        width: 100%;
+    }
+
+        .add-to-cart-btn:hover {
+            background: #014d1c;
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(2,102,37,0.3);
+        }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+    }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 0;
+        }
+
+    @@media (max-width: 768px) {
+        .page-banner h1
+
+    {
+        font-size: 1.8rem;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .sidebar-category,
+    .price-filter-box {
+        margin-bottom: 20px;
+    }
+
+    }
+
+    @@media (max-width: 576px) {
+        .product-grid
+
+    {
+        grid-template-columns: 1fr;
+    }
+
+    }
+</style>
+
+<div class="page-banner">
+    <div class="container">
+        <h1>@ViewBag.CategoryName</h1>
+    </div>
+</div>
+
+<div class="page mt-5 mb-5">
+    <div class="container">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4 mb-4">
+                <!-- Danh mục -->
+                <div class="sidebar-category">
+                    <h3>Danh mục</h3>
+                    <ul class="category-nav">
+                        <li>
+                            <a asp-action="DanhMuc" asp-route-slug="binh-nuoc">
+                                <i class="fa fa-glass"></i> BÌNH NƯỚC
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="DanhMuc" asp-route-slug="ong-hut">
+                                <i class="fa fa-leaf"></i> ỐNG HÚT
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <form method="get" action="@Url.Action("DanhMuc", "SanPham")" id="priceFilterForm">
+                    <input type="hidden" name="slug" value="@ViewBag.CurrentSlug" />
+
+                    <div class="price-range-container">
+                        <div class="price-range-inputs">
+                            @* Cập nhật value từ ViewBag để sau khi lọc thanh trượt không bị nhảy về 0 *@
+                            <input type="range" id="minRange" name="min_price" min="0" max="10000000" value="@ViewBag.MinPrice" step="100000">
+                            <input type="range" id="maxRange" name="max_price" min="0" max="10000000" value="@ViewBag.MaxPrice" step="100000">
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Lọc giá -->
+                <div class="price-filter-box">
+                    <h4>Lọc theo giá</h4>
+                    <form method="get" action="@Url.Action("DanhMuc", "SanPham")" id="priceFilterForm">
+                        <input type="hidden" name="slug" value="@ViewBag.CurrentSlug" />
+
+                        <div class="price-range-container">
+                            <div class="price-range-slider">
+                                <div class="range-track" id="rangeTrack"></div>
+                            </div>
+                            <div class="price-range-inputs">
+                                <input type="range" id="minRange" min="0" max="10000000" value="@ViewBag.MinPrice" step="100000">
+                                <input type="range" id="maxRange" min="0" max="10000000" value="@ViewBag.MaxPrice" step="100000">
+                            </div>
+
+                            <div class="price-values">
+                                <div class="price-value-box">
+                                    <div class="price-value-label">Từ (₫)</div>
+                                    <input type="number" id="minPriceInput" name="min_price"
+                                           value="@ViewBag.MinPrice" class="form-control text-center border-0 bg-transparent fw-bold"
+                                           style="color: #026625;" min="0">
+                                </div>
+                                <div class="price-value-box">
+                                    <div class="price-value-label">Đến (₫)</div>
+                                    <input type="number" id="maxPriceInput" name="max_price"
+                                           value="@ViewBag.MaxPrice" class="form-control text-center border-0 bg-transparent fw-bold"
+                                           style="color: #026625;" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filter-buttons">
+                            <button type="submit" class="btn-apply">Áp dụng</button>
+                            <button type="button" class="btn-reset" onclick="resetPriceFilter()">Đặt lại</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sản phẩm -->
+            <div class="col-lg-9 col-md-8">
+                @if (!Model.Any())
+                {
+                    <div class="empty-state">
+                        <i class="fa fa-inbox"></i>
+                        <p>Không có sản phẩm nào trong danh mục này.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="product-grid">
+                        @foreach (var item in Model)
+                        {
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="@Url.Content(item.AnhChinh)" alt="@item.TenSanPham">
+                                </div>
+                                <div class="product-info">
+                                    <h3 class="product-name">
+                                        <a href="@Url.Action("ChiTiet", "SanPham", new { id = item.Id })">
+                                            @item.TenSanPham
+                                        </a>
+                                    </h3>
+                                    <div class="product-price">
+                                        @String.Format("{0:N0}₫", item.GiaBan)
+                                    </div>
+                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
+                                        <input type="hidden" name="SanPhamId" value="@item.Id" />
+
+                                        <input type="hidden" name="SoLuong" value="1" />
+
+                                        <div class="product-buttons mt-2">
+                                            <button type="submit" class="btn btn-primary btn-sm">
+                                                <i class="fa fa-shopping-cart"></i> THÊM VÀO GIỎ
+                                            </button>
+
+                                            <a asp-controller="SanPham" asp-action="ChiTiet" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">
+                                                XEM CHI TIẾT
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const minR = document.getElementById('minRange');
+    const maxR = document.getElementById('maxRange');
+    const minI = document.getElementById('minPriceInput');
+    const maxI = document.getElementById('maxPriceInput');
+    const track = document.getElementById('rangeTrack');
+
+    function updateUI() {
+        const min = parseInt(minR.min);
+        const max = parseInt(minR.max);
+        const p1 = ((minR.value - min) / (max - min)) * 100;
+        const p2 = ((maxR.value - min) / (max - min)) * 100;
+        track.style.left = p1 + '%';
+        track.style.width = (p2 - p1) + '%';
+    }
+
+    // Khi kéo thanh trượt -> cập nhật ô nhập số
+    minR.oninput = () => { minI.value = minR.value; updateUI(); };
+    maxR.oninput = () => { maxI.value = maxR.value; updateUI(); };
+
+    // Khi gõ số -> cập nhật thanh trượt
+    minI.onchange = () => { minR.value = minI.value; updateUI(); };
+    maxI.onchange = () => { maxR.value = maxI.value; updateUI(); };
+
+    function resetPriceFilter() {
+        window.location.href = window.location.pathname + "?slug=@ViewBag.CurrentSlug";
+    }
+
+    updateUI();
+</script>
+@* <script>
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    const minPriceInput = document.getElementById('minPriceInput');
+    const maxPriceInput = document.getElementById('maxPriceInput');
+    const rangeTrack = document.getElementById('rangeTrack');
+
+    function updateSliderFromInput() {
+        let minVal = parseInt(minPriceInput.value) || 0;
+        let maxVal = parseInt(maxPriceInput.value) || 0;
+
+        // Giới hạn max không nhỏ hơn min
+        if (minVal > maxVal) {
+            maxVal = minVal + 10000;
+            maxPriceInput.value = maxVal;
+        }
+
+        minRange.value = minVal;
+        maxRange.value = maxVal;
+        updateTrack();
+    }
+
+    function updateInputFromSlider() {
+        minPriceInput.value = minRange.value;
+        maxPriceInput.value = maxRange.value;
+        updateTrack();
+    }
+
+    function updateTrack() {
+        const min = parseInt(minRange.min);
+        const max = parseInt(minRange.max);
+        const minPercent = ((minRange.value - min) / (max - min)) * 100;
+        const maxPercent = ((maxRange.value - min) / (max - min)) * 100;
+
+        rangeTrack.style.left = minPercent + '%';
+        rangeTrack.style.width = (maxPercent - minPercent) + '%';
+    }
+
+    function resetPriceFilter() {
+        minPriceInput.value = 0;
+        maxPriceInput.value = 10000000;
+        updateSliderFromInput();
+        document.getElementById('priceFilterForm').submit(); // Tự động load lại trang khi reset
+    }
+
+    // Lắng nghe sự kiện kéo thanh trượt
+    minRange.addEventListener('input', updateInputFromSlider);
+    maxRange.addEventListener('input', updateInputFromSlider);
+
+    // Lắng nghe sự kiện gõ số trực tiếp
+    minPriceInput.addEventListener('change', updateSliderFromInput);
+    maxPriceInput.addEventListener('change', updateSliderFromInput);
+
+    // Khởi tạo ban đầu
+    updateTrack();
+</script> *@

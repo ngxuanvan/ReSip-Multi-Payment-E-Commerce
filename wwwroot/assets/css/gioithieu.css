@@ -1,0 +1,287 @@
+﻿/* --- CẤU HÌNH CHUNG --- */
+:root {
+    --resip-green: #026625; /* Màu xanh chủ đạo */
+    --resip-light: #f4fbf5; /* Màu nền nhạt */
+    --text-color: #333; /* Màu chữ */
+    --text-size: 18px; /* Cỡ chữ chuẩn to rõ */
+    --radius: 16px; /* Bo góc */
+    --shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+.about-page {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-color);
+    font-size: var(--text-size);
+    line-height: 1.6;
+    background: #fff;
+    overflow-x: hidden;
+}
+
+/* --- TIÊU ĐỀ SECTION (Đã sửa lỗi lệch) --- */
+h2.section-title {
+    color: #026625;
+    font-weight: 700;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 25px; /* <-- SỬA THÀNH 25px (hoặc 30px nếu muốn xa hơn nữa) */
+    text-align: center;
+}
+
+    /* Gạch chân mặc định (Nằm giữa) */
+    h2.section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: #88b04b;
+        border-radius: 2px;
+    }
+
+    /* Class này chỉ để căn trái chữ, KHÔNG căn trái gạch */
+    h2.section-title.text-left-mode {
+        text-align: left !important;
+    }
+
+        /* Gạch chân vẫn giữ nguyên vị trí căn giữa mặc định */
+        h2.section-title.text-left-mode::after {
+            left: 50% !important; /* <-- Đặt lại về 50% để căn giữa */
+            transform: translateX(-50%) !important; /* <-- Kéo về chính giữa */
+            margin-left: 0 !important;
+            width: 80px; /* <-- Tăng chiều rộng lên (ví dụ 80px) để gạch to hơn */
+        }
+
+/* Padding cho các block */
+.section-padding {
+    padding: 60px 0;
+}
+
+/* Căn lề chữ đều hai bên */
+p {
+    text-align: justify;
+    margin-bottom: 1.5rem;
+}
+
+/* --- 1. INTRO & STORY (Cân bằng ảnh/chữ) --- */
+.text-box-spaced {
+    padding: 0 15px; /* Tạo khoảng thở cho chữ */
+}
+
+.about-main-img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    object-fit: cover;
+    height: 100%;
+    min-height: 350px;
+}
+
+/* --- 2. PHÍA SAU CÁI TÊN --- */
+.name-origin-box {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+    .name-origin-box b {
+        color: var(--resip-green);
+    }
+
+/* --- 3. GALLERY (KHOẢNH KHẮC) --- */
+.gallery-card {
+    border: 2px solid #e5e5e5; /* Viền khung như ảnh mẫu */
+    border-radius: var(--radius);
+    padding: 15px;
+    text-align: center;
+    height: 100%;
+    transition: 0.3s;
+}
+
+    .gallery-card:hover {
+        border-color: var(--resip-green);
+        box-shadow: var(--shadow);
+    }
+
+    .gallery-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: contain; /* Giữ nguyên tỉ lệ ảnh bình nước */
+    }
+
+.gallery-logo-top {
+    height: 30px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- 4. SỨ MỆNH (Box viền xanh trái) --- */
+.mission-box {
+    background: #fff;
+    padding: 30px;
+    border-left: 6px solid #88b04b; /* Viền xanh bên trái */
+    box-shadow: var(--shadow);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mission-highlight {
+    color: var(--resip-green);
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+/* --- 5. GIÁ TRỊ CỐT LÕI (Card) --- */
+.value-card {
+    background: var(--resip-light);
+    padding: 30px 20px;
+    border-radius: var(--radius);
+    text-align: center;
+    height: 100%;
+    transition: 0.3s;
+}
+
+    .value-card:hover {
+        background: #fff;
+        box-shadow: var(--shadow);
+        transform: translateY(-5px);
+    }
+
+    .value-card h4 {
+        color: var(--resip-green);
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+/* --- 6. HÀNH TRÌNH ĐỒNG HÀNH (Quan trọng) --- */
+.journey-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: var(--radius);
+    padding: 25px;
+    text-align: center;
+    height: 100%;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tiêu đề hành trình to và xanh */
+.journey-title {
+    font-size: 22px !important; /* To lên để không bị lép vế so với mô tả */
+    margin-bottom: 20px; /* Cách mô tả xa hơn chút */
+}
+
+.journey-desc {
+    font-size: 1.5rem;
+    flex-grow: 1; /* Đẩy ảnh xuống đáy */
+    margin-bottom: 20px;
+}
+
+.journey-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* --- 7. SDG --- */
+.sdg-card img {
+    width: 100%;
+    max-width: 150px; /* Icon to rõ */
+    margin-bottom: 15px;
+}
+
+.sdg-card h5 {
+    font-weight: 700;
+    color: var(--text-color);
+}
+/* --- CODE SỬA LỖI (DÁN VÀO CUỐI FILE CSS) --- */
+
+/* 1. Giúp ảnh hiển thị trọn vẹn, không bị mất góc */
+.about-img-full {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: block;
+}
+
+/* 2. Ép gạch chân nằm sang bên trái */
+h2.section-title.text-left-mode {
+    text-align: left !important;
+}
+
+    h2.section-title.text-left-mode::after {
+        left: 0 !important;
+        transform: none !important;
+        margin-left: 0 !important;
+    }
+
+/* --- ICON TRÒN XANH (GIÁ TRỊ CỐT LÕI) --- */
+
+/* 1. Tạo khung thẻ bài (Card) */
+.value-card {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 20px; /* Bo góc to */
+    padding: 40px 20px;
+    text-align: center;
+    height: 100%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+}
+
+    .value-card:hover {
+        transform: translateY(-5px);
+        border-color: #28a745; /* Viền xanh khi di chuột */
+    }
+
+/* 2. Tạo hình tròn xanh chứa Icon */
+.value-icon-box {
+    width: 80px;
+    height: 80px;
+    background-color: #28a745; /* Màu xanh lá cây */
+    color: #ffffff; /* Icon màu trắng */
+    border-radius: 50%; /* Làm tròn 100% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px; /* Căn giữa */
+    font-size: 32px; /* Kích thước icon */
+}
+
+/* 3. Chỉnh chữ tiêu đề nhỏ */
+/* Tăng kích thước tiêu đề (Bền vững, Tiện ích...) */
+.value-card h4 {
+    color: #026625;
+    font-weight: 700;
+    font-size: 1.59rem !important; /* To hơn (khoảng 26px) */
+    margin-bottom: 15px;
+}
+
+/* Chỉnh sửa nội dung mô tả: Căn giữa và Chữ to */
+.value-card p {
+    text-align: center !important; /* Căn giữa dòng chữ */
+    font-size: 15.5px !important; /* Tăng kích thước chữ to hơn nữa (19px) */
+    line-height: 1.5; /* Khoảng cách dòng thoáng */
+    color: #444; /* Màu chữ đậm dễ đọc */
+    margin-top: 10px; /* Cách tiêu đề ra một chút */
+    padding: 0 10px; /* Đệm 2 bên để chữ không sát mép khung */
+}
+
+/* (Tùy chọn) Nếu muốn icon to hơn nữa thì thêm dòng này */
+.value-icon-box {
+    width: 90px; /* To hơn chút */
+    height: 90px;
+    font-size: 45px;
+}

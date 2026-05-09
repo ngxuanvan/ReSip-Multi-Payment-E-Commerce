@@ -1,0 +1,143 @@
+﻿@model ResipWeb.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng Nhập";
+}
+
+<style>
+    .login-card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .login-header {
+        background-color: #026625;
+        color: #ffffff;
+        padding: 20px 15px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-control-custom {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 10px 15px;
+        font-size: 14px;
+        background-color: #fcfcfc;
+        transition: all 0.3s;
+    }
+
+        .form-control-custom:focus {
+            background-color: #ffffff;
+            border-color: #026625;
+            box-shadow: 0 0 0 3px rgba(2, 102, 37, 0.15);
+        }
+
+    .form-label-custom {
+        font-weight: 600;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #333;
+        display: block;
+    }
+
+    .form-group-spacing {
+        margin-bottom: 15px;
+    }
+
+    .btn-custom {
+        background-color: #026625;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        width: 100%;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+    }
+
+        .btn-custom:hover {
+            background-color: #014519;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(2, 102, 37, 0.25);
+        }
+
+    .link-register {
+        color: #026625;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .link-register:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<div class="container" style="min-height: 85vh; display: flex; align-items: center; justify-content: center; padding: 40px 0;">
+    <div class="card login-card" style="width: 100%; max-width: 420px;">
+        <div class="login-header">
+            <h4 style="margin: 0; font-weight: 700; font-size: 22px;">ĐĂNG NHẬP</h4>
+            <p class="text-center" style="margin: 5px 0 0 0; opacity: 0.9; font-size: 13px; width: 100%;">
+                Chào mừng bạn quay trở lại
+            </p>
+        </div>
+
+        <div class="card-body" style="padding: 25px;">
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success text-center small mb-3" style="border-radius: 8px;">
+                    <i class="fa fa-check-circle"></i> @TempData["SuccessMessage"]
+                </div>
+            }
+
+            <form asp-controller="Account" asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small text-center"></div>
+                <input type="hidden" asp-for="ReturnUrl" />
+
+                <div class="form-group-spacing">
+                    <label asp-for="Username" class="form-label-custom">Tên đăng nhập</label>
+                    <input asp-for="Username" class="form-control form-control-custom" placeholder="Nhập tên đăng nhập" />
+                    <span asp-validation-for="Username" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="form-group-spacing">
+                    <label asp-for="Password" class="form-label-custom">Mật khẩu</label>
+                    <input asp-for="Password" type="password" class="form-control form-control-custom" placeholder="Nhập mật khẩu" />
+                    <span asp-validation-for="Password" class="text-danger small mt-1 d-block"></span>
+                </div>
+
+                <div class="text-center mb-3 mt-2">
+                    <a asp-controller="Account" asp-action="ForgotPassword" style="color: #666; font-size: 13px; text-decoration: none;">
+                        Quên mật khẩu?
+                    </a>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn-custom">
+                        ĐĂNG NHẬP
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer text-center" style="background-color: #f9f9f9; padding: 15px;">
+            <span style="color: #666; font-size: 13px;">Chưa có tài khoản?</span><br />
+            <a asp-controller="Account" asp-action="Register" class="link-register" style="font-size: 14px;">
+                ĐĂNG KÝ THÀNH VIÊN MỚI
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

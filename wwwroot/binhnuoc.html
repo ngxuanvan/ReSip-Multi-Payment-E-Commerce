@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+
+    <title>Bình Nước Silicon ReSip</title>
+    <meta name="keywords" content="binhnuoc, resip, binhnuocresip">
+    <meta name="description" content="ReSip mang đến giải pháp bình nước silicon gấp gọn, an toàn và thân thiện với môi trường. Chúng tôi cam kết đem lại trải nghiệm tiện lợi, bền vững và đồng hành cùng bạn.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/uploads/favicon.png">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="assets/css/jquery.bxslider.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/spacing.css">
+    <link rel="stylesheet" href="assets/css/tree-menu.css">
+    <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+<style>
+    /* Giữ top bar giống cũ */
+    .top {
+        background-color: #28A745 !important;
+        color: #ffffff !important;
+    }
+
+    /* Header trắng như cũ */
+    .header {
+        background-color: #ffffff !important;
+    }
+
+ 
+    .nav .menu-container {
+        background-color: #026625 !important;
+    }
+
+    /* Chữ menu màu trắng */
+    .nav .menu ul li a {
+        color: #ffffff !important;
+    }
+</style>
+
+    <style>
+        .menu-container {
+            text-align: right;
+            background-color: #026625;
+        }
+        .menu ul {
+            list-style: none;
+            padding-right: 0;
+            margin: 0;
+        }
+        .menu ul li {
+            display: inline-block;
+            margin-left: 30px;
+        }
+        .menu ul li a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+
+        /* Filter box */
+        .price-filter-form {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+        .price-filter-form h4 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #026625;
+            margin-bottom: 15px;
+        }
+        .price-filter-form label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .price-filter-form .form-control {
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+            padding: 8px 10px;
+            font-size: 14px;
+        }
+        .price-filter-form .btn {
+            background-color: #026625;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            margin-right: 6px;
+        }
+        .price-filter-form .btn:hover {
+            background-color: #004e1d;
+        }
+
+        /* Product card */
+        .item-product-cat .inner {
+            margin-bottom: 25px;
+        }
+        .item-product-cat .thumb {
+            border: 2px solid #026625;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .item-product-cat .photo {
+            background-size: cover;
+            background-position: center;
+            padding-top: 100%;
+        }
+        .item-product-cat .text h3 {
+            font-size: 16px;
+            margin-top: 10px;
+            min-height: 48px;
+        }
+        .item-product-cat .text h4 {
+            color: #026625;
+            font-weight: bold;
+        }
+
+        .add-to-cart-btn {
+            display: inline-block;
+            padding: 8px 18px;
+            background-color: #026625 !important;
+            color: #ffffff;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #7c5e3b;
+            transform: scale(1.05);
+            color: #ffffff;
+        }
+
+        /* Footer */
+        .home-newsletter {
+    background-color: #f5f5f5;
+    padding: 30px 0;
+}
+</style>
+<style>
+   .home-newsletter {
+   background-color: #f5f5f5; /* Thay đổi màu nền quanh phần đăng ký */
+   padding: 30px 0; /* Thêm khoảng cách trên dưới */
+}
+   /* Khung bên trong */
+   .home-newsletter .container {
+   background-color: #c18d8f;
+   border-radius: 10px;
+   padding: 20px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-static-block.footer-certificate {
+    display: block; /* Đảm bảo nội dung hiển thị dạng khối */
+    text-align: left; /* Canh trái nội dung */
+    padding-left: 30px; /* Cách lề trái 30px */
+}
+
+.footer-static-block.footer-certificate div {
+    margin-bottom: 10px; /* Tạo khoảng cách giữa các đoạn văn */
+    display: block; /* Đảm bảo nội dung không nằm ngang */
+}
+
+.footer-static-block.footer-certificate img {
+    max-width: 100%; /* Hình ảnh tự động điều chỉnh kích thước */
+    height: auto; /* Duy trì tỉ lệ hình ảnh */
+}
+
+
+
+
+
+
+
+
+.home-newsletter .single {
+   background-color: #ffffff; /* Màu nền trắng cho phần form */
+   padding: 20px; /* Khoảng cách trong form */
+   border-radius: 8px; /* Bo góc */
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng cho phần form */
+}
+
+
+
+
+/* Tiêu đề */
+.home-newsletter h2 {
+   color: #000000 !important;
+   font-size: 24px;
+   font-weight: bold;
+   margin-bottom: 20px;
+}
+
+
+
+
+.home-newsletter .input-group input {
+   border-radius: 4px; /* Bo góc cho ô nhập liệu */
+}
+
+
+
+
+.home-newsletter .btn-theme {
+   background-color: #026625; /* Màu nền cho nút đăng ký */
+   border: none;
+   color: #fff; /* Màu chữ nút */
+}
+/* Nút Subscribe */
+.home-newsletter .input-group-btn button {
+   background-color: #026625 !important;
+   color: #ffffff;
+   border: none;
+   border-radius: 5px;
+   padding: 10px 20px;
+}
+
+
+
+
+.home-newsletter .btn-theme:hover {
+   background-color: #006910ff; /* Màu nền khi hover nút đăng ký */
+}
+/* Nút Subscribe hover */
+.home-newsletter .input-group-btn button:hover {
+   background-color: #d8c7c3 !important; /* Màu sáng hơn khi hover */
+   color: #000;
+}
+
+
+/* Đối với chế độ mặc định (mobile-first) */
+.flex {
+   display: flex; /* Thiết lập flexbox */
+}
+
+
+.flex-col {
+   flex-direction: column; /* Đặt các phần tử trong container theo chiều dọc */
+}
+
+
+/* Đối với chế độ màn hình rộng hơn (đối với kích thước màn hình lớn hơn 'md') */
+@media (min-width: 768px) {
+   .md\:flex-row {
+       flex-direction: row; /* Đặt các phần tử trong container theo chiều ngang khi màn hình lớn hơn hoặc bằng 768px */
+   }
+}
+
+
+/* Căn chỉnh các phần tử theo chiều ngang với khoảng cách đều */
+.justify-between {
+   justify-content: space-between; /* Tạo khoảng cách đều giữa các phần tử trong container */
+}
+
+
+/* Khoảng cách giữa các phần tử */
+.gap-6 {
+   gap: 3.5rem; /* Khoảng cách giữa các phần tử trong container */
+}
+footer {
+   /* display: flex;  */
+   justify-content: space-between;
+   padding: 20px;
+   background-color: #f8f8f8;
+   width: 100%;
+}
+/* Các lớp của footer-static-block */
+.footer-static-block {
+   font-size: 13px;
+   overflow: hidden;
+   width: 100%;
+}
+
+
+.footer-static-block div {
+   display: flex;
+   justify-content: space-between;
+}
+
+
+.footer-static-block ul {
+   list-style: none;
+   padding: 0;
+}
+
+
+.footer-static-block ul li {
+   margin-bottom: 8px;
+}
+
+
+.footer-static-block ul li strong {
+   display: block;
+   margin-bottom: 16px;
+}
+
+
+.footer-static-block ul:nth-child(2) {
+   margin-bottom: 24px;
+}
+
+
+
+
+/* Các lớp của footer-menu */
+.footer-menu {
+   /* Cỡ chữ 13px */
+   font-size: 13px;
+   /* Thêm các thuộc tính khác nếu cần */
+}
+
+
+/* Các lớp của text-[13px] */
+.text-[13px] {
+   font-size: 13px; /* Cài đặt kích thước chữ 13px */
+}
+
+
+/* Các lớp của overflow-hidden */
+.overflow-hidden {
+   overflow: hidden; /* Ẩn phần nội dung vượt ra ngoài container */
+}
+
+
+/* Các lớp của w-full */
+.w-full {
+   width: 100%; /* Đặt chiều rộng của phần tử chiếm 100% chiều rộng của phần tử cha */
+}
+
+
+
+</style>
+    
+
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top" style="background-color: #026625 ; color: #ffffff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="left">
+                    <ul>
+                        <li><i class="fa fa-phone"></i> 0123 456 789</li>
+                        <li><i class="fa fa-envelope-o"></i> hotro.resip@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="right">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa fa-whatsapp"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="container">
+        <div class="row inner" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;">
+
+            <!-- Logo -->
+            <div class="col-md-3 col-sm-12 logo" style="display:flex;align-items:center;">
+                <a href="index.html" style="display:inline-block;margin-left:14px;">
+                    <img src="assets/uploads/logo.png" alt="logo image" style="max-height:63px;">
+                </a>
+            </div>
+
+            <!-- Search -->
+            <div class="col-md-6 col-sm-12" style="display:flex;justify-content:center;">
+                <form role="search" action="search-result.html" method="get"
+                      style="display:flex;align-items:center;width:100%;max-width:680px;">
+                    <input type="text"
+                           class="form-control"
+                           name="search_text"
+                           placeholder="Nhập sản phẩm cần tìm"
+                           style="flex:1;height:35px;font-size:16px;padding:10px 14px;border-radius:6px;">
+                    <button type="submit"
+                            class="btn"
+                            style="height:35px;margin-left:10px;padding:0 18px;border:none;border-radius:6px;
+                                   background:#28A745;color:#fff;font-size:15px;">
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
+
+            <!-- Account + Cart -->
+            <div class="col-md-3 col-sm-12"
+                 style="display:flex;justify-content:flex-start;align-items:center;padding-left:20px;">
+                <div style="white-space:nowrap;font-size:14px;margin-left:10px;">
+                    <a href="login.html"><i class="fa fa-sign-in"></i> Đăng nhập</a> |
+                    <a href="registration.html"><i class="fa fa-user-plus"></i> Đăng ký</a> |
+                    <a href="#"><i class="fa fa-shopping-cart"></i> Giỏ hàng (0.00₫)</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- NAV -->
+<div class="nav" style="background-color:#026625;color:#ffffff;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 pl_0 pr_0">
+                <div class="menu-container">
+                    <div class="menu">
+                        <ul>
+                            <li><a href="index.html">Trang chủ</a></li>
+                            <li><a href="binhnuoc.html">BÌNH NƯỚC</a></li>
+                            <li><a href="onghut.html">ỐNG HÚT</a></li>
+                            <li><a href="about.html">Giới Thiệu</a></li>
+                            <li><a href="faq.html">Câu Hỏi Thường Gặp</a></li>
+                            <li><a href="contact.html">Liên Hệ</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE BANNER -->
+<div class="page-banner" style="background-color:#28A745">
+    <div class="inner">
+        <h1>BÌNH NƯỚC</h1>
+    </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page">
+    <div class="container">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <h3>Danh mục</h3>
+                <div id="left" class="span3">
+                    <ul id="menu-group-1" class="nav menu">
+                        <li class="cat-level-1 deeper parent">
+                            <a href="binhnuoc.html" style="background-color:#026625 !important">
+                                <span data-toggle="collapse" data-parent="#menu-group-1" href="#cat-lvl1-id-1" style="margin-left:10px">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span class="lbl">BÌNH NƯỚC</span>
+                            </a>
+                            <ul class="children nav-child unstyled small collapse" id="cat-lvl1-id-1">
+                                <li class="deeper parent">
+                                    <a href="product-category.html?id=1&type=mid-category">
+                                        <span data-toggle="collapse" data-parent="#menu-group-1" href="#cat-lvl2-id-11" class="sign">
+                                            <i class="fa fa-plus"></i>
+                                        </span>
+                                        <span class="lbl lbl1">BÌNH NƯỚC</span>
+                                    </a>
+                                    <ul class="children nav-child unstyled small collapse" id="cat-lvl2-id-11">
+                                        <li class="item-111">
+                                            <a href="product-category.html?id=1&type=end-category">
+                                                <span class="lbl lbl1">Tất Cả Bình Nước</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="cat-level-1 deeper parent">
+                            <a href="onghut.html" style="background-color:#026625 !important">
+                                <span data-toggle="collapse" data-parent="#menu-group-1" href="#cat-lvl1-id-2" style="margin-left:10px">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span class="lbl">ỐNG HÚT</span>
+                            </a>
+                            <ul class="children nav-child unstyled small collapse" id="cat-lvl1-id-2">
+                                <li class="deeper parent">
+                                    <a href="product-category.html?id=2&type=mid-category">
+                                        <span data-toggle="collapse" data-parent="#menu-group-1" href="#cat-lvl2-id-21" class="sign">
+                                            <i class="fa fa-plus"></i>
+                                        </span>
+                                        <span class="lbl lbl1">ỐNG HÚT</span>
+                                    </a>
+                                    <ul class="children nav-child unstyled small collapse" id="cat-lvl2-id-21">
+                                        <li class="item-211">
+                                            <a href="product-category.html?id=2&type=end-category">
+                                                <span class="lbl lbl1">Tất Cả Ống Hút</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Price Filter -->
+                <form method="get" action="" class="price-filter-form">
+                    <h4>Lọc theo giá</h4>
+                    <input type="hidden" name="id" value="1">
+                    <input type="hidden" name="type" value="top-category">
+
+                    <label for="min_price">Giá từ:</label>
+                    <input type="number" name="min_price" id="min_price" class="form-control" placeholder="VNĐ">
+
+                    <label for="max_price">Giá đến:</label>
+                    <input type="number" name="max_price" id="max_price" class="form-control" placeholder="VNĐ">
+
+                    <button type="submit" class="btn">Áp dụng</button>
+                    <button type="reset" class="btn">Đặt lại</button>
+                </form>
+            </div>
+
+            <!-- Product list -->
+            <div class="col-md-9">
+                <div class="product product-cat">
+                    <div class="row">
+
+                        <!-- Copy mấy block này cho đủ sản phẩm, tạm giữ y nguyên của bạn -->
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-3.png)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-binhnuoc1.html">Bình Nước Silicone Gấp Gọn Hình Hộp 600ml</a></h3>
+                                    <h4>399,000₫</h4>
+                                    <p><a href="#" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-4.png)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-4.html">Bình Nước Thể Thao Silicone 600ml Có Quai Xách</a></h3>
+                                    <h4>399,000₫</h4>
+                                    <p><a href="#" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-5.png)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-5.html">Bình Nước Silicon Gấp Gọn 650ml – Màu Trơn Tặng Bình Nước Silicon Gấp Gọn 425ml Cùng Màu</a></h3>
+                                    <h4>399,000₫</h4>
+                                    <p><a href="#" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-6.png)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-6.html">Bình Nước Silicone 600ml Có Quai Xách Tiện Lợi</a></h3>
+                                    <h4>299,000₫</h4>
+                                    <p><a href="#" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-7.png)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-7.html">Bình Nước Silicon Hồng 500ml Kèm Ống Hút</a></h3>
+                                    <h4>349,000₫</h4>
+                                    <p><a href="product-detail-7.html" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-8.png)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-8.html">Combo Bình Nước Silicon 650ml Loang + 425ml</a></h3>
+                                    <h4>399,000₫</h4>
+                                    <p><a href="product-detail-8.html" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-9.jpg)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-9.html">Bình Nước Silicone Gấp Gọn 500ml</a></h3>
+                                    <h4>169,000₫</h4>
+                                    <p><a href="product-detail-9.html" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-10.jpg)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-10.html">Bình Nước Silicon 500ml – Nhiều Màu</a></h3>
+                                    <h4>169,000₫</h4>
+                                    <p><a href="product-detail-10.html" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 item item-product-cat">
+                            <div class="inner">
+                                <div class="thumb">
+                                    <div class="photo" style="background-image:url(assets/uploads/product-featured-11.jpg)"></div>
+                                </div>
+                                <div class="text">
+                                    <h3><a href="product-detail-11.html">Bình Nước Silicone Gấp Gọn 700ml</a></h3>
+                                    <h4>209,000₫</h4>
+                                    <p><a href="product-detail-11.html" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /.row -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>  
+<!-- FOOTER -->
+<section class="home-newsletter">
+   <footer>
+       <div class="flex flex-col md:flex-row justify-between gap-6">
+       <!-- Logo and Certification Section -->
+           <div class="footer-logo-wrapper">
+               <div class="footer-static-block footer-logo text-[13px] overflow-hidden w-full mb-6 md:mb-12">
+               </div>
+               <div class="footer-static-block footer-certificate text-[13px] overflow-hidden w-full undefined">
+               <div style="flex: 1;">
+                   <img src="assets/uploads/logo.png" alt="Resip Logo" style="width: 200px; height: 200px;">
+               </div>
+               <div>
+                <p style="font-size: 16px; text-align: left;"><b>CÔNG TY TNHH RESIP VIỆT NAM</b></p>
+                <p style="font-size: 14px; text-align: left;">Địa chỉ: 279 Nguyễn Tri Phương, Phường Diên Hồng, TP. Hồ Chí Minh, Việt Nam
+</p>
+                </div>
+
+               </div>
+           </div>
+           <!-- Footer Menu Section -->
+           <div class="footer-static-block footer-menu text-[13px] overflow-hidden w-full undefined" style="justify-content: space-between;
+   padding: 20px; ">
+               <div style="font-size: 18px;">
+               <ul>
+                   <li style="color: #026625"><strong>Về RESIP</strong></li>
+                   <li><a title="Miju là gì?" href="#">Giới Thiệu Resip</a></li>
+                   <li><a href=#>Thông báo</a></li>
+                   <li><a title="Câu hỏi thường gặp" href="#">Câu hỏi thường gặp</a></li>
+               </ul>
+                  <ul style="margin-bottom: 24px;">
+                   <li style="color: #026625"><strong>Cửa hàng Bán lẻ</strong></li>
+                   <li><a title="Chính sách Đổi, Trả, Hoàn tiền" href=#>Chính sách Đổi, Trả, Hoàn tiền</a></li>
+                   <li><a title="Danh sách cửa hàng" href=#>Danh sách cửa hàng</a></li>
+               </ul>
+               <ul>
+                   <li style="color: #026625"><strong>Cửa hàng Trực tuyến</strong></li>
+                   <li><a title="Chính sách Bán hàng" href=#>Chính sách Bán hàng</a></li>
+                   <li><a title="Chính sách Giao hàng" href=#>Chính sách Giao hàng</a></li>
+                   <li><a title="Chính sách Trả hàng Hoàn tiền" href=#>Chính sách Trả hàng, Hoàn tiền</a></li>
+                   <li><a title="Chính sách Đổi hàng" href=#>Chính sách Đổi hàng</a></li>
+                   <li><a title="Chính sách Bảo hành" href=#>Chính sách Bảo hành</a></li>
+                   <li><a title="Chính sách Bảo mật" href=#>Chính sách Bảo mật</a></li>
+               </ul>
+               </div>
+           </div>
+           <!-- Subscribe Section -->
+           <div class="footer-subscribe-wrapper" style="padding-top: 20px; width: 40%; padding-right: 30px; ">
+                                  <form action="" method="post">
+                   <input type="hidden" name="_csrf" value="85aae5772c7b407b301566e4e692abd9" />                   <p style="color: #026625; font-size: 18px"><strong>Đăng ký nhận tin từ ReSip</strong></p>
+                   <div class="input-group">
+                       <input type="email" class="form-control" placeholder="Nhập Email của bạn vào" name="email_subscribe">
+                       <span class="input-group-btn">
+                       <button class="btn btn-theme" type="submit" name="form_subscribe" style="padding: 7px;">Đăng ký</button>
+                       </span>
+                   </div>
+               </div>
+               </form>
+           </div>
+       </div>
+   </div>
+           </div>
+       </div>
+   </footer>
+</section>
+
+
+<!-- JS -->
+<script src="assets/js/jquery-2.2.4.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/megamenu.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/jquery.bxslider.min.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/select2.full.min.js"></script>
+<script src="assets/js/custom.js"></script>
+
+</body>
+</html>

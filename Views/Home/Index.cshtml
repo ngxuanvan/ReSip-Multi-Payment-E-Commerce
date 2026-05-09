@@ -1,0 +1,1301 @@
+﻿@model IEnumerable<ResipWeb.Models.HomeService>
+
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<style>
+    /* Thêm vào phần <style> */
+    section,
+    .service,
+    .categories-section,
+    .product,
+    .why-choose-section,
+    .stats-section,
+    .testimonials-section,
+    .blog-section {
+        padding-top: 80px !important;
+        padding-bottom: 80px !important;
+    }
+
+    /* Nếu muốn thu nhỏ khoảng cách trên mobile */
+    @@media (max-width: 768px) {
+        section, .service, .categories-section, .product, .why-choose-section, .stats-section, .testimonials-section, .blog-section {
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+        }
+    }
+
+    :root {
+        --primary-color: #026625;
+        --secondary-color: #f8f9fa;
+        --text-dark: #2c3e50;
+        --border-color: #e0e0e0;
+        --shadow: 0 2px 8px rgba(0,0,0,0.1);
+        --shadow-hover: 0 4px 16px rgba(0,0,0,0.15);
+    }
+
+    /* Hero Slider Improvements */
+    .carousel .item {
+        min-height: 500px;
+        position: relative;
+    }
+
+    /* ảnh banner */
+    .slider-img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        display: block;
+    }
+
+
+
+    /* text nổi lên trên */
+    .slide-text {
+        position: relative;
+        z-index: 2;
+    }
+
+    .featured-container {
+        overflow: visible;
+    }
+
+        .featured-container .owl-stage-outer {
+            overflow: hidden;
+        }
+
+
+
+    /* responsive */
+    @@media (max-width: 768px) {
+        .slider-img {
+            height: 350px;
+        }
+    }
+
+    .bs-slider-overlay {
+        background: transparent !important; /* hoặc rgba(0,0,0,.25) nếu muốn tối nhẹ */
+        opacity: 1 !important;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+
+
+    .slide-text h1 {
+        font-size: 48px;
+        font-weight: 700;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        margin-bottom: 20px;
+    }
+
+    .slide-text p {
+        font-size: 20px;
+        color: white;
+        margin-bottom: 30px;
+    }
+
+    .slide-text .btn {
+        background: var(--primary-color);
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: all 0.3s;
+    }
+
+        .slide-text .btn:hover {
+            background: #014d1c;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+    /* Service Section */
+    .service {
+        padding: 60px 0;
+    }
+
+        .service .item {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 12px;
+            transition: all 0.3s;
+            height: 100%;
+        }
+
+            .service .item:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-hover);
+            }
+
+            .service .item .photo {
+                margin-bottom: 20px;
+            }
+
+            .service .item h3 {
+                font-size: 18px;
+                font-weight: 700;
+                color: var(--text-dark);
+                margin-bottom: 10px;
+            }
+
+            .service .item p {
+                color: #666;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+    /* Section Headline */
+    .headline {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+        .headline h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+            .headline h2::after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80px;
+                height: 4px;
+                background: var(--primary-color);
+                border-radius: 2px;
+            }
+
+        .headline h3 {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+            margin-top: 20px;
+        }
+
+    /* Product Cards */
+    .product-carousel .item {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .product-carousel .thumb {
+        flex: 0 0 auto;
+    }
+
+    .product-carousel .text {
+        flex: 1 1 auto;
+        padding-bottom: 20px;
+    }
+
+
+
+        .product-carousel .thumb:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+    .product-carousel .photo {
+        height: 250px; /* Bắt buộc cố định chiều cao để các khung đều nhau */
+        background-size: contain; /* QUAN TRỌNG: Giữ đúng tỉ lệ ảnh, không bị méo */
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #fff; /* Nền trắng cho phần trống của ảnh */
+        border-radius: 8px 8px 0 0;
+    }
+
+    /* Fix lỗi khung sản phẩm bị container bóp nhỏ */
+    .product-carousel .item {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+
+
+
+        .product-carousel .text h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            height: 48px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+            .product-carousel .text h3 a {
+                color: var(--text-dark);
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+                .product-carousel .text h3 a:hover {
+                    color: var(--primary-color);
+                }
+
+        .product-carousel .text h4 {
+            font-size: 20px;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+    .product-carousel .btn {
+        background: var(--primary-color);
+        color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        transition: all 0.3s;
+    }
+
+        .product-carousel .btn:hover {
+            background: #014d1c;
+            transform: translateY(-2px);
+        }
+
+    /* Categories Section */
+    .categories-section {
+        padding: 70px 0;
+        background: white;
+    }
+
+    .category-card {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        height: 280px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.1);
+        }
+
+    .category-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: white;
+    }
+
+        .category-overlay h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .category-overlay p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+    /* Testimonials Section */
+    .testimonials-section {
+        padding: 70px 0;
+        background: linear-gradient(135deg, #f0f9f4 0%, #e8f5e9 100%);
+    }
+
+    .testimonial-card {
+        background: white;
+        border-radius: 12px;
+        padding: 40px 30px;
+        box-shadow: var(--shadow);
+        margin: 0 10px;
+        transition: all 0.3s;
+    }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+    .testimonial-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .testimonial-avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid var(--primary-color);
+    }
+
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .testimonial-info h4 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 5px;
+    }
+
+    .testimonial-stars {
+        color: #ffc107;
+        font-size: 16px;
+    }
+
+    .testimonial-content {
+        font-size: 15px;
+        line-height: 1.8;
+        color: #555;
+        font-style: italic;
+    }
+
+    .testimonial-quote {
+        font-size: 48px;
+        color: var(--primary-color);
+        opacity: 0.3;
+        line-height: 1;
+        margin-bottom: -20px;
+    }
+
+    /* Stats Section */
+    .stats-section {
+        padding: 70px 0;
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    /* --- TẠO VIỀN TRẮNG CHO EMOJI --- */
+    .stat-icon {
+        font-size: 60px; /* Tăng kích thước emoji lên chút cho đẹp */
+        margin-bottom: 20px;
+        cursor: default;
+        /* Thủ thuật tạo viền trắng (Sticker effect) */
+        text-shadow: 3px 0 0 #fff, -3px 0 0 #fff, 0 3px 0 #fff, 0 -3px 0 #fff, 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
+    }
+
+    .stat-number {
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .stat-label {
+        font-size: 16px;
+        opacity: 0.9;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Blog Section */
+    .blog-section {
+        padding: 70px 0;
+        background: white;
+    }
+
+    .blog-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s;
+        height: 100%;
+    }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+    .blog-image {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+
+    .blog-content {
+        padding: 25px;
+    }
+
+    .blog-meta {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 15px;
+        font-size: 13px;
+        color: #999;
+    }
+
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+    .blog-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+        .blog-title a {
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+            .blog-title a:hover {
+                color: var(--primary-color);
+            }
+
+    .blog-excerpt {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .blog-read-more {
+        color: var(--primary-color);
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .blog-read-more:hover {
+            gap: 10px;
+        }
+
+    /* Brand Section */
+    .brands-section {
+        padding: 70px 0;
+        background: var(--secondary-color);
+    }
+
+    .brand-item {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        transition: all 0.3s;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .brand-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .brand-item img {
+            max-width: 100%;
+            max-height: 80px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .brand-item:hover img {
+            opacity: 1;
+        }
+
+    /* Newsletter Section */
+    .newsletter-section {
+        padding: 70px 0;
+        background: linear-gradient(135deg, var(--primary-color) 0%, #014d1c 100%);
+        color: white;
+    }
+
+    .newsletter-content {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .newsletter-icon {
+        font-size: 64px;
+        margin-bottom: 20px;
+    }
+
+    .newsletter-content h2 {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .newsletter-content p {
+        font-size: 16px;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .newsletter-form {
+        display: flex;
+        gap: 10px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+        }
+
+        .newsletter-form button {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .newsletter-form button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+            }
+
+    /* Why Choose Us Section */
+    .why-choose-section {
+        padding: 70px 0;
+        background: white;
+    }
+
+    .why-choose-card {
+        text-align: center;
+        padding: 40px 25px;
+        background: var(--secondary-color);
+        border-radius: 12px;
+        transition: all 0.3s;
+        height: 100%;
+    }
+
+        .why-choose-card:hover {
+            background: white;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+
+    .why-choose-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, var(--primary-color), #014d1c);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        color: white;
+        font-size: 36px;
+    }
+
+    .why-choose-card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 15px;
+    }
+
+    .why-choose-card p {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .slide-text h1 {
+            font-size: 28px;
+        }
+
+        .slide-text p {
+            font-size: 16px;
+        }
+
+        .headline h2 {
+            font-size: 28px;
+        }
+
+        .newsletter-form {
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 36px;
+        }
+
+        .category-card {
+            height: 200px;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
+<!-- SLIDER -->
+<div id="bootstrap-touch-slider" class="carousel bs-slider fade control-round indicators-line"
+     data-ride="carousel" data-pause="hover" data-interval="5000">
+
+    <ol class="carousel-indicators">
+        <li data-target="#bootstrap-touch-slider" data-slide-to="0" class="active"></li>
+
+    </ol>
+
+    <div class="carousel-inner" role="listbox">
+
+        <div class="item active">
+            <img src="~/assets/uploads/slider-1.jpg" class="slider-img" alt="Slider 1" />
+            <div class="bs-slider-overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="slide-text slide_style_center">
+                        <h1 data-animation="animated flipInX">Bình Nước Gấp Gọn ReSip</h1>
+                        <p data-animation="animated fadeInDown">Giải pháp hoàn hảo cho lối sống năng động</p>
+                        <a href="#" class="btn btn-primary" data-animation="animated fadeInDown">Khám Phá Ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
+        <span class="fa fa-angle-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+
+    <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
+        <span class="fa fa-angle-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<!-- SERVICE -->
+<div class="service bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="item">
+                    <div class="photo">
+                        <img src="~/assets/uploads/service-5.png" width="150" alt="Dễ dàng đổi trả" />
+                    </div>
+                    <h3>Dễ Dàng Đổi Trả</h3>
+                    <p>Trả lại bất kỳ sản phẩm nào trước 15 ngày!</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="item">
+                    <div class="photo">
+                        <img src="~/assets/uploads/service-6.png" width="150" alt="Vận chuyển rẻ" />
+                    </div>
+                    <h3>Vận Chuyển Rẻ</h3>
+                    <p>Đồng giá 30.000VNĐ toàn quốc</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="item">
+                    <div class="photo">
+                        <img src="~/assets/uploads/service-7.png" width="150" alt="Giao hàng nhanh chóng" />
+                    </div>
+                    <h3>Giao Hàng Nhanh</h3>
+                    <p>Giao hàng trong vòng 2-4 ngày</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="item">
+                    <div class="photo">
+                        <img src="~/assets/uploads/service-8.png" width="150" alt="Đảm bảo sự hài lòng" />
+                    </div>
+                    <h3>Đảm Bảo Chất Lượng</h3>
+                    <p>Cam kết hàng chính hãng 100%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CATEGORIES SECTION -->
+<div class="categories-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="headline">
+                    <h2>Danh Mục Sản Phẩm</h2>
+                    <h3>Khám phá bộ sưu tập đa dạng của chúng tôi</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="category-card">
+                    <img src="~/assets/uploads/catebinhnuoc.jpg" alt="Bình Nước" style="width: 100%; height: auto;" />
+                    <div class="category-overlay">
+                        <h3>Bình Nước</h3>
+                        <p>10+ sản phẩm</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6">
+                <div class="category-card">
+                    <img src="~/assets/uploads/cateonghut.jpg" alt="Ống Hút" style="width: 100%; height: auto;" />
+                    <div class="category-overlay">
+                        <h3>Ống Hút </h3>
+                        <p>5+ sản phẩm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SẢN PHẨM NỔI BẬT -->
+<!-- SẢN PHẨM NỔI BẬT -->
+<div class="featured-container">
+    <div class="headline">
+        <h2>Sản Phẩm Nổi Bật</h2>
+        <h3>BST sản phẩm nổi bật nhất</h3>
+    </div>
+
+    <div class="container">
+        <div class="product-carousel owl-carousel featured-carousel">
+
+            @foreach (var item in (List<ResipWeb.Models.SanPham>)ViewBag.FeaturedProducts)
+            {
+                <div class="item">
+                    <div class="thumb">
+                        <div class="photo"
+                             style="background-image:url('@item.AnhChinh')">
+                        </div>
+                    </div>
+
+                    <div class="text">
+                        <h3>@item.TenSanPham</h3>
+                        <h4>@String.Format("{0:N0} đ", item.GiaBan)</h4>
+
+                        <button class="btn btn-add-cart"
+                                onclick="themVaoGioHang(@item.Id)">
+                            THÊM VÀO GIỎ HÀNG
+                        </button>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- WHY CHOOSE US -->
+<div class="why-choose-section bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="headline">
+                    <h2>Tại Sao Chọn ReSip?</h2>
+                    <h3>Những lý do khiến khách hàng tin tưởng chúng tôi</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="why-choose-card">
+                    <div class="why-choose-icon">🌿</div>
+                    <h3>Thân Thiện Môi Trường</h3>
+                    <p>Sản phẩm làm từ silicone an toàn, không chứa BPA, có thể tái sử dụng lâu dài</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="why-choose-card">
+                    <div class="why-choose-icon">✓</div>
+                    <h3>Chất Lượng Cao</h3>
+                    <p>Cam kết 100% hàng chính hãng, được kiểm định nghiêm ngặt trước khi xuất xưởng</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="why-choose-card">
+                    <div class="why-choose-icon">💰</div>
+                    <h3>Giá Cả Hợp Lý</h3>
+                    <p>Chính sách giá tốt nhất thị trường, nhiều ưu đãi và chương trình khuyến mãi</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="why-choose-card">
+                    <div class="why-choose-icon">⭐</div>
+                    <h3>Dịch Vụ Tận Tâm</h3>
+                    <p>Đội ngũ tư vấn chuyên nghiệp, hỗ trợ khách hàng 24/7 qua mọi kênh</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- STATS SECTION -->
+<div class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-item">
+                    <div class="stat-icon">👥</div>
+                    <span class="stat-number">15,000+</span>
+                    <div class="stat-label">Khách Hàng Tin Dùng</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-item">
+                    <div class="stat-icon">📦</div>
+                    <span class="stat-number">50,000+</span>
+                    <div class="stat-label">Đơn Hàng Hoàn Thành</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-item">
+                    <div class="stat-icon">⭐</div>
+                    <span class="stat-number">4.9/5</span>
+                    <div class="stat-label">Đánh Giá Trung Bình</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-item">
+                    <div class="stat-icon">🏆</div>
+                    <span class="stat-number">8+</span>
+                    <div class="stat-label">Năm Kinh Nghiệm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SẢN PHẨM MỚI NHẤT -->
+<!-- SẢN PHẨM NỔI BẬT -->
+<div class="featured-container">
+    <div class="headline">
+        <h2>Sản Phẩm Mới Nhất</h2>
+
+    </div>
+
+    <div class="container">
+        <div class="product-carousel owl-carousel featured-carousel">
+            @foreach (var item in (List<ResipWeb.Models.SanPham>)ViewBag.FeaturedProducts)
+            {
+                <div class="item">
+                    <div class="thumb">
+                        <div class="photo"
+                             style="background-image:url('@item.AnhChinh')">
+                        </div>
+                    </div>
+
+                    <!-- PHẦN BẠN ĐANG THIẾU -->
+                    <div class="text">
+                        <h3>@item.TenSanPham</h3>
+                        <h4>@String.Format("{0:N0} đ", item.GiaBan)</h4>
+
+                        <button class="btn btn-add-cart"
+                                onclick="themVaoGioHang(@item.Id)">
+                            THÊM VÀO GIỎ HÀNG
+                        </button>
+                    </div>
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@{
+    // Bạn có thể đặt Title hoặc Layout ở đây nếu cần
+    // ViewData["Title"] = "Về ReSip";
+}
+
+<style>
+    /* --- CSS RIÊNG CHO PHẦN NÀY --- */
+    .sustainability-section {
+        padding: 80px 0;
+        background-color: #f8fcf9;
+        overflow: hidden;
+    }
+
+    /* Phần chữ bên trái */
+    .sus-content {
+        padding-right: 20px;
+    }
+
+        .sus-content .sub-title {
+            color: #026625;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1.9rem;
+            letter-spacing: 1.5px;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .sus-content h2 {
+            font-weight: 800;
+            color: #1a1a1a;
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .sus-content .lead {
+            color: #555;
+            margin-bottom: 30px;
+            font-size: 1.7rem;
+        }
+
+    /* Danh sách icon */
+    .sus-list {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+
+        .sus-list li {
+            margin-bottom: 15px;
+            font-size: 1.55rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+            /* Icon giả lập */
+            .sus-list li::before {
+                content: "✔";
+                color: #fff;
+                background-color: #026625;
+                width: 24px;
+                height: 24px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                margin-right: 15px;
+                font-size: 12px;
+                flex-shrink: 0;
+            }
+
+    /* Nút bấm */
+    .btn-resip {
+        background-color: #026625;
+        color: white;
+        padding: 15px 35px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-block;
+        border: 2px solid #026625;
+    }
+
+        .btn-resip:hover {
+            background-color: white;
+            color: #026625;
+        }
+
+    /* --- PHẦN HÌNH ẢNH SVG --- */
+    .model-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 650px;
+        margin: 0 auto;
+    }
+
+    .svg-container {
+        width: 100%;
+        padding-bottom: 100%; /* Tỉ lệ vuông 1:1 */
+        position: relative;
+        height: 0;
+    }
+
+        .svg-container svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0px 15px 30px rgba(2, 102, 37, 0.15));
+        }
+
+    /* PTBV */
+    @@media (max-width: 768px) {
+        .sus-content {
+            text-align: center;
+            padding-right: 0;
+            margin-bottom: 40px;
+        }
+
+        .sus-list li {
+            justify-content: center;
+            text-align: left;
+        }
+    }
+</style>
+
+
+<div class="testimonials-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="headline">
+                    <h2>Khách Hàng Nói Gì Về Chúng Tôi</h2>
+                    <h3>Hàng ngàn đánh giá 5 sao từ khách hàng hài lòng</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="testimonials-carousel owl-carousel">
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">
+                                <img src="~/assets/uploads/logo.png" alt="Nguyễn Thị Lan" />
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Nguyễn Thị Lan</h4>
+                                <div class="testimonial-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            Sản phẩm bình nước gấp gọn rất tiện lợi, chất liệu silicone mềm mại và an toàn. Mình đã dùng được 6 tháng mà vẫn như mới. Giao hàng nhanh, đóng gói cẩn thận. Rất hài lòng với ReSip!
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">
+                                <img src="~/assets/uploads/logo.png" alt="Trần Văn Minh" />
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Trần Văn Minh</h4>
+                                <div class="testimonial-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            Mình là người hay đi du lịch nên bình nước gấp gọn này là sản phẩm không thể thiếu. Nhỏ gọn, dễ mang theo và rất bền. Đã giới thiệu cho nhiều bạn bè rồi. Giá cả hợp lý, chất lượng tuyệt vời!
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">
+                                <img src="~/assets/uploads/logo.png" alt="Lê Thị Hương" />
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Lê Thị Hương</h4>
+                                <div class="testimonial-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            Shop tư vấn rất nhiệt tình, sản phẩm đúng như mô tả. Bình nước không bị rò rỉ, thiết kế đẹp mắt. Đã mua thêm làm quà tặng cho gia đình. Chắc chắn sẽ ủng hộ shop lâu dài!
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <div class="testimonial-header">
+                            <div class="testimonial-avatar">
+                                <img src="~/assets/uploads/logo.png" alt="Phạm Văn Đức" />
+                            </div>
+                            <div class="testimonial-info">
+                                <h4>Phạm Văn Đức</h4>
+                                <div class="testimonial-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <div class="testimonial-content">
+                            Tìm được ReSip là một may mắn! Sản phẩm chất lượng cao, thân thiện môi trường. Mình đã thay thế hoàn toàn chai nhựa bằng bình ReSip. Giao hàng siêu nhanh, đóng gói đẹp. 10 điểm!
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TESTIMONIALS SECTION -->
+<!-- BLOG SECTION -->
+<div class="blog-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="headline">
+                    <h2>Tin Tức & Bài Viết</h2>
+                    <h3>Cập nhật tin tức mới nhất về sản phẩm và xu hướng</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <img src="~/assets/uploads/blog-27.png" alt="Blog" class="blog-image" />
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 10/12/2025</span>
+                            <span>👤 Admin</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="#">Top lý do bạn nên dùng bình nước silicon gấp gọn ReSip mỗi ngày</a>
+                        </h3>
+                        <p class="blog-excerpt">
+                            Bạn có bao giờ vội vã ra khỏi nhà rồi chợt nhớ: “Lại quên mang bình nước!”? Hoặc có những lúc đi du lịch, t...
+                        </p>
+                        <a href="#" class="blog-read-more">Đọc thêm →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <img src="~/assets/uploads/blog-26.png" alt="Blog" class="blog-image" />
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 05/12/2025</span>
+                            <span>👤 Admin</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="#">So sánh bình nước Silicon, Nhựa và Inox: Đâu là lựa chọn tốt nhất cho bạn?</a>
+                        </h3>
+                        <p class="blog-excerpt">
+                            Trong cuộc sống hiện đại, việc mang theo bình nước cá nhân đã trở thành thói quen...
+
+
+                        </p>
+                        <a href="#" class="blog-read-more">Đọc thêm →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="blog-card">
+                    <img src="~/assets/uploads/blog-25.png" alt="Blog" class="blog-image" />
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span>📅 01/12/2025</span>
+                            <span>👤 Admin</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="#">Mỗi bình nước – Một hành động sẻ chia: ReSip chung tay vì cộng đồng</a>
+                        </h3>
+                        <p class="blog-excerpt">
+                            Một chiếc bình không chỉ để uống nước, mà là hành động bảo vệ môi trường và hỗ trợ cộng đồng...
+
+                        </p>
+                        <a href="#" class="blog-read-more">Đọc thêm →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BRANDS SECTION -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // Khởi tạo cho Sản phẩm (Nổi bật & Mới nhất)
+            $(".product-carousel").owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: true,
+                dots: false,
+                autoplay: true,
+                autoHeight: true, // <<< CHỈ THÊM DÒNG NÀY
+                responsive: {
+                    0: { items: 1 },
+                    600: { items: 2 },
+                    1000: { items: 4 }
+                }
+            });
+
+            // Khởi tạo cho Khách hàng nói gì
+            $(".testimonials-carousel").owlCarousel({
+                loop: true,
+                margin: 30,
+                nav: false,
+                dots: true,
+                autoplay: true,
+                responsive: {
+                    0: { items: 1 },
+                    768: { items: 2 },
+                    992: { items: 3 }
+                }
+            });
+
+        });
+
+        // Hàm thêm vào giỏ hàng
+        function themVaoGioHang(id) {
+            $.ajax({
+                url: '/Cart/AddToCart',
+                type: 'POST',
+                data: { SanPhamId: id, SoLuong: 1 },
+                success: function () {
+                    window.location.href = '/Cart/Index';
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra!");
+                }
+            });
+        }
+    </script>
+}

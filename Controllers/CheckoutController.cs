@@ -268,8 +268,11 @@ namespace ResipWeb.Controllers
                 ViewBag.AmountVnd = vnd.ToString("#,##0");
             }
 
-            if (success && !string.IsNullOrEmpty(referenceId))
+            if (success && !string.IsNullOrEmpty(referenceId) &&
+                await CanFinalizePayPalPaymentAsync(referenceId, amountUsd))
+            {
                 await _orderService.TryFinalizeOrderAsync(referenceId);
+            }
 
             return View("PayPalReturn");
         }
@@ -317,8 +320,11 @@ namespace ResipWeb.Controllers
             if (!ok)
                 return BadRequest("Invalid signature (Return)");
 
-            if (!string.IsNullOrWhiteSpace(orderId) && resultCode == 0)
+            if (!string.IsNullOrWhiteSpace(orderId) && resultCode == 0 &&
+                await CanFinalizeVndPaymentAsync(orderId, PhuongThucThanhToanEnum.MOMO, tx.Amount))
+            {
                 await _orderService.TryFinalizeOrderAsync(orderId);
+            }
 
             return View();
         }
@@ -393,8 +399,13 @@ namespace ResipWeb.Controllers
             if (!ok)
                 return View("~/Views/VnPayPayment/Return.cshtml");
 
+            var paidAmount = long.TryParse(Request.Query["vnp_Amount"], out var paidAmountRaw)
+                ? paidAmountRaw / 100m
+                : 0m;
+
             // Success => finalize
-            if (resp == "00" && status == "00" && !string.IsNullOrWhiteSpace(txnRef))
+            if (resp == "00" && status == "00" && !string.IsNullOrWhiteSpace(txnRef) &&
+                await CanFinalizeVndPaymentAsync(txnRef, PhuongThucThanhToanEnum.VNPAY, paidAmount))
             {
                 await _orderService.TryFinalizeOrderAsync(txnRef);
                 return View("~/Views/VnPayPayment/Return.cshtml");
@@ -464,8 +475,13 @@ namespace ResipWeb.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            if (ok && resp == "00" && status == "00" && !string.IsNullOrWhiteSpace(txnRef))
+            var paidAmount = tx.Amount / 100m;
+
+            if (ok && resp == "00" && status == "00" && !string.IsNullOrWhiteSpace(txnRef) &&
+                await CanFinalizeVndPaymentAsync(txnRef, PhuongThucThanhToanEnum.VNPAY, paidAmount))
+            {
                 await _orderService.TryFinalizeOrderAsync(txnRef);
+            }
 
             // VNPAY thường muốn response dạng text/json tùy spec – sandbox có thể không cần
             return Ok("OK");
@@ -549,7 +565,10 @@ namespace ResipWeb.Controllers
             {
                 if (resultCode == 0)
                 {
-                    await _orderService.TryFinalizeOrderAsync(orderId);
+                    if (await CanFinalizeVndPaymentAsync(orderId, PhuongThucThanhToanEnum.MOMO, tx.Amount))
+                    {
+                        await _orderService.TryFinalizeOrderAsync(orderId);
+                    }
                 }
                 else
                 {
@@ -598,6 +617,62 @@ namespace ResipWeb.Controllers
 
             model.TongTienHang = cartItems.Sum(x => x.SanPham.GiaBan * x.SoLuong);
             model.PhiVanChuyen = 30000;
+        }
+
+        private async Task<bool> CanFinalizeVndPaymentAsync(
+            string orderCode,
+            PhuongThucThanhToanEnum expectedMethod,
+            decimal paidAmountVnd)
+        {
+            var order = await _context.DonHangs.FirstOrDefaultAsync(x => x.MaDonHang == orderCode);
+            if (order == null)
+                return false;
+
+            if (order.TrangThai != OrderService.StatusChoThanhToan)
+                return false;
+
+            var expectedAmount = Math.Round(order.TongTien ?? 0m, 0, MidpointRounding.AwayFromZero);
+            var paidAmount = Math.Round(paidAmountVnd, 0, MidpointRounding.AwayFromZero);
+
+            if (order.PhuongThucThanhToan == expectedMethod && expectedAmount == paidAmount)
+                return true;
+
+            order.TrangThai = "ThanhToanCanDoiSoat";
+            await _context.SaveChangesAsync();
+            return false;
+        }
+
+        private async Task<bool> CanFinalizePayPalPaymentAsync(string orderCode, string? paidAmountUsdText)
+        {
+            var order = await _context.DonHangs.FirstOrDefaultAsync(x => x.MaDonHang == orderCode);
+            if (order == null)
+                return false;
+
+            if (order.TrangThai != OrderService.StatusChoThanhToan)
+                return false;
+
+            var parsed = decimal.TryParse(
+                paidAmountUsdText,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var paidAmountUsd);
+
+            if (!parsed || order.PhuongThucThanhToan != PhuongThucThanhToanEnum.PAYPAL)
+            {
+                order.TrangThai = "ThanhToanCanDoiSoat";
+                await _context.SaveChangesAsync();
+                return false;
+            }
+
+            var rate = await _exchangeRate.GetUsdToVndAsync();
+            var expectedAmountUsd = Math.Round((order.TongTien ?? 0m) / rate, 2);
+
+            if (Math.Abs(expectedAmountUsd - paidAmountUsd) <= 0.01m)
+                return true;
+
+            order.TrangThai = "ThanhToanCanDoiSoat";
+            await _context.SaveChangesAsync();
+            return false;
         }
     }
 }

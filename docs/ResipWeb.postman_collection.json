@@ -1,0 +1,344 @@
+{
+  "info": {
+    "_postman_id": "5d5f2f80-8a9c-4b3d-a83f-resip-demo",
+    "name": "ResipWeb Demo Tests",
+    "description": "Postman collection for demoing basic MVC routes and payment callback endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5188",
+      "type": "string"
+    },
+    {
+      "key": "orderCode",
+      "value": "DH260516000000TEST",
+      "type": "string"
+    },
+    {
+      "key": "sepayApiKey",
+      "value": "resip",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Public Pages",
+      "item": [
+        {
+          "name": "Home page returns HTML",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is HTML', function () {",
+                  "    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Products page loads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/SanPham",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "SanPham"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Products page is reachable', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Authentication Flow",
+      "item": [
+        {
+          "name": "Checkout requires login",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Checkout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Checkout"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Checkout is protected by authentication', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 302]);",
+                  "});",
+                  "",
+                  "pm.test('Redirects or renders login page for anonymous user', function () {",
+                  "    const location = pm.response.headers.get('Location') || '';",
+                  "    const body = pm.response.text();",
+                  "    pm.expect(location + body).to.include('Login');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SePay",
+      "item": [
+        {
+          "name": "SePay ping",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/sepay/ping",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sepay",
+                "ping"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('SePay controller returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Ping body is correct', function () {",
+                  "    pm.expect(pm.response.text()).to.include('SEPAY PAY CONTROLLER OK');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SePay status without orderCode",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/sepay/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sepay",
+                "status"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status endpoint returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Missing orderCode returns found false', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('found', false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SePay status with sample orderCode",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/sepay/status?orderCode={{orderCode}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sepay",
+                "status"
+              ],
+              "query": [
+                {
+                  "key": "orderCode",
+                  "value": "{{orderCode}}"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status endpoint returns JSON shape', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('found');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "SePay webhook sample",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.variables.set('sepayTxnId', Date.now());"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Webhook accepts valid payload', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Webhook response has success true', function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('success', true);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Apikey {{sepayApiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{sepayTxnId}},\n  \"gateway\": \"VCB\",\n  \"transactionDate\": \"2026-05-16 10:00:00\",\n  \"accountNumber\": \"0123456789\",\n  \"code\": \"{{orderCode}}\",\n  \"content\": \"Thanh toan don {{orderCode}}\",\n  \"transferType\": \"in\",\n  \"transferAmount\": 330000,\n  \"accumulated\": 330000,\n  \"subAccount\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hooks/sepay-payment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "hooks",
+                "sepay-payment"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "VNPay",
+      "item": [
+        {
+          "name": "VNPay IPN without signature returns OK",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/checkout/vnpay-ipn",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "checkout",
+                "vnpay-ipn"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('VNPay IPN endpoint responds', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response body is OK', function () {",
+                  "    pm.expect(pm.response.text()).to.include('OK');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

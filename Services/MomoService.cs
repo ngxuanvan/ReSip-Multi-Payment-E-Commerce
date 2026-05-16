@@ -107,27 +107,39 @@ public class MomoService
     public bool VerifySignatureFromIpnJson(JsonElement root)
     {
         // Lấy field từ JSON IPN
-        string GetStr(string name) =>
-            root.TryGetProperty(name, out var p) ? p.GetString() ?? "" : "";
+        static string GetStr(JsonElement element)
+        {
+            return element.ValueKind switch
+            {
+                JsonValueKind.String => element.GetString() ?? "",
+                JsonValueKind.Number => element.GetRawText(),
+                JsonValueKind.True => "true",
+                JsonValueKind.False => "false",
+                _ => ""
+            };
+        }
+
+        string GetProp(string name) =>
+            root.TryGetProperty(name, out var p) ? GetStr(p) : "";
 
         // các field phổ biến của IPN MoMo v2
         var rawHash =
             "accessKey=" + _opt.AccessKey +
-            "&amount=" + GetStr("amount") +
-            "&extraData=" + GetStr("extraData") +
-            "&message=" + GetStr("message") +
-            "&orderId=" + GetStr("orderId") +
-            "&orderInfo=" + GetStr("orderInfo") +
-            "&orderType=" + GetStr("orderType") +
-            "&partnerCode=" + GetStr("partnerCode") +
-            "&payType=" + GetStr("payType") +
-            "&requestId=" + GetStr("requestId") +
-            "&responseTime=" + GetStr("responseTime") +
-            "&resultCode=" + GetStr("resultCode") +
-            "&transId=" + GetStr("transId");
+            "&amount=" + GetProp("amount") +
+            "&extraData=" + GetProp("extraData") +
+            "&message=" + GetProp("message") +
+            "&orderId=" + GetProp("orderId") +
+            "&orderInfo=" + GetProp("orderInfo") +
+            "&orderType=" + GetProp("orderType") +
+            "&partnerCode=" + GetProp("partnerCode") +
+            "&payType=" + GetProp("payType") +
+            "&requestId=" + GetProp("requestId") +
+            "&responseTime=" + GetProp("responseTime") +
+            "&resultCode=" + GetProp("resultCode") +
+            "&transId=" + GetProp("transId");
 
         var expected = HmacSha256(rawHash, _opt.SecretKey);
-        var provided = GetStr("signature");
+        var provided = GetProp("signature");
 
         return SlowEquals(expected, provided);
     }

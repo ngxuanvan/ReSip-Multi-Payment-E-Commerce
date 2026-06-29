@@ -95,39 +95,38 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    Customer[Customer] --> Views[Razor Views]
-    Views --> Controllers[ASP.NET Core MVC Controllers]
-    Controllers --> Services[Business and Payment Services]
-    Services --> Database[(SQL Server)]
-    Services --> Gateways[Payment Gateways]
-    Gateways --> Callbacks[Return / IPN / Webhook]
-    Callbacks --> Services
-    Services --> Email[Email Service]
+    Customer[Customer] --> Storefront[Online Storefront]
+    Storefront --> Checkout[Checkout Process]
+    Checkout --> Order[Order Management]
+    Checkout --> Payment[Payment Provider]
+    Payment --> Confirmation[Payment Confirmation]
+    Confirmation --> Order
+    Order --> Inventory[Inventory Update]
+    Order --> Notification[Email Notification]
+    Admin[Admin] --> BackOffice[Back-office Management]
+    BackOffice --> Order
 ```
 
-## Sequence Diagrams
+## Business Sequence Diagrams
 
 ### COD Checkout Sequence
 
 ```mermaid
 sequenceDiagram
     actor Customer
-    participant View as Razor View
-    participant Checkout as CheckoutController
-    participant OrderSvc as OrderService
-    participant DB as SQL Server
-    participant Email as Email Service
+    participant Storefront as Online Storefront
+    participant Checkout as Checkout Process
+    participant Order as Order Management
+    participant Inventory as Inventory
+    participant Notification as Email Notification
 
-    Customer->>View: Submit checkout form with COD
-    View->>Checkout: POST /Checkout/PlaceOrder
-    Checkout->>DB: Get cart items and product prices
-    Checkout->>DB: Create DonHang with ChoXuLy status
-    Checkout->>OrderSvc: Finalize order with ChoXuLy
-    OrderSvc->>DB: Create ChiTietDonHang records
-    OrderSvc->>DB: Deduct product stock
-    OrderSvc->>DB: Clear user cart
-    OrderSvc->>Email: Send confirmation email
-    Checkout-->>Customer: Redirect to order success page
+    Customer->>Storefront: Submit checkout information with COD
+    Storefront->>Checkout: Send cart, customer, and shipping details
+    Checkout->>Order: Create order with ChoXuLy status
+    Order->>Inventory: Reserve or deduct purchased items
+    Order->>Checkout: Clear customer cart after order creation
+    Order->>Notification: Send order confirmation email
+    Checkout-->>Customer: Show order success page
 ```
 
 ### Online Payment Sequence
@@ -135,34 +134,33 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor Customer
-    participant View as Razor View
-    participant Checkout as CheckoutController
-    participant Gateway as Payment Gateway
-    participant OrderSvc as OrderService
-    participant DB as SQL Server
-    participant Email as Email Service
+    participant Storefront as Online Storefront
+    participant Checkout as Checkout Process
+    participant Payment as Payment Provider
+    participant Validation as Payment Validation
+    participant Order as Order Management
+    participant Inventory as Inventory
+    participant Notification as Email Notification
 
-    Customer->>View: Submit checkout form
-    View->>Checkout: POST /Checkout/PlaceOrder
-    Checkout->>DB: Get cart items and calculate total amount
-    Checkout->>DB: Create DonHang with ChoThanhToan status
-    Checkout->>Gateway: Create payment request
-    Gateway-->>Customer: Redirect to payment page / QR payment
-    Gateway-->>Checkout: Return / IPN / Webhook payment result
-    Checkout->>Checkout: Verify signature and paid amount
+    Customer->>Storefront: Submit checkout information
+    Storefront->>Checkout: Send cart, customer, and payment method details
+    Checkout->>Order: Create pending payment order
+    Checkout->>Payment: Create payment request
+    Payment-->>Customer: Redirect to payment page or display QR code
+    Payment-->>Validation: Send payment result
+    Validation->>Order: Check payment status, method, and paid amount
 
     alt Payment is valid
-        Checkout->>OrderSvc: Finalize order
-        OrderSvc->>DB: Create order details
-        OrderSvc->>DB: Deduct stock and clear cart
-        OrderSvc->>Email: Send confirmation email
-        Checkout-->>Customer: Show payment success
+        Order->>Inventory: Deduct purchased items
+        Order->>Checkout: Clear customer cart
+        Order->>Notification: Send order confirmation email
+        Checkout-->>Customer: Show payment success page
     else Payment failed
-        Checkout->>DB: Update order as ThanhToanThatBai
-        Checkout-->>Customer: Show payment failed
+        Order->>Checkout: Mark order as ThanhToanThatBai
+        Checkout-->>Customer: Show payment failed page
     else Amount or method mismatch
-        Checkout->>DB: Update order as ThanhToanCanDoiSoat
-        Checkout-->>Customer: Show reconciliation status
+        Order->>Checkout: Mark order as ThanhToanCanDoiSoat
+        Checkout-->>Customer: Show reconciliation status page
     end
 ```
 
@@ -171,22 +169,20 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor Admin
-    participant AdminView as Admin Razor View
-    participant AdminCtrl as Admin DonHangsController
-    participant DB as SQL Server
-    participant Cache as Memory Cache
+    participant BackOffice as Back-office Portal
+    participant Order as Order Management
+    participant Customer as Customer Record
+    participant Dashboard as Dashboard Report
 
-    Admin->>AdminView: Open order management page
-    AdminView->>AdminCtrl: GET /Admin/DonHangs
-    AdminCtrl->>DB: Load order list
-    DB-->>AdminCtrl: Return orders
-    AdminCtrl-->>AdminView: Render order table
+    Admin->>BackOffice: Open order management page
+    BackOffice->>Order: Request order list and payment status
+    Order-->>BackOffice: Return orders for review
 
-    Admin->>AdminView: Update order information or status
-    AdminView->>AdminCtrl: POST /Admin/DonHangs/Edit
-    AdminCtrl->>DB: Update DonHang record
-    AdminCtrl->>Cache: Clear dashboard statistics cache
-    AdminCtrl-->>AdminView: Redirect to order list
+    Admin->>BackOffice: Update order information or status
+    BackOffice->>Order: Save order update
+    Order->>Customer: Keep customer order history consistent
+    Order->>Dashboard: Refresh order statistics
+    BackOffice-->>Admin: Show updated order list
 ```
 
 ## Order Status Flow
@@ -221,15 +217,16 @@ erDiagram
 
 ## Requirement Traceability
 
-| Business Need | Feature | Main Module | Status |
+| Requirement ID | Business Need | Acceptance Criteria | Status |
 |---|---|---|---|
-| Customers can browse products | Product listing and details | `SanPhamController` | Done |
-| Customers can buy multiple items | Shopping cart | `CartController` | Done |
-| Customers can place orders | Checkout | `CheckoutController` | Done |
-| Customers can use multiple payment methods | COD, MoMo, VNPay, PayPal, SePay | Payment services | Done |
-| Admin can manage orders | Order management | `Areas/Admin/DonHangsController` | Done |
-| Business can reconcile payments | Transaction logging | Payment transaction models | Done |
-| System can notify users | Email confirmation | `OrderService`, `OrderEmailBuilder` | Done |
+| REQ-01 | Customers can browse products | Customers can view product lists, product details, and category-based product groups | Done |
+| REQ-02 | Customers can manage shopping cart items | Customers can add, update, and remove products before checkout | Done |
+| REQ-03 | Customers can place orders | Customers can submit shipping information and create an order from cart items | Done |
+| REQ-04 | Customers can choose a payment method | Customers can select COD, MoMo, VNPay, PayPal, or SePay during checkout | Done |
+| REQ-05 | System can confirm online payments | Successful payments update the order status and trigger order finalization | Done |
+| REQ-06 | Business can reconcile payment issues | Amount mismatch, failed payment, and delayed callback cases are tracked for review | Done |
+| REQ-07 | Admin can manage business operations | Admin can manage products, orders, users, content, and payment transaction records | Done |
+| REQ-08 | System can notify customers | Customers receive order confirmation after successful order creation or payment confirmation | Done |
 
 ## Technical Highlights
 

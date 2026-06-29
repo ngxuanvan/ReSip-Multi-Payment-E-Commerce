@@ -121,7 +121,7 @@ namespace ResipWeb.Services
             // 5. Gửi Email
             try
             {
-                var ptttLabel = dh.TenPhuongThucThanhToan;
+                var ptttLabel = dh.TenPhuongThucThanhToan; // lay ten phuong thuc thanh toan
                 var tongTien = (decimal)(dh.TongTien ?? 0);
 
                 var customerSubject =

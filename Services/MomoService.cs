@@ -47,7 +47,7 @@ public class MomoService
             "&requestId=" + requestId +
             "&requestType=" + requestType;
 
-        var signature = HmacSha256(rawHash, _opt.SecretKey);
+        var signature = HmacSha256(rawHash, _opt.SecretKey); // ký
 
         var req = new MomoCreateRequest
         {

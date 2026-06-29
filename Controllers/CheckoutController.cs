@@ -93,7 +93,7 @@ namespace ResipWeb.Controllers
             }
 
             var userId = GetUserId();
-
+            // tính tiền
             decimal tongTien = cartItems.Sum(i => i.SoLuong * i.SanPham.GiaBan);
             decimal phiShip = 30000;
             decimal tongThanhToan = tongTien + phiShip;
@@ -101,6 +101,7 @@ namespace ResipWeb.Controllers
             var donHang = new DonHang
             {
                 UserId = userId.ToString(),
+                // cải tiến id đơn hàng
                 MaDonHang = "DH" + DateTime.Now.ToString("yyMMddHHmmss") + Guid.NewGuid().ToString("N")[..8].ToUpper(),
                 HoTen = model.HoTen,
                 DienThoai = model.SoDienThoai,

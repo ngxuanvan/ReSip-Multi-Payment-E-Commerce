@@ -202,7 +202,6 @@ stateDiagram-v2
     state "Expired (HetHan)" as Expired
     state "Completed (HoanThanh)" as Completed
 
-    [*] --> Created
     Created --> PendingProcessing: COD order
     Created --> PendingPayment: Online payment order
     PendingPayment --> Paid: Payment success

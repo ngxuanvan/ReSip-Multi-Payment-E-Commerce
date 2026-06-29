@@ -193,14 +193,24 @@ sequenceDiagram
 
 ```mermaid
 stateDiagram-v2
-    [*] --> ChoXuLy: COD order
-    [*] --> ChoThanhToan: Online payment order
-    ChoThanhToan --> DaThanhToan: Payment success
-    ChoThanhToan --> ThanhToanThatBai: Payment failed
-    ChoThanhToan --> ThanhToanCanDoiSoat: Amount or method mismatch
-    ChoThanhToan --> HetHan: Payment expired
-    ChoXuLy --> HoanThanh: Admin completes order
-    DaThanhToan --> HoanThanh: Admin completes order
+    state "Order Created" as Created
+    state "Pending Processing (ChoXuLy)" as PendingProcessing
+    state "Pending Payment (ChoThanhToan)" as PendingPayment
+    state "Paid (DaThanhToan)" as Paid
+    state "Payment Failed (ThanhToanThatBai)" as PaymentFailed
+    state "Needs Reconciliation (ThanhToanCanDoiSoat)" as Reconciliation
+    state "Expired (HetHan)" as Expired
+    state "Completed (HoanThanh)" as Completed
+
+    [*] --> Created
+    Created --> PendingProcessing: COD order
+    Created --> PendingPayment: Online payment order
+    PendingPayment --> Paid: Payment success
+    PendingPayment --> PaymentFailed: Payment failed
+    PendingPayment --> Reconciliation: Amount or method mismatch
+    PendingPayment --> Expired: Payment expired
+    PendingProcessing --> Completed: Admin completes order
+    Paid --> Completed: Admin completes order
 ```
 
 ## Simplified ERD

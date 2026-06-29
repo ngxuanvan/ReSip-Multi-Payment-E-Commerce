@@ -207,16 +207,16 @@ stateDiagram-v2
 
 ```mermaid
 erDiagram
-    User ||--o{ GioHang : owns
-    User ||--o{ DonHang : places
-    Category ||--o{ SanPham : groups
-    SanPham ||--o{ GioHang : added_to
-    SanPham ||--o{ ChiTietDonHang : ordered_as
-    DonHang ||--o{ ChiTietDonHang : contains
-    DonHang ||--o{ MomoTransaction : maps
-    DonHang ||--o{ VnPayTransaction : maps
-    DonHang ||--o{ PayPalTransaction : maps
-    DonHang ||--o{ SePayTransaction : maps
+    CUSTOMER ||--o{ CART_ITEM : owns
+    CUSTOMER ||--o{ ORDER : places
+    PRODUCT_CATEGORY ||--o{ PRODUCT : groups
+    PRODUCT ||--o{ CART_ITEM : added_to
+    PRODUCT ||--o{ ORDER_ITEM : ordered_as
+    ORDER ||--o{ ORDER_ITEM : contains
+    ORDER ||--o{ MOMO_TRANSACTION : maps
+    ORDER ||--o{ VNPAY_TRANSACTION : maps
+    ORDER ||--o{ PAYPAL_TRANSACTION : maps
+    ORDER ||--o{ SEPAY_TRANSACTION : maps
 ```
 
 ## Requirement Traceability

@@ -123,6 +123,7 @@ sequenceDiagram
     Customer->>Storefront: Submit checkout information with COD
     Storefront->>Checkout: Send cart, customer, and shipping details
     Checkout->>Order: Create order with ChoXuLy status
+    Order->>Order: Finalize COD order
     Order->>Inventory: Reserve or deduct purchased items
     Order->>Checkout: Clear customer cart after order creation
     Order->>Notification: Send order confirmation email
@@ -148,9 +149,11 @@ sequenceDiagram
     Checkout->>Payment: Create payment request
     Payment-->>Customer: Redirect to payment page or display QR code
     Payment-->>Validation: Send payment result
-    Validation->>Order: Check payment status, method, and paid amount
+    Validation->>Validation: Verify payment status, method, and paid amount
+    Validation-->>Order: Return validation result
 
     alt Payment is valid
+        Order->>Order: Finalize paid order
         Order->>Inventory: Deduct purchased items
         Order->>Checkout: Clear customer cart
         Order->>Notification: Send order confirmation email
@@ -180,6 +183,7 @@ sequenceDiagram
 
     Admin->>BackOffice: Update order information or status
     BackOffice->>Order: Save order update
+    Order->>Order: Validate status transition
     Order->>Customer: Keep customer order history consistent
     Order->>Dashboard: Refresh order statistics
     BackOffice-->>Admin: Show updated order list

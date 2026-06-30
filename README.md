@@ -117,17 +117,14 @@ sequenceDiagram
     participant Storefront as Online Storefront
     participant Checkout as Checkout Process
     participant Order as Order Management
-    participant Inventory as Inventory
-    participant Notification as Email Notification
 
     Customer->>Storefront: Submit checkout information with COD
     Storefront->>Checkout: Send cart, customer, and shipping details
     Checkout->>Order: Create order with ChoXuLy status
-    Order->>Order: Finalize COD order
-    Order->>Inventory: Reserve or deduct purchased items
-    Order->>Checkout: Clear customer cart after order creation
-    Order->>Notification: Send order confirmation email
-    Checkout-->>Customer: Show order success page
+    Order->>Order: Finalize COD order, deduct stock, and send email
+    Order-->>Checkout: Return order confirmation
+    Checkout-->>Storefront: Clear cart and prepare success page
+    Storefront-->>Customer: Show order success page
 ```
 
 ### MoMo Payment Sequence
@@ -137,34 +134,38 @@ sequenceDiagram
     actor Customer
     participant Storefront as Online Storefront
     participant Checkout as Checkout Process
+    participant Order as Order Management
     participant MoMo as MoMo Gateway
     participant Validation as Payment Validation
-    participant Order as Order Management
-    participant Inventory as Inventory
-    participant Notification as Email Notification
 
     Customer->>Storefront: Select MoMo and submit checkout information
     Storefront->>Checkout: Send cart, customer, and MoMo payment details
     Checkout->>Order: Create pending payment order
-    Checkout->>MoMo: Create MoMo payment request
-    MoMo-->>Customer: Redirect to MoMo payment page
+    Order->>MoMo: Create MoMo payment request
+    MoMo-->>Order: Return MoMo payment URL
+    Order-->>Checkout: Return payment URL
+    Checkout-->>Storefront: Prepare MoMo redirect
+    Storefront-->>Customer: Redirect to MoMo payment page
     MoMo-->>Validation: Return payment result or IPN
 
     Validation->>Validation: Verify MoMo signature, status, and paid amount
     Validation-->>Order: Return validation result
 
     alt Payment is valid
-        Order->>Order: Finalize paid order
-        Order->>Inventory: Deduct purchased items
-        Order->>Checkout: Clear customer cart
-        Order->>Notification: Send order confirmation email
-        Checkout-->>Customer: Show payment success page
+        Order->>Order: Finalize paid order, deduct stock, and send email
+        Order-->>Checkout: Return payment success
+        Checkout-->>Storefront: Clear cart and prepare success page
+        Storefront-->>Customer: Show payment success page
     else Payment failed
-        Order->>Checkout: Mark order as ThanhToanThatBai
-        Checkout-->>Customer: Show payment failed page
+        Order->>Order: Mark order as ThanhToanThatBai
+        Order-->>Checkout: Return payment failure
+        Checkout-->>Storefront: Prepare failed payment page
+        Storefront-->>Customer: Show payment failed page
     else Amount or method mismatch
-        Order->>Checkout: Mark order as ThanhToanCanDoiSoat
-        Checkout-->>Customer: Show reconciliation status page
+        Order->>Order: Mark order as ThanhToanCanDoiSoat
+        Order-->>Checkout: Return reconciliation status
+        Checkout-->>Storefront: Prepare reconciliation page
+        Storefront-->>Customer: Show reconciliation status page
     end
 ```
 
@@ -175,34 +176,38 @@ sequenceDiagram
     actor Customer
     participant Storefront as Online Storefront
     participant Checkout as Checkout Process
+    participant Order as Order Management
     participant VNPay as VNPay Gateway
     participant Validation as Payment Validation
-    participant Order as Order Management
-    participant Inventory as Inventory
-    participant Notification as Email Notification
 
     Customer->>Storefront: Select VNPay and submit checkout information
     Storefront->>Checkout: Send cart, customer, and VNPay payment details
     Checkout->>Order: Create pending payment order
-    Checkout->>VNPay: Create VNPay payment request
-    VNPay-->>Customer: Redirect to VNPay payment page
+    Order->>VNPay: Create VNPay payment request
+    VNPay-->>Order: Return VNPay payment URL
+    Order-->>Checkout: Return payment URL
+    Checkout-->>Storefront: Prepare VNPay redirect
+    Storefront-->>Customer: Redirect to VNPay payment page
     VNPay-->>Validation: Return payment result or IPN
 
     Validation->>Validation: Verify VNPay signature, status, and paid amount
     Validation-->>Order: Return validation result
 
     alt Payment is valid
-        Order->>Order: Finalize paid order
-        Order->>Inventory: Deduct purchased items
-        Order->>Checkout: Clear customer cart
-        Order->>Notification: Send order confirmation email
-        Checkout-->>Customer: Show payment success page
+        Order->>Order: Finalize paid order, deduct stock, and send email
+        Order-->>Checkout: Return payment success
+        Checkout-->>Storefront: Clear cart and prepare success page
+        Storefront-->>Customer: Show payment success page
     else Payment failed
-        Order->>Checkout: Mark order as ThanhToanThatBai
-        Checkout-->>Customer: Show payment failed page
+        Order->>Order: Mark order as ThanhToanThatBai
+        Order-->>Checkout: Return payment failure
+        Checkout-->>Storefront: Prepare failed payment page
+        Storefront-->>Customer: Show payment failed page
     else Amount or method mismatch
-        Order->>Checkout: Mark order as ThanhToanCanDoiSoat
-        Checkout-->>Customer: Show reconciliation status page
+        Order->>Order: Mark order as ThanhToanCanDoiSoat
+        Order-->>Checkout: Return reconciliation status
+        Checkout-->>Storefront: Prepare reconciliation page
+        Storefront-->>Customer: Show reconciliation status page
     end
 ```
 
@@ -213,34 +218,38 @@ sequenceDiagram
     actor Customer
     participant Storefront as Online Storefront
     participant Checkout as Checkout Process
+    participant Order as Order Management
     participant PayPal as PayPal Gateway
     participant Validation as Payment Validation
-    participant Order as Order Management
-    participant Inventory as Inventory
-    participant Notification as Email Notification
 
     Customer->>Storefront: Select PayPal and submit checkout information
     Storefront->>Checkout: Send cart, customer, and PayPal payment details
     Checkout->>Order: Create pending payment order
-    Checkout->>PayPal: Create PayPal payment request
-    PayPal-->>Customer: Redirect to PayPal approval page
+    Order->>PayPal: Create PayPal payment request
+    PayPal-->>Order: Return PayPal approval URL
+    Order-->>Checkout: Return approval URL
+    Checkout-->>Storefront: Prepare PayPal redirect
+    Storefront-->>Customer: Redirect to PayPal approval page
     PayPal-->>Validation: Return payment result
 
     Validation->>Validation: Verify PayPal status, method, and paid amount
     Validation-->>Order: Return validation result
 
     alt Payment is valid
-        Order->>Order: Finalize paid order
-        Order->>Inventory: Deduct purchased items
-        Order->>Checkout: Clear customer cart
-        Order->>Notification: Send order confirmation email
-        Checkout-->>Customer: Show payment success page
+        Order->>Order: Finalize paid order, deduct stock, and send email
+        Order-->>Checkout: Return payment success
+        Checkout-->>Storefront: Clear cart and prepare success page
+        Storefront-->>Customer: Show payment success page
     else Payment failed
-        Order->>Checkout: Mark order as ThanhToanThatBai
-        Checkout-->>Customer: Show payment failed page
+        Order->>Order: Mark order as ThanhToanThatBai
+        Order-->>Checkout: Return payment failure
+        Checkout-->>Storefront: Prepare failed payment page
+        Storefront-->>Customer: Show payment failed page
     else Amount or method mismatch
-        Order->>Checkout: Mark order as ThanhToanCanDoiSoat
-        Checkout-->>Customer: Show reconciliation status page
+        Order->>Order: Mark order as ThanhToanCanDoiSoat
+        Order-->>Checkout: Return reconciliation status
+        Checkout-->>Storefront: Prepare reconciliation page
+        Storefront-->>Customer: Show reconciliation status page
     end
 ```
 
@@ -251,7 +260,6 @@ sequenceDiagram
     actor Admin
     participant BackOffice as Back-office Portal
     participant Order as Order Management
-    participant Customer as Customer Record
     participant Dashboard as Dashboard Report
 
     Admin->>BackOffice: Open order management page
@@ -260,9 +268,10 @@ sequenceDiagram
 
     Admin->>BackOffice: Update order information or status
     BackOffice->>Order: Save order update
-    Order->>Order: Validate status transition
-    Order->>Customer: Keep customer order history consistent
+    Order->>Order: Validate status transition and update order history
     Order->>Dashboard: Refresh order statistics
+    Dashboard-->>Order: Confirm report refresh
+    Order-->>BackOffice: Return updated order list
     BackOffice-->>Admin: Show updated order list
 ```
 

@@ -140,7 +140,6 @@ sequenceDiagram
     participant MoMo as MoMo Gateway
     participant VNPay as VNPay Gateway
     participant PayPal as PayPal Gateway
-    participant SePay as SePay QR Payment
     participant Validation as Payment Validation
     participant Order as Order Management
     participant Inventory as Inventory
@@ -162,10 +161,6 @@ sequenceDiagram
         Checkout->>PayPal: Create payment request
         PayPal-->>Customer: Redirect to PayPal approval page
         PayPal-->>Validation: Return payment result
-    else SePay selected
-        Checkout->>SePay: Create QR payment instruction
-        SePay-->>Customer: Display bank transfer QR code
-        SePay-->>Validation: Send webhook payment result
     end
 
     Validation->>Validation: Verify payment status, method, and paid amount

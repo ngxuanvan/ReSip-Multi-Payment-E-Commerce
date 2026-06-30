@@ -130,7 +130,7 @@ sequenceDiagram
     Checkout-->>Customer: Show order success page
 ```
 
-### Online Payment Sequence
+### MoMo Payment Sequence
 
 ```mermaid
 sequenceDiagram
@@ -138,32 +138,95 @@ sequenceDiagram
     participant Storefront as Online Storefront
     participant Checkout as Checkout Process
     participant MoMo as MoMo Gateway
+    participant Validation as Payment Validation
+    participant Order as Order Management
+    participant Inventory as Inventory
+    participant Notification as Email Notification
+
+    Customer->>Storefront: Select MoMo and submit checkout information
+    Storefront->>Checkout: Send cart, customer, and MoMo payment details
+    Checkout->>Order: Create pending payment order
+    Checkout->>MoMo: Create MoMo payment request
+    MoMo-->>Customer: Redirect to MoMo payment page
+    MoMo-->>Validation: Return payment result or IPN
+
+    Validation->>Validation: Verify MoMo signature, status, and paid amount
+    Validation-->>Order: Return validation result
+
+    alt Payment is valid
+        Order->>Order: Finalize paid order
+        Order->>Inventory: Deduct purchased items
+        Order->>Checkout: Clear customer cart
+        Order->>Notification: Send order confirmation email
+        Checkout-->>Customer: Show payment success page
+    else Payment failed
+        Order->>Checkout: Mark order as ThanhToanThatBai
+        Checkout-->>Customer: Show payment failed page
+    else Amount or method mismatch
+        Order->>Checkout: Mark order as ThanhToanCanDoiSoat
+        Checkout-->>Customer: Show reconciliation status page
+    end
+```
+
+### VNPay Payment Sequence
+
+```mermaid
+sequenceDiagram
+    actor Customer
+    participant Storefront as Online Storefront
+    participant Checkout as Checkout Process
     participant VNPay as VNPay Gateway
+    participant Validation as Payment Validation
+    participant Order as Order Management
+    participant Inventory as Inventory
+    participant Notification as Email Notification
+
+    Customer->>Storefront: Select VNPay and submit checkout information
+    Storefront->>Checkout: Send cart, customer, and VNPay payment details
+    Checkout->>Order: Create pending payment order
+    Checkout->>VNPay: Create VNPay payment request
+    VNPay-->>Customer: Redirect to VNPay payment page
+    VNPay-->>Validation: Return payment result or IPN
+
+    Validation->>Validation: Verify VNPay signature, status, and paid amount
+    Validation-->>Order: Return validation result
+
+    alt Payment is valid
+        Order->>Order: Finalize paid order
+        Order->>Inventory: Deduct purchased items
+        Order->>Checkout: Clear customer cart
+        Order->>Notification: Send order confirmation email
+        Checkout-->>Customer: Show payment success page
+    else Payment failed
+        Order->>Checkout: Mark order as ThanhToanThatBai
+        Checkout-->>Customer: Show payment failed page
+    else Amount or method mismatch
+        Order->>Checkout: Mark order as ThanhToanCanDoiSoat
+        Checkout-->>Customer: Show reconciliation status page
+    end
+```
+
+### PayPal Payment Sequence
+
+```mermaid
+sequenceDiagram
+    actor Customer
+    participant Storefront as Online Storefront
+    participant Checkout as Checkout Process
     participant PayPal as PayPal Gateway
     participant Validation as Payment Validation
     participant Order as Order Management
     participant Inventory as Inventory
     participant Notification as Email Notification
 
-    Customer->>Storefront: Submit checkout information
-    Storefront->>Checkout: Send cart, customer, and payment method details
+    Customer->>Storefront: Select PayPal and submit checkout information
+    Storefront->>Checkout: Send cart, customer, and PayPal payment details
     Checkout->>Order: Create pending payment order
+    Checkout->>PayPal: Create PayPal payment request
+    PayPal-->>Customer: Redirect to PayPal approval page
+    PayPal-->>Validation: Return payment result
 
-    alt MoMo selected
-        Checkout->>MoMo: Create payment request
-        MoMo-->>Customer: Redirect to MoMo payment page
-        MoMo-->>Validation: Return payment result or IPN
-    else VNPay selected
-        Checkout->>VNPay: Create payment request
-        VNPay-->>Customer: Redirect to VNPay payment page
-        VNPay-->>Validation: Return payment result or IPN
-    else PayPal selected
-        Checkout->>PayPal: Create payment request
-        PayPal-->>Customer: Redirect to PayPal approval page
-        PayPal-->>Validation: Return payment result
-    end
-
-    Validation->>Validation: Verify payment status, method, and paid amount
+    Validation->>Validation: Verify PayPal status, method, and paid amount
     Validation-->>Order: Return validation result
 
     alt Payment is valid

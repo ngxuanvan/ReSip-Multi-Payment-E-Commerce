@@ -137,7 +137,10 @@ sequenceDiagram
     actor Customer
     participant Storefront as Online Storefront
     participant Checkout as Checkout Process
-    participant Payment as Payment Provider
+    participant MoMo as MoMo Gateway
+    participant VNPay as VNPay Gateway
+    participant PayPal as PayPal Gateway
+    participant SePay as SePay QR Payment
     participant Validation as Payment Validation
     participant Order as Order Management
     participant Inventory as Inventory
@@ -146,9 +149,25 @@ sequenceDiagram
     Customer->>Storefront: Submit checkout information
     Storefront->>Checkout: Send cart, customer, and payment method details
     Checkout->>Order: Create pending payment order
-    Checkout->>Payment: Create payment request
-    Payment-->>Customer: Redirect to payment page or display QR code
-    Payment-->>Validation: Send payment result
+
+    alt MoMo selected
+        Checkout->>MoMo: Create payment request
+        MoMo-->>Customer: Redirect to MoMo payment page
+        MoMo-->>Validation: Return payment result or IPN
+    else VNPay selected
+        Checkout->>VNPay: Create payment request
+        VNPay-->>Customer: Redirect to VNPay payment page
+        VNPay-->>Validation: Return payment result or IPN
+    else PayPal selected
+        Checkout->>PayPal: Create payment request
+        PayPal-->>Customer: Redirect to PayPal approval page
+        PayPal-->>Validation: Return payment result
+    else SePay selected
+        Checkout->>SePay: Create QR payment instruction
+        SePay-->>Customer: Display bank transfer QR code
+        SePay-->>Validation: Send webhook payment result
+    end
+
     Validation->>Validation: Verify payment status, method, and paid amount
     Validation-->>Order: Return validation result
 
